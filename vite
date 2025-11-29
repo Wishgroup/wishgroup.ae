@@ -1,0 +1,211 @@
+
+The CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-nod
+The CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.
+
+  VITE v5.4.21  ready in 521 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+Deprecation Warning [legacy-js-api]: The legacy JS API is deprecated and will be removed in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/legacy-js-api
+
+Deprecation Warning [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ╷
+2 │ @import '../scss/style.scss';
+  │         ^^^^^^^^^^^^^^^^^^^^
+  ╵
+    src/styles/main.scss 2:9  root stylesheet
+
+Deprecation Warning [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+54 │ @import 'variables';
+   │         ^^^^^^^^^^^
+   ╵
+    scss/style.scss 54:9      @import
+    src/styles/main.scss 2:9  root stylesheet
+
+Deprecation Warning [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+55 │ @import 'common';
+   │         ^^^^^^^^
+   ╵
+    scss/style.scss 55:9      @import
+    src/styles/main.scss 2:9  root stylesheet
+
+Deprecation Warning [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ╷
+56 │ @import 'components';
+   │         ^^^^^^^^^^^^
+   ╵
+    scss/style.scss 56:9      @import
+    src/styles/main.scss 2:9  root stylesheet
+
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($i * 1, 5) or calc($i * 1 / 5)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+     ╷
+1044 │             transform: rotateY(#{$i * 1/5}turn) translateZ(69px) rotateX(26.5deg);
+     │                                  ^^^^^^^^
+     ╵
+    scss/_components.scss 1044:34  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($i * 1, 5) or calc($i * 1 / 5)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+     ╷
+1049 │             transform: rotateY(#{$i * 1/5}turn) translateZ(-69px) rotateX(206.5deg);
+     │                                  ^^^^^^^^
+     ╵
+    scss/_components.scss 1049:34  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($i * 1, 5) or calc($i * 1 / 5)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+     ╷
+1070 │                 transform:rotate(#{$i * 1/5}turn)
+     │                                    ^^^^^^^^
+     ╵
+    scss/_components.scss 1070:36  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, $steps) or calc(1 / $steps)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+     ╷
+2437 │         #{percentage($i*(1/$steps))} {
+     │                          ^^^^^^^^
+     ╵
+    scss/_components.scss 2437:26  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart S
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.percentage instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+     ╷
+2437 │         #{percentage($i*(1/$steps))} {
+     │           ^^^^^^^^^^^^^^^^^^^^^^^^^
+     ╵
+    scss/_components.scss 2437:11  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart S
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.random instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+     ╷
+2438 │             clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+     │                        ^^^^^^^^^^^
+     ╵
+    scss/_components.scss 2438:24  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart S
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.random instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+     ╷
+2438 │             clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+     │                                                ^^^^^^^^^^^
+     ╵
+    scss/_components.scss 2438:48  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart S
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.random instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+     ╷
+2439 │             transform: skew((random(100) / 100) + deg);
+     │                              ^^^^^^^^^^^
+     ╵
+    scss/_components.scss 2439:30  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in
+Deprecation Warning [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(random(100), 100) or calc(random(100) / 100)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+     ╷
+2439 │             transform: skew((random(100) / 100) + deg);
+     │                              ^^^^^^^^^^^^^^^^^
+     ╵
+    scss/_components.scss 2439:30  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart S
+Deprecation Warning [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.percentage instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+     ╷
+2448 │         #{percentage($i*(1/$steps))} {
+     │           ^^^^^^^^^^^^^^^^^^^^^^^^^
+     ╵
+    scss/_components.scss 2448:11  @import
+    scss/style.scss 56:9           @import
+    src/styles/main.scss 2:9       root stylesheet
+
+Warning: 8 repetitive deprecation warnings omitted.
+
+c^CMore info and automated migrator: https://sass-lang.com/d/import
+zsh: command not found: dev
+                                                                                                            
+  ╷
+2 │ @import '../scss/style.scss';More info and automated migrator: https://sass-lang.com/d/import
+zsh: command not found: dev
+                                                                                                            
+  ╷
