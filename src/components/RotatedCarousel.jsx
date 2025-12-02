@@ -1,19 +1,44 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import { Link } from "react-router-dom";
 
-// Default items
+// Constants
+const CARD_COUNT = 4;
+const CARD_WIDTH = 280;
+const CARD_HEIGHT = 420;
+const CARD_BORDER_RADIUS = 20;
+const WRAPPER_SIZE = 600;
+const SCROLL_THRESHOLD = 30;
+const SCROLL_DELAY = 600;
+
+// Default items - cards with local images
 const defaultItems = [
-  { heading: "WORLD TRADE CENTRE", paragraph: "WORLD TRADE CENTRE IS A MAIN LAND IN THE MALDIVES SRI LANKA AND THE HAWAI ISLANDS.", link: "/project-1" },
-  { heading: "INTERIOR DESIGN STUDIO", paragraph: "A MODERN INTERIOR DESIGN STUDIO SPECIALIZING IN LUXURY RESIDENTIAL AND COMMERCIAL SPACES.", link: "/project-2" },
-  { heading: "HOME SECURITY CAMERA", paragraph: "ADVANCED HOME SECURITY SOLUTIONS WITH AI-POWERED MONITORING AND REAL-TIME ALERTS.", link: "/project-3" },
-  { heading: "KEMIA HONEST SKINCARE", paragraph: "NATURAL AND ORGANIC SKINCARE PRODUCTS MADE WITH PREMIUM INGREDIENTS FOR HEALTHY GLOWING SKIN.", link: "/project-4" },
-  { heading: "CASCADE OF LAVA", paragraph: "AN IMMERSIVE DIGITAL EXPERIENCE SHOWCASING THE RAW POWER AND BEAUTY OF VOLCANIC FORMATIONS.", link: "/project-5" },
+  { id: 0, image: "/img/projects/1.png" },
+  { id: 1, image: "/img/projects/2.png" },
+  { id: 2, image: "/img/projects/3.jpg" },
+  { id: 3, image: "/img/projects/4.jpg" }
+];
+
+// Position configurations
+const POSITION_CONFIG = {
+  "0": { zIndex: 5, opacity: 1, filter: "none" },
+  "-1": { zIndex: 4, opacity: 0.7, filter: "blur(1px) grayscale(10%)", transform: "translateX(-40%) scale(.9)" },
+  "1": { zIndex: 4, opacity: 0.7, filter: "blur(1px) grayscale(10%)", transform: "translateX(40%) scale(.9)" },
+  "-2": { zIndex: 3, opacity: 0.4, filter: "blur(3px) grayscale(20%)", transform: "translateX(-70%) scale(.8)" },
+  "2": { zIndex: 3, opacity: 0.4, filter: "blur(3px) grayscale(20%)", transform: "translateX(70%) scale(.8)" }
+};
+
+const GRADIENTS = [
+  "linear-gradient(45deg,#2D35EB 0%,#904ED4 100%)",
+  "linear-gradient(45deg,#2D35EB 0%,#fdbb2d 100%)",
+  "linear-gradient(45deg,#2D35EB 0%,#22c1c3 100%)",
+  "linear-gradient(45deg,#fdbb2d 0%,#904ED4 100%)",
+  "linear-gradient(45deg,#22c1c3 0%,#904ED4 100%)"
 ];
 
 export default function RotatedCarousel({ items = defaultItems }) {
-  const initial = items.map((item, i) => ({
-    id: i,
-    ...item,
+  const displayItems = items.slice(0, CARD_COUNT);
+  
+  const initial = displayItems.map((item, i) => ({
+    id: item.id !== undefined ? item.id : i,
     pos: (i - 2).toString(),
   }));
 
@@ -23,106 +48,112 @@ export default function RotatedCarousel({ items = defaultItems }) {
   const scrollTimeoutRef = useRef(null);
   const isScrollingRef = useRef(false);
   const scrollAccumulatorRef = useRef(0);
+  const containerRef = useRef(null);
 
-  const getPos = (current, active) => {
-    const cur = Number(current);
-    const act = Number(active);
-    const diff = cur - act;
-
-    if (Math.abs(diff) > 2) return (-cur).toString();
-    return diff.toString();
+  // Calculate new position with wrapping
+  const calculatePosition = (diff) => {
+    let newPos = diff;
+    if (newPos > 1) newPos = newPos - CARD_COUNT;
+    if (newPos < -2) newPos = newPos + CARD_COUNT;
+    return newPos.toString();
   };
 
-  const update = useCallback((clickedPos) => {
-    setElems((prev) =>
-      prev.map((item) => ({
-        ...item,
-        pos: getPos(item.pos, clickedPos),
-      }))
-    );
+  // Rotate carousel
+  const rotateCarousel = useCallback((direction) => {
+    setElems((prev) => {
+      const activeItem = prev.find(item => item.pos === "0");
+      if (!activeItem) return prev;
+      
+      const activeIndex = prev.findIndex(item => item.id === activeItem.id);
+      let newActiveIndex = activeIndex + direction;
+      
+      if (newActiveIndex < 0) newActiveIndex = CARD_COUNT - 1;
+      if (newActiveIndex >= CARD_COUNT) newActiveIndex = 0;
+      
+      return prev.map((item, idx) => {
+        const diff = idx - newActiveIndex;
+        return {
+          ...item,
+          pos: calculatePosition(diff),
+        };
+      });
+    });
   }, []);
 
-  // 🌀 SMOOTH SCROLL TO ROTATE CARDS (SLOW)
+  // Handle card click
+  const handleCardClick = useCallback((clickedPos) => {
+    setElems((prev) => {
+      const clickedItem = prev.find(item => item.pos === clickedPos);
+      if (!clickedItem) return prev;
+      
+      const clickedIndex = prev.findIndex(p => p.id === clickedItem.id);
+      
+      return prev.map((item) => {
+        const currentIndex = prev.findIndex(p => p.id === item.id);
+        const diff = currentIndex - clickedIndex;
+        return {
+          ...item,
+          pos: calculatePosition(diff),
+        };
+      });
+    });
+  }, []);
+
+  // Handle scroll
   const handleScroll = useCallback((e) => {
     e.preventDefault();
-    e.stopPropagation(); // Prevent page scrolling
+    e.stopPropagation();
     
-    // Accumulate scroll delta - require more scroll before changing
-    const scrollThreshold = 30; // Higher = slower scrolling
     scrollAccumulatorRef.current += Math.abs(e.deltaY);
     
-    // Only trigger if threshold is reached
-    if (scrollAccumulatorRef.current < scrollThreshold) {
-      return;
-    }
-    
-    // Prevent rapid scrolling
+    if (scrollAccumulatorRef.current < SCROLL_THRESHOLD) return;
     if (isScrollingRef.current) {
-      scrollAccumulatorRef.current = 0; // Reset accumulator
+      scrollAccumulatorRef.current = 0;
       return;
     }
     
     isScrollingRef.current = true;
-    scrollAccumulatorRef.current = 0; // Reset accumulator
+    scrollAccumulatorRef.current = 0;
     
     const direction = e.deltaY > 0 ? 1 : -1;
-    
-    setElems((prev) => {
-      return prev.map((item) => ({
-        ...item,
-        pos: getPos(item.pos, direction),
-      }));
-    });
+    rotateCarousel(direction);
 
-    // Reset scroll lock after animation (longer delay for slower feel)
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
     }
     
     scrollTimeoutRef.current = setTimeout(() => {
       isScrollingRef.current = false;
-    }, 600); // Increased from 300 to 600ms for slower response
-  }, []);
+    }, SCROLL_DELAY);
+  }, [rotateCarousel]);
 
-  // 🌀 SMOOTH 3D HOVER ROTATION (tilt)
+  // Handle mouse move for 3D tilt
   const handleMouseMove = useCallback((e) => {
     if (!wrapperRef.current) return;
     
     const rect = wrapperRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
     const x = (e.clientX - centerX) / (rect.width / 2);
-    const y = (e.clientY - centerY) / (rect.height / 2);
     
-    // Smooth tilt effect with reduced intensity
-    setHoverRotate(x * 8); // Reduced from 0.05 to 8 degrees max
+    setHoverRotate(x * 8);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     setHoverRotate(0);
   }, []);
 
-  // Prevent page scrolling when mouse is over carousel
-  const containerRef = useRef(null);
-  
+  // Prevent page scroll on carousel
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const preventPageScroll = (e) => {
-      // Prevent page scrolling
       e.preventDefault();
       e.stopPropagation();
       
-      // Handle carousel scroll
-      const scrollThreshold = 50;
       scrollAccumulatorRef.current += Math.abs(e.deltaY);
       
-      if (scrollAccumulatorRef.current < scrollThreshold) {
-        return;
-      }
-      
+      if (scrollAccumulatorRef.current < SCROLL_THRESHOLD) return;
       if (isScrollingRef.current) {
         scrollAccumulatorRef.current = 0;
         return;
@@ -132,13 +163,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
       scrollAccumulatorRef.current = 0;
       
       const direction = e.deltaY > 0 ? 1 : -1;
-      
-      setElems((prev) => {
-        return prev.map((item) => ({
-          ...item,
-          pos: getPos(item.pos, direction),
-        }));
-      });
+      rotateCarousel(direction);
 
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
@@ -146,16 +171,50 @@ export default function RotatedCarousel({ items = defaultItems }) {
       
       scrollTimeoutRef.current = setTimeout(() => {
         isScrollingRef.current = false;
-      }, 600);
+      }, SCROLL_DELAY);
     };
 
-    // Add wheel event listener to prevent page scroll on entire container
     container.addEventListener('wheel', preventPageScroll, { passive: false });
     
     return () => {
       container.removeEventListener('wheel', preventPageScroll);
     };
-  }, []);
+  }, [rotateCarousel]);
+
+  // Base card styles
+  const getBaseCardStyle = () => ({
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    borderRadius: CARD_BORDER_RADIUS,
+    boxShadow: "0 4px 16px rgba(50,50,50,0.5)",
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+    transformOrigin: "center",
+    cursor: "pointer",
+    overflow: "hidden",
+  });
+
+  // Get card style based on position
+  const getCardStyle = (pos, idx) => {
+    const config = POSITION_CONFIG[pos] || POSITION_CONFIG["0"];
+    const baseStyle = getBaseCardStyle();
+    
+    return {
+      ...baseStyle,
+      zIndex: config.zIndex,
+      opacity: config.opacity,
+      filter: config.filter,
+      transform: config.transform || "",
+      background: pos === "0" ? "transparent" : GRADIENTS[idx % GRADIENTS.length],
+      ...(pos === "0" && {
+        boxShadow: "0 0 20px rgba(79,195,247,0.5), 0 4px 16px rgba(50,50,50,0.5)",
+      }),
+    };
+  };
+
 
   return (
     <div
@@ -164,18 +223,17 @@ export default function RotatedCarousel({ items = defaultItems }) {
         width: "100%",
         height: "100%",
         display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      {/* FULL ROTATION WRAPPER */}
       <div
         ref={wrapperRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{
-          width: 600,
-          height: 600,
+          width: WRAPPER_SIZE,
+          height: WRAPPER_SIZE,
           transform: `rotate(-90deg) rotateY(${hoverRotate}deg)`,
           transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
           perspective: "1000px",
@@ -195,106 +253,32 @@ export default function RotatedCarousel({ items = defaultItems }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: 500,
+            height: "500px",
           }}
         >
           {elems.map((item, idx) => {
             const pos = item.pos;
-
-            let baseStyle = {
-              width: 250,
-              height: 400,
-              borderRadius: 20,
-              boxShadow: "0 4px 16px rgba(50,50,50,0.5)",
-              position: "absolute",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-              transformOrigin: "center",
-              cursor: "pointer",
-            };
-
-            let extra = {};
-            let zIndex = 1;
-            let opacity = 1;
-            let filter = "none";
-
-            switch (pos) {
-              case "0":
-                zIndex = 5;
-                break;
-              case "-1":
-                extra.transform = "translateX(-40%) scale(.9)";
-                zIndex = 4;
-                opacity = 0.7;
-                filter = "blur(1px) grayscale(10%)";
-                break;
-              case "1":
-                extra.transform = "translateX(40%) scale(.9)";
-                zIndex = 4;
-                opacity = 0.7;
-                filter = "blur(1px) grayscale(10%)";
-                break;
-              case "-2":
-                extra.transform = "translateX(-70%) scale(.8)";
-                zIndex = 3;
-                opacity = 0.4;
-                filter = "blur(3px) grayscale(20%)";
-                break;
-              case "2":
-                extra.transform = "translateX(70%) scale(.8)";
-                zIndex = 3;
-                opacity = 0.4;
-                filter = "blur(3px) grayscale(20%)";
-                break;
-              default:
-                break;
-            }
-
-            const gradients = [
-              "linear-gradient(45deg,#2D35EB 0%,#904ED4 100%)",
-              "linear-gradient(45deg,#2D35EB 0%,#fdbb2d 100%)",
-              "linear-gradient(45deg,#2D35EB 0%,#22c1c3 100%)",
-              "linear-gradient(45deg,#fdbb2d 0%,#904ED4 100%)",
-              "linear-gradient(45deg,#22c1c3 0%,#904ED4 100%)",
-            ];
-
-            const style = {
-              ...baseStyle,
-              ...extra,
-              zIndex,
-              opacity,
-              filter,
-              background:
-                pos === "0"
-                  ? "#ff2424"
-                  : gradients[idx % gradients.length],
-              ...(pos === "0"
-                ? {
-                    border: "2px solid #4FC3F7",
-                    boxShadow:
-                      "0 0 20px rgba(79,195,247,0.5), 0 4px 16px rgba(50,50,50,0.5)",
-                  }
-                : {}),
-            };
+            const cardStyle = getCardStyle(pos, idx);
 
             return (
               <li
                 key={item.id}
-                onClick={() => update(item.pos)}
+                onClick={() => handleCardClick(pos)}
                 role="button"
-                aria-pressed={item.pos === "0"}
-                style={style}
-                data-pos={item.pos}
+                aria-pressed={pos === "0"}
+                style={cardStyle}
+                data-pos={pos}
                 onMouseEnter={(e) => {
                   if (pos !== "0") {
-                    e.currentTarget.style.transform = `${extra.transform || ""} scale(${pos === "0" ? 1 : pos === "1" || pos === "-1" ? 0.95 : 0.85})`;
+                    const config = POSITION_CONFIG[pos];
+                    const scale = pos === "1" || pos === "-1" ? 0.95 : 0.85;
+                    e.currentTarget.style.transform = `${config.transform || ""} scale(${scale})`;
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (pos !== "0") {
-                    e.currentTarget.style.transform = extra.transform || "";
+                    const config = POSITION_CONFIG[pos];
+                    e.currentTarget.style.transform = config.transform || "";
                   }
                 }}
               >
@@ -303,99 +287,81 @@ export default function RotatedCarousel({ items = defaultItems }) {
                     transform: "rotate(90deg)",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems:
-                      pos === "0" ? "flex-start" : "center",
-                    justifyContent:
-                      pos === "0" ? "flex-start" : "center",
-                    padding: "20px",
-                    textAlign:
-                      pos === "0" ? "left" : "center",
+                    alignItems: pos === "0" ? "flex-start" : "center",
+                    justifyContent: pos === "0" ? "flex-start" : "center",
                     width: "100%",
                     height: "100%",
                     transition: "all 0.3s ease",
                   }}
                 >
-                  {pos === "0" ? (
-                    <div style={{ width: "100%", height: "100%", position: "relative" }}>
-                      <h3
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* Local Image */}
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={`Card ${idx + 1}`}
                         style={{
-                          fontSize: 20,
-                          color: "#fff",
-                          fontFamily: "Arial",
-                          fontWeight: "bold",
                           position: "absolute",
-                          left: "7rem",
-                          top: "1.3rem",
-                          margin: 0,
-                          padding: 0,
-                          textTransform: "uppercase",
-                          width: "max-content",
-                          transition: "opacity 0.3s ease",
+                          top: 0,
+                          left: 0,
+                          width: `${CARD_WIDTH}px`,
+                          height: `${CARD_HEIGHT}px`,
+                          objectFit: "cover",
+                          objectPosition: "center",
+                          borderRadius: `${CARD_BORDER_RADIUS}px`,
+                          zIndex: 10,
+                          opacity: pos === "0" ? 1 : 0.5,
+                          display: "block",
                         }}
-                      >
-                        {item.heading}
-                      </h3>
-                      <p
-                        style={{
-                          fontSize: 12,
-                          color: "#fff",
-                          fontFamily: "Arial",
-                          position: "absolute",
-                          left: "7rem",
-                          top: "6.1rem",
-                          margin: 0,
-                          padding: 0,
-                          lineHeight: "1.4",
-                          textTransform: "uppercase",
-                          opacity: 0.9,
-                          width: "max-content",
-                          transition: "opacity 0.3s ease",
+                        onError={(e) => {
+                          console.error("Image failed to load:", item.image, e);
+                          // Fallback if image fails to load
+                          e.target.style.display = "none";
+                          const placeholder = e.target.parentElement?.querySelector('.image-placeholder');
+                          if (placeholder) {
+                            placeholder.style.display = "flex";
+                            placeholder.style.zIndex = "10";
+                          }
                         }}
-                      >
-                        {item.paragraph}
-                      </p>
-                      <Link
-                        to={item.link || "#"}
-                        style={{
-                          fontSize: 14,
-                          color: "#fff",
-                          fontFamily: "Arial",
-                          fontWeight: "bold",
-                          textDecoration: "none",
-                          textTransform: "uppercase",
-                          position: "absolute",
-                          left: "7rem",
-                          top: "10.9rem",
-                          margin: 0,
-                          padding: 0,
-                          width: "max-content",
-                          transition: "all 0.3s ease",
+                        onLoad={() => {
+                          console.log("Image loaded successfully:", item.image);
                         }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.opacity = "0.8";
-                          e.currentTarget.style.transform = "translateX(5px)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.opacity = "1";
-                          e.currentTarget.style.transform = "translateX(0)";
-                        }}
-                      >
-                        VIEW PROJECT
-                      </Link>
-                    </div>
-                  ) : (
+                      />
+                    ) : null}
+                    {/* Fallback placeholder if image fails or doesn't exist */}
                     <div
+                      className="image-placeholder"
                       style={{
-                        fontSize: 48,
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: `${CARD_WIDTH}px`,
+                        height: `${CARD_HEIGHT}px`,
+                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                        borderRadius: `${CARD_BORDER_RADIUS}px`,
+                        zIndex: 5,
+                        opacity: pos === "0" ? 1 : 0.5,
+                        display: item.image ? "none" : "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                         color: "#fff",
-                        fontFamily: "Arial",
+                        fontSize: "18px",
                         fontWeight: "bold",
-                        transition: "transform 0.3s ease",
                       }}
                     >
-                      {idx + 1}
+                      Image {idx + 1}
                     </div>
-                  )}
+                  </div>
                 </div>
               </li>
             );

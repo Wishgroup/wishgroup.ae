@@ -41,9 +41,8 @@ function Banner() {
             </h1>
             <div className="row">
               <div className="col-md-7 col-lg-5">
-                <p className="mil-light-soft mil-mb-60">
-                  Welcome to our world of endless imagination and boundless creativity. Together, let's embark on a
-                  remarkable journey where dreams become tangible realities.
+                <p className="mil-light-soft mil-mb-60 text-center">
+                This is where aspiration meets dedication. We partner with you to turn your long-term vision into tangible reality, ensuring the stability needed to see every dream take root.
                 </p>
               </div>
             </div>
