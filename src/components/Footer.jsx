@@ -8,7 +8,7 @@ function Footer() {
         <div className="container mil-p-120-60">
           <div className="row justify-content-between">
             <div className="col-md-4 col-lg-4 mil-mb-60">
-              <div className="mil-muted mil-logo mil-up mil-mb-30">Ashley.</div>
+              <div className="mil-muted mil-logo mil-up mil-mb-30">Wish Group.</div>
 
               <p className="mil-light-soft mil-up mil-mb-30">Subscribe our newsletter:</p>
 
@@ -72,17 +72,26 @@ function Footer() {
             <div className="col-md-7 col-lg-6">
               <div className="row justify-content-between">
                 <div className="col-md-6 col-lg-5 mil-mb-60">
-                  <h6 className="mil-muted mil-up mil-mb-30">Canada</h6>
+                  <h6 className="mil-muted mil-up mil-mb-30">Dubai - U.A.E.</h6>
 
                   <p className="mil-light-soft mil-up">
-                    71 South Los Carneros Road, California <span className="mil-no-wrap">+51 174 705 812</span>
+                  4004/4005, 40th Floor, Citadel Tower,
+
+Al Marasi Drive Business Bay<span className="mil-no-wrap">Dubai- U.A.E </span>
+<br /><span className="mil-no-wrap">P.O.BOX: 417425 , Dubai UAE </span>
                   </p>
                 </div>
                 <div className="col-md-6 col-lg-5 mil-mb-60">
-                  <h6 className="mil-muted mil-up mil-mb-30">Germany</h6>
+                  <h6 className="mil-muted mil-up mil-mb-30">Contact Us</h6>
 
                   <p className="mil-light-soft mil-up">
-                    Leehove 40, 2678 MC De Lier, Netherlands <span className="mil-no-wrap">+31 174 705 811</span>
+                    <span className="mil-no-wrap">+971 4259 7167</span>
+                    <br />
+                    <span className="mil-no-wrap">+971 4259 4795</span>
+                    <br />
+                    <a href="mailto:info@wishgroup.ae" className="mil-light-soft">info@wishgroup.ae</a>
+                    <br />
+                    <a href="mailto:info@wishgroup.world" className="mil-light-soft">info@wishgroup.world</a>
                   </p>
                 </div>
               </div>
@@ -113,7 +122,7 @@ function Footer() {
                     </li>
                   </ul>
                 </div>
-                <p className="mil-light-soft mil-up">© Copyright 2023 - Mil. All Rights Reserved.</p>
+                <p className="mil-light-soft mil-up">© Copyright 2025 - Wish Group. All Rights Reserved.</p>
               </div>
             </div>
           </div>

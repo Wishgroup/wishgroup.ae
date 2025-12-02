@@ -3,22 +3,62 @@
 
 $font-1: 'Outfit', sans-serif;
 
-$dark: rgba(0, 0, 0, 1);
-$light: rgba(255, 255, 255, 1);
-$accent: rgba(255, 152, 0, 1);
+// Wish Group Theme Colors
+// Primary colors
+$primary-dark: #A6033F;      // Dark Crimson Red - rgba(166, 3, 63, 1)
+$primary: #F22E76;           // Bright Hot Pink - rgba(242, 46, 118, 1)
 
-$dt-2: rgba(0, 0, 0, .02);
-$dt-5: rgba(0, 0, 0, .05);
-$dt-10: rgba(0, 0, 0, .1);
-$dt-20: rgba(0, 0, 0, .2);
-$dt-30: rgba(0, 0, 0, .3);
-$dt-40: rgba(0, 0, 0, .4);
-$dt-50: rgba(0, 0, 0, .5);
-$dt-60: rgba(0, 0, 0, .6);
-$dt-70: rgba(0, 0, 0, .7);
-$dt-80: rgba(0, 0, 0, .8);
-$dt-90: rgba(0, 0, 0, .9);
-$dt-95: rgba(0, 0, 0, .95);
+// Neutral colors
+$neutral-dark: #3C4C59;      // Dark Slate Gray - rgba(60, 76, 89, 1)
+$neutral-medium: #8596A6;    // Medium Steel Blue - rgba(133, 150, 166, 1)
+$neutral-light: #BACBD9;     // Light Sky Blue - rgba(186, 203, 217, 1)
+
+// Base colors
+$dark: #3C4C59;              // Using Dark Slate Gray as dark
+$light: rgba(255, 255, 255, 1);
+$accent: #F22E76;            // Bright Hot Pink as accent
+
+// Legacy support - keeping these for backward compatibility
+$primary-red: #A6033F;
+$primary-pink: #F22E76;
+$dark-slate: #3C4C59;
+$steel-blue: #8596A6;
+$sky-blue: #BACBD9;
+
+// Dark opacity variants (based on Dark Slate Gray)
+$dt-2: rgba(60, 76, 89, .02);
+$dt-5: rgba(60, 76, 89, .05);
+$dt-10: rgba(60, 76, 89, .1);
+$dt-20: rgba(60, 76, 89, .2);
+$dt-30: rgba(60, 76, 89, .3);
+$dt-40: rgba(60, 76, 89, .4);
+$dt-50: rgba(60, 76, 89, .5);
+$dt-60: rgba(60, 76, 89, .6);
+$dt-70: rgba(60, 76, 89, .7);
+$dt-80: rgba(60, 76, 89, .8);
+$dt-90: rgba(60, 76, 89, .9);
+$dt-95: rgba(60, 76, 89, .95);
+
+// Primary color opacity variants (Hot Pink)
+$primary-5: rgba(242, 46, 118, .05);
+$primary-10: rgba(242, 46, 118, .1);
+$primary-20: rgba(242, 46, 118, .2);
+$primary-30: rgba(242, 46, 118, .3);
+$primary-40: rgba(242, 46, 118, .4);
+$primary-50: rgba(242, 46, 118, .5);
+$primary-60: rgba(242, 46, 118, .6);
+$primary-70: rgba(242, 46, 118, .7);
+$primary-80: rgba(242, 46, 118, .8);
+$primary-90: rgba(242, 46, 118, .9);
+
+// Dark Red opacity variants
+$red-dark-5: rgba(166, 3, 63, .05);
+$red-dark-10: rgba(166, 3, 63, .1);
+$red-dark-20: rgba(166, 3, 63, .2);
+$red-dark-30: rgba(166, 3, 63, .3);
+$red-dark-50: rgba(166, 3, 63, .5);
+$red-dark-70: rgba(166, 3, 63, .7);
+$red-dark-90: rgba(166, 3, 63, .9);
 
 $lt-5: rgba(255, 255, 255, .05);
 $lt-10: rgba(255, 255, 255, .1);

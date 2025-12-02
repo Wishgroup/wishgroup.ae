@@ -89,7 +89,7 @@ function Menu() {
     <div className={`mil-menu-frame ${isActive ? 'mil-active' : ''}`}>
       <div className="mil-frame-top">
         <Link to="/" className="mil-logo">
-          A.
+          <img src="/logo.png" alt="Wish Group Logo" style={{ height: '56px', width: 'auto' }} />
         </Link>
         <div className="mil-menu-btn">
           <span></span>
@@ -165,18 +165,13 @@ function Menu() {
                   </div>
                   <div className="mil-divider mil-mb-60"></div>
                   <div className="row justify-content-between">
-                    <div className="col-lg-4 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30">Canada</h6>
+                    <div className="col-lg-6 mil-mb-60">
+                      <h6 className="mil-muted mil-mb-30">Dubai, U.A.E.</h6>
                       <p className="mil-light-soft mil-up">
-                        71 South Los Carneros Road, California{' '}
-                        <span className="mil-no-wrap">+51 174 705 812</span>
-                      </p>
-                    </div>
-                    <div className="col-lg-4 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30">Germany</h6>
-                      <p className="mil-light-soft">
-                        Leehove 40, 2678 MC De Lier, Netherlands{' '}
-                        <span className="mil-no-wrap">+31 174 705 811</span>
+                        4004/4005, 40th Floor, Citadel Tower,<br />
+                        Al Marasi Drive Business Bay, Dubai- U.A.E.<br />
+                        P.O.BOX: 417425, Dubai UAE<br />
+                        <span className="mil-no-wrap">+971 4259 7167</span> / <span className="mil-no-wrap">+971 4259 4795</span>
                       </p>
                     </div>
                   </div>
