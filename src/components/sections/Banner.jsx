@@ -1,10 +1,31 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { FaCircleArrowRight } from 'react-icons/fa6'
 
 function Banner() {
   return (
     <section className="mil-banner mil-dark-bg">
-      <div className="mi-invert-fix">
+      <div className="mi-invert-fix" style={{ position: 'relative', width: '100%', height: '100%' }}>
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            opacity: 0.3
+          }}
+        >
+          <source src="/video.mp4" type="video/mp4" />
+        </video>
+        
         <div className="mil-animation-frame">
           <div className="mil-animation mil-position-1 mil-scale" data-value-1="7" data-value-2="1.6"></div>
           <div className="mil-animation mil-position-2 mil-scale" data-value-1="4" data-value-2="1"></div>
@@ -13,11 +34,10 @@ function Banner() {
 
         <div className="mil-gradient"></div>
 
-        <div className="container">
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <div className="mil-banner-content mil-up">
             <h1 className="mil-muted mil-mb-60">
-              Designing <span className="mil-thin">a Better</span>
-              <br /> World <span className="mil-thin">Today</span>
+              <span className="mil-thin">We make a </span><strong>Wish</strong>
             </h1>
             <div className="row">
               <div className="col-md-7 col-lg-5">
@@ -30,6 +50,7 @@ function Banner() {
 
             <Link to="/services" className="mil-button mil-arrow-place mil-btn-space">
               <span>What we do</span>
+              <FaCircleArrowRight />
             </Link>
 
             <Link to="/portfolio-1" className="mil-link mil-muted mil-arrow-place">

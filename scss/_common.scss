@@ -1,8 +1,33 @@
+@use 'variables' as *;
+
 /* -------------------------------------------
 
 main
 
 ------------------------------------------- */
+
+/* Wish Group Theme CSS Variables */
+:root {
+    /* Primary colors */
+    --wg-primary-dark: #{$primary-dark};
+    --wg-primary: #{$primary};
+    
+    /* Neutral colors */
+    --wg-neutral-dark: #{$neutral-dark};
+    --wg-neutral-medium: #{$neutral-medium};
+    --wg-neutral-light: #{$neutral-light};
+    
+    /* Base colors */
+    --wg-dark: #{$dark};
+    --wg-light: #{$light};
+    --wg-accent: #{$accent};
+    
+    /* RGB values for opacity variants */
+    --wg-primary-dark-rgb: 166, 3, 63;
+    --wg-primary-rgb: 242, 46, 118;
+    --wg-neutral-dark-rgb: 60, 76, 89;
+}
+
 *,
 *:before,
 *:after {

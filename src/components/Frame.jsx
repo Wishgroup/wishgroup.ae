@@ -8,7 +8,7 @@ function Frame() {
     <div className="mil-frame">
       <div className="mil-frame-top">
         <Link to="/" className="mil-logo">
-          A.
+          <img src="/logo.png" alt="Wish Group Logo" style={{ height: '56px', width: 'auto' }} />
         </Link>
         <div className="mil-menu-btn">
           <span></span>

@@ -1,5 +1,4 @@
 import React from 'react'
-import Preloader from './Preloader'
 import Cursor from './Cursor'
 import ProgressBar from './ProgressBar'
 import Frame from './Frame'
@@ -11,7 +10,6 @@ function Layout({ children }) {
   return (
     <div className="mil-wrapper" id="top">
       <Cursor />
-      <Preloader />
       <ProgressBar />
       <Menu />
       <Curtain />

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Banner from '../components/sections/Banner'
 import About from '../components/sections/About'
+import NewSection from '../components/sections/NewSection'
 import Services from '../components/sections/Services'
 import Team from '../components/sections/Team'
 import Reviews from '../components/sections/Reviews'
@@ -17,6 +18,7 @@ function Home() {
     <>
       <Banner />
       <About />
+      <NewSection />
       <Services />
       <Team />
       <Reviews />

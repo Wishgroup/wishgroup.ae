@@ -1,3 +1,6 @@
+@use 'sass:math';
+@use 'variables' as *;
+
 /* -------------------------------------------
 
 preloader
@@ -1041,12 +1044,12 @@ dodecahedron
 
     @for $i from 1 through 5 {
         &:nth-child(#{$i}) {
-            transform: rotateY(#{$i * 1/5}turn) translateZ(69px) rotateX(26.5deg);
+            transform: rotateY(#{calc($i * 1 / 5)}turn) translateZ(69px) rotateX(26.5deg);
         }
 
         &:nth-child(#{$i+5}) {
             bottom: 0;
-            transform: rotateY(#{$i * 1/5}turn) translateZ(-69px) rotateX(206.5deg);
+            transform: rotateY(#{calc($i * 1 / 5)}turn) translateZ(-69px) rotateX(206.5deg);
         }
     }
 
@@ -1067,7 +1070,7 @@ dodecahedron
 
         @for $i from 1 through 5 {
             &:nth-child(#{$i}) {
-                transform:rotate(#{$i * 1/5}turn)
+                transform:rotate(#{calc($i * 1 / 5)}turn)
             }
         }
     }
@@ -2434,9 +2437,9 @@ price
     $steps: 20;
 
     @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-            clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-            transform: skew((random(100) / 100) + deg);
+        #{math.percentage(math.div($i, $steps))} {
+            clip: rect(math.random(100)+px, 9999px, math.random(100)+px, 0);
+            transform: skew((math.div(math.random(100), 100)) + deg);
         }
     }
 }
@@ -2445,9 +2448,9 @@ price
     $steps: 20;
 
     @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-            clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-            transform: skew((random(100) / 100) + deg);
+        #{math.percentage(math.div($i, $steps))} {
+            clip: rect(math.random(100)+px, 9999px, math.random(100)+px, 0);
+            transform: skew((math.div(math.random(100), 100)) + deg);
         }
     }
 }
@@ -2456,8 +2459,8 @@ price
     $steps: 10;
 
     @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-            transform: skew((random(10) - 5) + deg);
+        #{math.percentage(math.div($i, $steps))} {
+            transform: skew((math.random(10) - 5) + deg);
         }
     }
 }
