@@ -5,10 +5,12 @@ import Frame from './Frame'
 import Menu from './Menu'
 import Curtain from './Curtain'
 import HiddenElements from './HiddenElements'
+import Preloader from './Preloader'
 
 function Layout({ children }) {
   return (
     <div className="mil-wrapper" id="top">
+      <Preloader />
       <Cursor />
       <ProgressBar />
       <Menu />

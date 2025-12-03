@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Navigation, Parallax } from 'swiper/modules'
 import 'swiper/css'
@@ -30,8 +30,28 @@ function Reviews() {
   ]
 
   return (
-    <section className="mil-soft-bg">
-      <div className="container mil-p-120-120">
+    <section className="mil-soft-bg" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+          opacity: 0.3
+        }}
+      >
+        <source src="/video_2.mp4" type="video/mp4" />
+      </video>
+      
+      <div className="container mil-p-120-120" style={{ position: 'relative', zIndex: 1 }}>
         <div className="row">
           <div className="col-lg-10">
             <span className="mil-suptitle mil-suptitle-right mil-suptitle-dark mil-up">

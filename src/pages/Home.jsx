@@ -5,7 +5,6 @@ import IntroSection from '../components/sections/world'
 import About from '../components/sections/About'
 import NewSection from '../components/sections/NewSection'
 import Services from '../components/sections/Services'
-import Team from '../components/sections/Team'
 import Reviews from '../components/sections/Reviews'
 import Partners from '../components/sections/Partners'
 import Blog from '../components/sections/Blog'
@@ -22,9 +21,9 @@ function Home() {
       <About />
       <NewSection />
       <Services />
-      <Team />
-      <Reviews />
       <Partners />
+      <Reviews />
+      
       <Blog />
       <Footer />
     </>

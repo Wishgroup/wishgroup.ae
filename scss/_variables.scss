@@ -6,7 +6,7 @@ $font-1: 'Outfit', sans-serif;
 // Wish Group Theme Colors
 // Primary colors
 $primary-dark: #A6033F;      // Dark Crimson Red - rgba(166, 3, 63, 1)
-$primary: #F22E76;           // Bright Hot Pink - rgba(242, 46, 118, 1)
+$primary: #A6033F;           // Dark Crimson Red - rgba(166, 3, 63, 1)
 
 // Neutral colors
 $neutral-dark: #3C4C59;      // Dark Slate Gray - rgba(60, 76, 89, 1)
@@ -16,11 +16,11 @@ $neutral-light: #BACBD9;     // Light Sky Blue - rgba(186, 203, 217, 1)
 // Base colors
 $dark: #3C4C59;              // Using Dark Slate Gray as dark
 $light: rgba(255, 255, 255, 1);
-$accent: #F22E76;            // Bright Hot Pink as accent
+$accent: #A6033F;            // Dark Crimson Red as accent
 
 // Legacy support - keeping these for backward compatibility
 $primary-red: #A6033F;
-$primary-pink: #F22E76;
+$primary-pink: #A6033F;
 $dark-slate: #3C4C59;
 $steel-blue: #8596A6;
 $sky-blue: #BACBD9;
@@ -39,17 +39,17 @@ $dt-80: rgba(60, 76, 89, .8);
 $dt-90: rgba(60, 76, 89, .9);
 $dt-95: rgba(60, 76, 89, .95);
 
-// Primary color opacity variants (Hot Pink)
-$primary-5: rgba(242, 46, 118, .05);
-$primary-10: rgba(242, 46, 118, .1);
-$primary-20: rgba(242, 46, 118, .2);
-$primary-30: rgba(242, 46, 118, .3);
-$primary-40: rgba(242, 46, 118, .4);
-$primary-50: rgba(242, 46, 118, .5);
-$primary-60: rgba(242, 46, 118, .6);
-$primary-70: rgba(242, 46, 118, .7);
-$primary-80: rgba(242, 46, 118, .8);
-$primary-90: rgba(242, 46, 118, .9);
+// Primary color opacity variants (Dark Crimson Red)
+$primary-5: rgba(166, 3, 63, .05);
+$primary-10: rgba(166, 3, 63, .1);
+$primary-20: rgba(166, 3, 63, .2);
+$primary-30: rgba(166, 3, 63, .3);
+$primary-40: rgba(166, 3, 63, .4);
+$primary-50: rgba(166, 3, 63, .5);
+$primary-60: rgba(166, 3, 63, .6);
+$primary-70: rgba(166, 3, 63, .7);
+$primary-80: rgba(166, 3, 63, .8);
+$primary-90: rgba(166, 3, 63, .9);
 
 // Dark Red opacity variants
 $red-dark-5: rgba(166, 3, 63, .05);

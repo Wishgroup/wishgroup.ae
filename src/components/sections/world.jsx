@@ -1,4 +1,5 @@
 import React from 'react'
+import WorldMap3D from '../WorldMap3D'
 
 function IntroSection() {
   return (
@@ -15,11 +16,8 @@ function IntroSection() {
             </p>
           </div>
           <div className="col-lg-6 mil-mb-60">
-            <div className="mil-up">
-              <p className="mil-text-lg mil-light-soft">
-                With years of expertise and a commitment to excellence, we deliver 
-                solutions that exceed expectations and drive meaningful results.
-              </p>
+            <div className="mil-up" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '500px' }}>
+              <WorldMap3D width={500} height={500} />
             </div>
           </div>
         </div>

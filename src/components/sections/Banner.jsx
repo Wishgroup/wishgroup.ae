@@ -41,7 +41,7 @@ function Banner() {
             </h1>
             <div className="row">
               <div className="col-md-7 col-lg-5">
-                <p className="mil-light-soft mil-mb-60 text-center">
+                <p className="mil-light-soft mil-mb-60 ">
                 This is where aspiration meets dedication. We partner with you to turn your long-term vision into tangible reality, ensuring the stability needed to see every dream take root.
                 </p>
               </div>
