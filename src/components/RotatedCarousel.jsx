@@ -1,11 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 
 // Constants
-const CARD_COUNT = 4;
-const CARD_WIDTH = 280;
-const CARD_HEIGHT = 420;
+const CARD_WIDTH = 400;
+const CARD_HEIGHT = 225;
 const CARD_BORDER_RADIUS = 20;
-const WRAPPER_SIZE = 600;
 const SCROLL_THRESHOLD = 30;
 const SCROLL_DELAY = 600;
 
@@ -17,90 +15,99 @@ const defaultItems = [
   { id: 3, image: "/img/projects/4.jpg" }
 ];
 
-// Position configurations
-const POSITION_CONFIG = {
-  "0": { zIndex: 5, opacity: 1, filter: "none" },
-  "-1": { zIndex: 4, opacity: 0.7, filter: "blur(1px) grayscale(10%)", transform: "translateX(-40%) scale(.9)" },
-  "1": { zIndex: 4, opacity: 0.7, filter: "blur(1px) grayscale(10%)", transform: "translateX(40%) scale(.9)" },
-  "-2": { zIndex: 3, opacity: 0.4, filter: "blur(3px) grayscale(20%)", transform: "translateX(-70%) scale(.8)" },
-  "2": { zIndex: 3, opacity: 0.4, filter: "blur(3px) grayscale(20%)", transform: "translateX(70%) scale(.8)" }
+// Position classes for vertical carousel
+const getPositionClass = (offset, totalCards) => {
+  if (offset === 0) return "center";
+  if (offset === 1) return "down-1";
+  if (offset === 2) return "down-2";
+  if (offset === totalCards - 1) return "up-1";
+  if (offset === totalCards - 2) return "up-2";
+  return "hidden";
 };
 
-const GRADIENTS = [
-  "linear-gradient(45deg,#2D35EB 0%,#904ED4 100%)",
-  "linear-gradient(45deg,#2D35EB 0%,#fdbb2d 100%)",
-  "linear-gradient(45deg,#2D35EB 0%,#22c1c3 100%)",
-  "linear-gradient(45deg,#fdbb2d 0%,#904ED4 100%)",
-  "linear-gradient(45deg,#22c1c3 0%,#904ED4 100%)"
-];
+const getCardStyle = (positionClass) => {
+  const baseStyle = {
+    position: "absolute",
+    width: `${CARD_WIDTH}px`,
+    height: `${CARD_HEIGHT}px`,
+    background: "white",
+    borderRadius: `${CARD_BORDER_RADIUS}px`,
+    overflow: "hidden",
+    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+    transition: "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    cursor: "pointer",
+  };
+
+  switch (positionClass) {
+    case "center":
+      return {
+        ...baseStyle,
+        zIndex: 10,
+        transform: "scale(1.1) translateZ(0)",
+      };
+    case "up-1":
+      return {
+        ...baseStyle,
+        zIndex: 5,
+        transform: "translateY(-150px) scale(0.9) translateZ(-100px)",
+        opacity: 0.9,
+      };
+    case "up-2":
+      return {
+        ...baseStyle,
+        zIndex: 1,
+        transform: "translateY(-300px) scale(0.8) translateZ(-300px)",
+        opacity: 0.7,
+      };
+    case "down-1":
+      return {
+        ...baseStyle,
+        zIndex: 5,
+        transform: "translateY(150px) scale(0.9) translateZ(-100px)",
+        opacity: 0.9,
+      };
+    case "down-2":
+      return {
+        ...baseStyle,
+        zIndex: 1,
+        transform: "translateY(300px) scale(0.8) translateZ(-300px)",
+        opacity: 0.7,
+      };
+    case "hidden":
+      return {
+        ...baseStyle,
+        opacity: 0,
+        pointerEvents: "none",
+      };
+    default:
+      return baseStyle;
+  }
+};
 
 export default function RotatedCarousel({ items = defaultItems }) {
-  const displayItems = items.slice(0, CARD_COUNT);
-  
-  const initial = displayItems.map((item, i) => ({
-    id: item.id !== undefined ? item.id : i,
-    pos: (i - 2).toString(),
-  }));
-
-  const [elems, setElems] = useState(initial);
-  const wrapperRef = useRef(null);
-  const [hoverRotate, setHoverRotate] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const scrollTimeoutRef = useRef(null);
   const isScrollingRef = useRef(false);
   const scrollAccumulatorRef = useRef(0);
   const containerRef = useRef(null);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
 
-  // Calculate new position with wrapping
-  const calculatePosition = (diff) => {
-    let newPos = diff;
-    if (newPos > 1) newPos = newPos - CARD_COUNT;
-    if (newPos < -2) newPos = newPos + CARD_COUNT;
-    return newPos.toString();
-  };
+  const updateCarousel = useCallback((newIndex) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
 
-  // Rotate carousel
-  const rotateCarousel = useCallback((direction) => {
-    setElems((prev) => {
-      const activeItem = prev.find(item => item.pos === "0");
-      if (!activeItem) return prev;
-      
-      const activeIndex = prev.findIndex(item => item.id === activeItem.id);
-      let newActiveIndex = activeIndex + direction;
-      
-      if (newActiveIndex < 0) newActiveIndex = CARD_COUNT - 1;
-      if (newActiveIndex >= CARD_COUNT) newActiveIndex = 0;
-      
-      return prev.map((item, idx) => {
-        const diff = idx - newActiveIndex;
-        return {
-          ...item,
-          pos: calculatePosition(diff),
-        };
-      });
-    });
-  }, []);
+    const normalizedIndex = ((newIndex % items.length) + items.length) % items.length;
+    setCurrentIndex(normalizedIndex);
 
-  // Handle card click
-  const handleCardClick = useCallback((clickedPos) => {
-    setElems((prev) => {
-      const clickedItem = prev.find(item => item.pos === clickedPos);
-      if (!clickedItem) return prev;
-      
-      const clickedIndex = prev.findIndex(p => p.id === clickedItem.id);
-      
-      return prev.map((item) => {
-        const currentIndex = prev.findIndex(p => p.id === item.id);
-        const diff = currentIndex - clickedIndex;
-        return {
-          ...item,
-          pos: calculatePosition(diff),
-        };
-      });
-    });
-  }, []);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 800);
+  }, [items.length, isAnimating]);
 
   // Handle scroll
-  const handleScroll = useCallback((e) => {
+  const handleWheel = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     
@@ -116,7 +123,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
     scrollAccumulatorRef.current = 0;
     
     const direction = e.deltaY > 0 ? 1 : -1;
-    rotateCarousel(direction);
+    updateCarousel(currentIndex + direction);
 
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
@@ -125,96 +132,56 @@ export default function RotatedCarousel({ items = defaultItems }) {
     scrollTimeoutRef.current = setTimeout(() => {
       isScrollingRef.current = false;
     }, SCROLL_DELAY);
-  }, [rotateCarousel]);
+  }, [currentIndex, updateCarousel]);
 
-  // Handle mouse move for 3D tilt
-  const handleMouseMove = useCallback((e) => {
-    if (!wrapperRef.current) return;
-    
-    const rect = wrapperRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const x = (e.clientX - centerX) / (rect.width / 2);
-    
-    setHoverRotate(x * 8);
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowUp") {
+        updateCarousel(currentIndex - 1);
+      } else if (e.key === "ArrowDown") {
+        updateCarousel(currentIndex + 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, updateCarousel]);
+
+  // Touch handlers for swipe
+  const handleTouchStart = useCallback((e) => {
+    touchStartY.current = e.changedTouches[0].screenY;
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
-    setHoverRotate(0);
-  }, []);
+  const handleTouchEnd = useCallback((e) => {
+    touchEndY.current = e.changedTouches[0].screenY;
+    const swipeThreshold = 50;
+    const diff = touchStartY.current - touchEndY.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        updateCarousel(currentIndex + 1);
+      } else {
+        updateCarousel(currentIndex - 1);
+      }
+    }
+  }, [currentIndex, updateCarousel]);
 
   // Prevent page scroll on carousel
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const preventPageScroll = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      scrollAccumulatorRef.current += Math.abs(e.deltaY);
-      
-      if (scrollAccumulatorRef.current < SCROLL_THRESHOLD) return;
-      if (isScrollingRef.current) {
-        scrollAccumulatorRef.current = 0;
-        return;
-      }
-      
-      isScrollingRef.current = true;
-      scrollAccumulatorRef.current = 0;
-      
-      const direction = e.deltaY > 0 ? 1 : -1;
-      rotateCarousel(direction);
-
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      
-      scrollTimeoutRef.current = setTimeout(() => {
-        isScrollingRef.current = false;
-      }, SCROLL_DELAY);
-    };
-
-    container.addEventListener('wheel', preventPageScroll, { passive: false });
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
     
     return () => {
-      container.removeEventListener('wheel', preventPageScroll);
+      container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [rotateCarousel]);
-
-  // Base card styles
-  const getBaseCardStyle = () => ({
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    borderRadius: CARD_BORDER_RADIUS,
-    boxShadow: "0 4px 16px rgba(50,50,50,0.5)",
-    position: "absolute",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-    transformOrigin: "center",
-    cursor: "pointer",
-    overflow: "hidden",
-  });
-
-  // Get card style based on position
-  const getCardStyle = (pos, idx) => {
-    const config = POSITION_CONFIG[pos] || POSITION_CONFIG["0"];
-    const baseStyle = getBaseCardStyle();
-    
-    return {
-      ...baseStyle,
-      zIndex: config.zIndex,
-      opacity: config.opacity,
-      filter: config.filter,
-      transform: config.transform || "",
-      background: pos === "0" ? "transparent" : GRADIENTS[idx % GRADIENTS.length],
-      ...(pos === "0" && {
-        boxShadow: "0 0 20px rgba(79,195,247,0.5), 0 4px 16px rgba(50,50,50,0.5)",
-      }),
-    };
-  };
-
+  }, [handleWheel, handleTouchStart, handleTouchEnd]);
 
   return (
     <div
@@ -225,148 +192,69 @@ export default function RotatedCarousel({ items = defaultItems }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        perspective: "1000px",
+        overflow: "hidden",
       }}
     >
       <div
-        ref={wrapperRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         style={{
-          width: WRAPPER_SIZE,
-          height: WRAPPER_SIZE,
-          transform: `rotate(-90deg) rotateY(${hoverRotate}deg)`,
-          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-          perspective: "1000px",
+          width: `${CARD_WIDTH}px`,
+          height: "70vh",
           position: "relative",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          transformStyle: "preserve-3d",
         }}
       >
-        <ul
-          style={{
-            position: "absolute",
-            inset: 0,
-            margin: 0,
-            padding: 0,
-            listStyle: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "500px",
-          }}
-        >
-          {elems.map((item, idx) => {
-            const pos = item.pos;
-            const cardStyle = getCardStyle(pos, idx);
+        {items.map((item, index) => {
+          const offset = ((index - currentIndex + items.length) % items.length);
+          const positionClass = getPositionClass(offset, items.length);
+          const cardStyle = getCardStyle(positionClass);
 
-            return (
-              <li
-                key={item.id}
-                onClick={() => handleCardClick(pos)}
-                role="button"
-                aria-pressed={pos === "0"}
-                style={cardStyle}
-                data-pos={pos}
-                onMouseEnter={(e) => {
-                  if (pos !== "0") {
-                    const config = POSITION_CONFIG[pos];
-                    const scale = pos === "1" || pos === "-1" ? 0.95 : 0.85;
-                    e.currentTarget.style.transform = `${config.transform || ""} scale(${scale})`;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (pos !== "0") {
-                    const config = POSITION_CONFIG[pos];
-                    e.currentTarget.style.transform = config.transform || "";
-                  }
-                }}
-              >
-                <div
+          return (
+            <div
+              key={item.id !== undefined ? item.id : index}
+              onClick={() => updateCarousel(index)}
+              style={cardStyle}
+            >
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={`Card ${index + 1}`}
                   style={{
-                    transform: "rotate(90deg)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: pos === "0" ? "flex-start" : "center",
-                    justifyContent: pos === "0" ? "flex-start" : "center",
                     width: "100%",
                     height: "100%",
-                    transition: "all 0.3s ease",
+                    objectFit: "cover",
+                    filter: positionClass === "center" ? "none" : "grayscale(100%)",
+                    transition: "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                  }}
+                  onError={(e) => {
+                    console.error("Image failed to load:", item.image);
+                    e.target.style.display = "none";
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    fontSize: "18px",
+                    fontWeight: "bold",
                   }}
                 >
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {/* Local Image */}
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt={`Card ${idx + 1}`}
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: `${CARD_WIDTH}px`,
-                          height: `${CARD_HEIGHT}px`,
-                          objectFit: "cover",
-                          objectPosition: "center",
-                          borderRadius: `${CARD_BORDER_RADIUS}px`,
-                          zIndex: 10,
-                          opacity: pos === "0" ? 1 : 0.5,
-                          display: "block",
-                        }}
-                        onError={(e) => {
-                          console.error("Image failed to load:", item.image, e);
-                          // Fallback if image fails to load
-                          e.target.style.display = "none";
-                          const placeholder = e.target.parentElement?.querySelector('.image-placeholder');
-                          if (placeholder) {
-                            placeholder.style.display = "flex";
-                            placeholder.style.zIndex = "10";
-                          }
-                        }}
-                        onLoad={() => {
-                          console.log("Image loaded successfully:", item.image);
-                        }}
-                      />
-                    ) : null}
-                    {/* Fallback placeholder if image fails or doesn't exist */}
-                    <div
-                      className="image-placeholder"
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: `${CARD_WIDTH}px`,
-                        height: `${CARD_HEIGHT}px`,
-                        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                        borderRadius: `${CARD_BORDER_RADIUS}px`,
-                        zIndex: 5,
-                        opacity: pos === "0" ? 1 : 0.5,
-                        display: item.image ? "none" : "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#fff",
-                        fontSize: "18px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Image {idx + 1}
-                    </div>
-                  </div>
+                  Image {index + 1}
                 </div>
-              </li>
-            );
-          })}
-        </ul>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
