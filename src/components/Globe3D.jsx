@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import * as topojson from 'topojson-client'
 
-function WorldMap3D({ width = 500, height = 500 }) {
+function Globe3D({ width = 500, height = 500 }) {
   const svgRef = useRef(null)
   const isMountedRef = useRef(true)
   const stepTimeoutRef = useRef(null)
@@ -56,6 +56,12 @@ function WorldMap3D({ width = 500, height = 500 }) {
         stroke-opacity: .08;
         stroke-width: .5px;
       }
+      text {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-anchor: middle;
+      }
     `)
 
     // World outline circle
@@ -67,6 +73,7 @@ function WorldMap3D({ width = 500, height = 500 }) {
 
     // Great arc interpolator
     const d3_radians = Math.PI / 180
+
     function d3_geo_greatArcInterpolator() {
       let x0, y0, cy0, sy0, kx0, ky0,
           x1, y1, cy1, sy1, kx1, ky1,
@@ -106,7 +113,7 @@ function WorldMap3D({ width = 500, height = 500 }) {
         cy1 = Math.cos(y1 = _[1] * d3_radians)
         sy1 = Math.sin(y1)
         kx1 = cy1 * cx1
-        ky1 = cy1 * sy1
+        ky1 = cy1 * sx1
         d = null
         return interpolate
       }
@@ -124,12 +131,10 @@ function WorldMap3D({ width = 500, height = 500 }) {
         const countries = topojson.feature(world, world.objects.countries).features
         let i = -1
         const n = countries.length
-        
-        console.log('World map loaded:', n, 'countries')
 
         // Setup back hemisphere
         projection.clipAngle(180)
-        
+
         const backLine = svg.append('path')
           .datum(graticule)
           .attr('class', 'back-line')
@@ -144,7 +149,7 @@ function WorldMap3D({ width = 500, height = 500 }) {
 
         // Setup front hemisphere
         projection.clipAngle(90)
-        
+
         const line = svg.append('path')
           .datum(graticule)
           .attr('class', 'line')
@@ -156,6 +161,10 @@ function WorldMap3D({ width = 500, height = 500 }) {
           .insert('path', '.line')
           .attr('class', 'country')
           .attr('d', path)
+
+        const title = svg.append('text')
+          .attr('x', width / 2)
+          .attr('y', height * 3 / 5)
 
         // Animation step function
         function step() {
@@ -171,15 +180,13 @@ function WorldMap3D({ width = 500, height = 500 }) {
             stepTimeoutRef.current = setTimeout(step, 2000)
             return
           }
-          
-          console.log('Animating to country', i, 'of', n)
 
           // Highlight country
           country
             .transition()
             .duration(300)
             .style('fill', function(d, j) { 
-              return j === i ? '#A6033F' : '#737368' 
+              return j === i ? 'red' : '#737368' 
             })
 
           // Get centroid
@@ -200,9 +207,9 @@ function WorldMap3D({ width = 500, height = 500 }) {
             .delay(250)
             .duration(1250)
             .tween('rotate', function() {
-              return function(t) {
+              return function(progress) {
                 if (!isMountedRef.current) return
-                const newRotate = rotate(t)
+                const newRotate = rotate(progress)
                 
                 // Update back hemisphere
                 projection.rotate(newRotate).clipAngle(180)
@@ -216,7 +223,7 @@ function WorldMap3D({ width = 500, height = 500 }) {
               }
             })
             .transition()
-            .each('end', step)
+            .on('end', step)
         }
 
         // Start animation immediately
@@ -239,15 +246,14 @@ function WorldMap3D({ width = 500, height = 500 }) {
   }, [width, height])
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', minHeight: '500px' }}>
-      <svg
-        ref={svgRef}
-        width={width}
-        height={height}
-        style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
-      />
-    </div>
+    <svg
+      ref={svgRef}
+      width={width}
+      height={height}
+      style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
+    />
   )
 }
 
-export default WorldMap3D
+export default Globe3D
+
