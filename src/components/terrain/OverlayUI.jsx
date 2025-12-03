@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RotateCcw, X } from "lucide-react";
+import { RotateCcw, X, ChevronDown } from "lucide-react";
 
 export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
   const [loaded, setLoaded] = useState(false);
@@ -18,25 +18,6 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
         }
       `}</style>
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
-      {/* Top left info */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '2rem',
-          left: '2rem',
-          transition: 'all 1s',
-          opacity: loaded ? 1 : 0,
-          transform: loaded ? 'translateY(0)' : 'translateY(-1rem)'
-        }}
-      >
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1a1a1a', letterSpacing: '0.1em' }}>
-          TERRAIN
-        </h1>
-        <p style={{ fontSize: '0.875rem', color: '#666', marginTop: '0.5rem', fontFamily: 'monospace' }}>
-          procedural mountain field
-        </p>
-      </div>
-
       {/* Reset button */}
       {selectedPerson && (
         <div
@@ -173,24 +154,6 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
         </div>
       )}
 
-      {/* Bottom left coordinates */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          left: '2rem',
-          transition: 'all 1s 0.3s',
-          opacity: loaded ? 1 : 0,
-          transform: loaded ? 'translateY(0)' : 'translateY(1rem)'
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#666' }}>
-          <span style={{ color: '#dc2626' }}>◉ SIMPLEX NOISE</span>
-          <span>RES: 180×180</span>
-          <span>OCTAVES: 6</span>
-        </div>
-      </div>
-
       {/* Bottom right instructions */}
       <div
         style={{
@@ -210,21 +173,48 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
         </div>
       </div>
 
-      {/* Top right status */}
+      {/* Scroll down element */}
       <div
         style={{
           position: 'absolute',
-          top: '2rem',
-          right: '2rem',
-          transition: 'all 1s 0.2s',
+          bottom: '2rem',
+          left: '50%',
+          transform: `translateX(-50%) ${loaded ? 'translateY(0)' : 'translateY(1rem)'}`,
+          transition: 'all 1s 0.7s',
           opacity: loaded ? 1 : 0,
-          transform: loaded ? 'translateX(0)' : 'translateX(1rem)'
+          pointerEvents: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.5rem',
+          cursor: 'pointer'
+        }}
+        onClick={() => {
+          const servicesSection = document.getElementById('services');
+          if (servicesSection) {
+            servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: '#dc2626', animation: 'pulse 2s infinite' }} />
-          <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#666' }}>LIVE</span>
-        </div>
+        <span style={{ 
+          fontSize: '0.75rem', 
+          fontFamily: 'monospace', 
+          color: '#666',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em'
+        }}>
+          Scroll down
+        </span>
+        <ChevronDown 
+          size={24} 
+          color="#666" 
+          style={{ 
+            animation: 'pulse 2s infinite',
+            transition: 'transform 0.3s'
+          }}
+          onMouseEnter={(e) => e.target.style.transform = 'translateY(4px)'}
+          onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+        />
       </div>
 
       {/* Center loading indicator */}

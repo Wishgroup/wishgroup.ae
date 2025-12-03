@@ -1,28 +1,69 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
+import gsap from 'gsap'
 
 function Services() {
+  const imageRefs = useRef([])
+
   const services = [
     {
       title: 'Branding and\nIdentity Design',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      image: '/img/works/1.jpg',
     },
     {
       title: 'Website Design\nand Development',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      image: '/img/works/2.jpg',
     },
     {
       title: 'Advertising and\nMarketing Campaigns',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      image: '/img/works/3.jpg',
     },
     {
       title: 'Creative Consulting\nand Development',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      image: '/img/works/4.jpg',
     },
   ]
 
+  const handleMouseEnter = (index) => {
+    const imageElement = imageRefs.current[index]
+    if (imageElement) {
+      gsap.fromTo(
+        imageElement,
+        {
+          opacity: 0,
+          y: 40,
+          scale: 0.98,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.4,
+          ease: 'sine',
+        }
+      )
+    }
+  }
+
+  const handleMouseLeave = (index) => {
+    const imageElement = imageRefs.current[index]
+    if (imageElement) {
+      gsap.to(imageElement, {
+        opacity: 0,
+        y: 40,
+        scale: 0.98,
+        duration: 0.4,
+        ease: 'sine',
+      })
+    }
+  }
+
   return (
-    <section className="mil-dark-bg">
+    <section id="services" className="mil-dark-bg">
       <div className="mi-invert-fix">
         <div className="mil-animation-frame">
           <div
@@ -64,11 +105,55 @@ function Services() {
 
           <div className="row mil-services-grid m-0">
             {services.map((service, index) => (
-              <div key={index} className="col-md-6 col-lg-3 mil-services-grid-item p-0">
+              <div
+                key={index}
+                className="col-md-6 col-lg-3 mil-services-grid-item p-0"
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+              >
                 <Link to="/service" className="mil-service-card-sm mil-up">
-                  <h5 className="mil-muted mil-mb-30">{service.title}</h5>
-                  <p className="mil-light-soft mil-mb-30">{service.description}</p>
-                  <div className="mil-button mil-icon-button-sm mil-arrow-place"></div>
+                  <div
+                    ref={(el) => (imageRefs.current[index] = el)}
+                    className="mil-service-hover-image"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      opacity: 0,
+                      transform: 'translateY(40px) scale(0.98)',
+                      pointerEvents: 'none',
+                      overflow: 'hidden',
+                      zIndex: 1,
+                    }}
+                  >
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 100%)',
+                      }}
+                    />
+                  </div>
+                  <div style={{ position: 'relative', zIndex: 2 }}>
+                    <h5 className="mil-muted mil-mb-30">{service.title}</h5>
+                    <p className="mil-light-soft mil-mb-30">{service.description}</p>
+                    <div className="mil-button mil-icon-button-sm mil-arrow-place"></div>
+                  </div>
                 </Link>
               </div>
             ))}

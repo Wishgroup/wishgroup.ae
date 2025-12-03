@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // Constants
 const CARD_WIDTH = 400;
@@ -9,10 +10,34 @@ const SCROLL_DELAY = 600;
 
 // Default items - cards with local images
 const defaultItems = [
-  { id: 0, image: "/img/projects/1.png" },
-  { id: 1, image: "/img/projects/2.png" },
-  { id: 2, image: "/img/projects/3.jpg" },
-  { id: 3, image: "/img/projects/4.jpg" }
+  { 
+    id: 0, 
+    image: "/img/projects/1.png",
+    heading: "Wishes Fulfilled",
+    paragraph: "Our track record of successful, lasting developments.",
+    link: "/project-1"
+  },
+  { 
+    id: 1, 
+    image: "/img/projects/2.png",
+    heading: "Seeds Taking Root",
+    paragraph: "Active projects currently in motion and growing.",
+    link: "/project-2"
+  },
+  { 
+    id: 2, 
+    image: "/img/projects/3.jpg",
+    heading: "Partnerships for Impact",
+    paragraph: "Collaborations building shared, sustainable potential.",
+    link: "/project-3"
+  },
+  { 
+    id: 3, 
+    image: "/img/projects/4.jpg",
+    heading: "Dreams on the Horizon",
+    paragraph: "The exciting ventures we are preparing to launch.",
+    link: "/project-4"
+  }
 ];
 
 // Position classes for vertical carousel
@@ -193,12 +218,13 @@ export default function RotatedCarousel({ items = defaultItems }) {
         alignItems: "center",
         justifyContent: "center",
         perspective: "1000px",
-        overflow: "hidden",
+        overflow: "visible",
+        padding: "0 20px",
       }}
     >
       <div
         style={{
-          width: `${CARD_WIDTH}px`,
+          width: `${CARD_WIDTH + 120}px`,
           height: "70vh",
           position: "relative",
           display: "flex",
@@ -206,6 +232,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
           alignItems: "center",
           justifyContent: "center",
           transformStyle: "preserve-3d",
+          padding: "0 60px",
         }}
       >
         {items.map((item, index) => {
@@ -216,25 +243,137 @@ export default function RotatedCarousel({ items = defaultItems }) {
           return (
             <div
               key={item.id !== undefined ? item.id : index}
-              onClick={() => updateCarousel(index)}
+              onClick={(e) => {
+                // Don't navigate carousel if clicking on button or text
+                if (e.target.closest('a') || e.target.closest('button')) {
+                  return;
+                }
+                updateCarousel(index);
+              }}
               style={cardStyle}
             >
               {item.image ? (
-                <img
-                  src={item.image}
-                  alt={`Card ${index + 1}`}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    filter: positionClass === "center" ? "none" : "grayscale(100%)",
-                    transition: "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                  }}
-                  onError={(e) => {
-                    console.error("Image failed to load:", item.image);
-                    e.target.style.display = "none";
-                  }}
-                />
+                <>
+                  <img
+                    src={item.image}
+                    alt={`Card ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      filter: positionClass === "center" 
+                        ? "blur(1px)" 
+                        : "grayscale(100%) blur(1px)",
+                      transition: "all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    }}
+                    onError={(e) => {
+                      console.error("Image failed to load:", item.image);
+                      e.target.style.display = "none";
+                    }}
+                  />
+                  {/* Dark overlay for better text readability */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: positionClass === "center" 
+                        ? "linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.4) 100%)"
+                        : "transparent",
+                      zIndex: 1,
+                      pointerEvents: "none",
+                    }}
+                  />
+                  {/* Overlay with heading and paragraph */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "20px",
+                      left: "20px",
+                      right: "20px",
+                      zIndex: 2,
+                      pointerEvents: "none",
+                    }}
+                  >
+                    <div
+                      style={{
+                        padding: "16px 20px",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          margin: 0,
+                          marginBottom: "8px",
+                          fontSize: "24px",
+                          fontWeight: "bold",
+                          color: "#fff",
+                          textShadow: "0 2px 8px rgba(0, 0, 0, 0.5)",
+                          lineHeight: "1.2",
+                          textAlign: "left",
+                        }}
+                      >
+                        {item.heading || `Project ${index + 1}`}
+                      </h3>
+                      {positionClass === "center" && (
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: "14px",
+                            color: "#fff",
+                            textShadow: "0 2px 6px rgba(0, 0, 0, 0.5)",
+                            lineHeight: "1.4",
+                            maxWidth: "90%",
+                            textAlign: "left",
+                          }}
+                        >
+                          {item.paragraph || `Description for project ${index + 1}`}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {/* Center button - only show when card is centered */}
+                  {positionClass === "center" && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "75%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 3,
+                        pointerEvents: "auto",
+                      }}
+                    >
+                      <Link
+                        to={item.link || `/project-${index + 1}`}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          display: "inline-block",
+                          padding: "12px 28px",
+                          backgroundColor: "transparent",
+                          color: "#fff",
+                          textDecoration: "none",
+                          borderRadius: "8px",
+                          fontSize: "14px",
+                          fontWeight: "bold",
+                          textShadow: "0 2px 8px rgba(0, 0, 0, 0.8)",
+                          transition: "all 0.3s ease",
+                          cursor: "pointer",
+                          border: "none",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = "scale(1.05)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = "scale(1)";
+                        }}
+                      >
+                        View Project
+                      </Link>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div
                   style={{
