@@ -6,8 +6,11 @@ import Menu from './Menu'
 import Curtain from './Curtain'
 import HiddenElements from './HiddenElements'
 import Preloader from './Preloader'
+import { useArrowIcons } from '../hooks/useArrowIcons'
 
 function Layout({ children }) {
+  useArrowIcons()
+  
   return (
     <div className="mil-wrapper" id="top">
       <Preloader />

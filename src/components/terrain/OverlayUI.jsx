@@ -173,13 +173,13 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
         </div>
       </div>
 
-      {/* Scroll down element */}
+      {/* Scroll down button - right middle */}
       <div
         style={{
           position: 'absolute',
-          bottom: '2rem',
-          left: '50%',
-          transform: `translateX(-50%) ${loaded ? 'translateY(0)' : 'translateY(1rem)'}`,
+          right: '2rem',
+          top: '50%',
+          transform: `translateY(-50%) ${loaded ? 'translateX(0)' : 'translateX(1rem)'}`,
           transition: 'all 1s 0.7s',
           opacity: loaded ? 1 : 0,
           pointerEvents: 'auto',
@@ -196,15 +196,6 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
           }
         }}
       >
-        <span style={{ 
-          fontSize: '0.75rem', 
-          fontFamily: 'monospace', 
-          color: '#666',
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em'
-        }}>
-          Scroll down
-        </span>
         <ChevronDown 
           size={24} 
           color="#666" 
@@ -215,6 +206,15 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
           onMouseEnter={(e) => e.target.style.transform = 'translateY(4px)'}
           onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
         />
+        <span style={{ 
+          fontSize: '0.75rem', 
+          fontFamily: 'monospace', 
+          color: '#666',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em'
+        }}>
+          Scroll down
+        </span>
       </div>
 
       {/* Center loading indicator */}

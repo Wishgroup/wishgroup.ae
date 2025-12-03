@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FaCircleArrowRight } from 'react-icons/fa6'
 
 function Banner() {
   return (
@@ -49,7 +48,6 @@ function Banner() {
 
             <Link to="/services" className="mil-button mil-arrow-place mil-btn-space">
               <span>What we do</span>
-              <FaCircleArrowRight />
             </Link>
 
             <Link to="/portfolio-1" className="mil-link mil-muted mil-arrow-place">

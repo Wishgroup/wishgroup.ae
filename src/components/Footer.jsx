@@ -101,23 +101,23 @@ Al Marasi Drive Business Bay<span className="mil-no-wrap">Dubai- U.A.E </span>
                 <div className="mil-mb-30">
                   <ul className="mil-social-icons mil-up">
                     <li>
-                      <a href="#." target="_blank" className="social-icon">
-                        <i className="far fa-circle"></i>
+                      <a href="https://www.linkedin.com/company/wish-group" target="_blank" rel="noopener noreferrer" className="social-icon">
+                        <i className="fab fa-linkedin-in"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#." target="_blank" className="social-icon">
-                        <i className="far fa-circle"></i>
+                      <a href="https://www.facebook.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                        <i className="fab fa-facebook-f"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#." target="_blank" className="social-icon">
-                        <i className="far fa-circle"></i>
+                      <a href="https://twitter.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                        <i className="fab fa-twitter"></i>
                       </a>
                     </li>
                     <li>
-                      <a href="#." target="_blank" className="social-icon">
-                        <i className="far fa-circle"></i>
+                      <a href="https://www.instagram.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                        <i className="fab fa-instagram"></i>
                       </a>
                     </li>
                   </ul>

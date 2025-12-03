@@ -9,22 +9,22 @@ function Services() {
     {
       title: 'Branding and\nIdentity Design',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/1.jpg',
+      image: '/products/belimal.jpeg',
     },
     {
       title: 'Website Design\nand Development',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/2.jpg',
+      image: '/products/dryfish.jpeg',
     },
     {
       title: 'Advertising and\nMarketing Campaigns',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/3.jpg',
+      image: '/products/prawns.jpeg',
     },
     {
       title: 'Creative Consulting\nand Development',
       description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/4.jpg',
+      image: '/products/yfin.jpg',
     },
   ]
 
@@ -72,7 +72,6 @@ function Services() {
             data-value-2="1.4"
             style={{ top: '300px', right: '-100px' }}
           ></div>
-          <div className="mil-animation mil-position-2 mil-scale" data-value-1="2" data-value-2="1" style={{ left: '150px' }}></div>
         </div>
         <div className="container mil-p-120-0">
           <div className="mil-mb-120">
@@ -90,13 +89,10 @@ function Services() {
                 <img src="/img/photo/2.jpg" alt="team" />
               </span>
               <h2 className="mil-h1 mil-muted mil-center">
-                Unique <span className="mil-thin">Ideas</span>
+                Our Premium and Unique <span className="mil-thin">Products</span>
               </h2>
             </div>
             <div className="mil-complex-text justify-content-center mil-up">
-              <h2 className="mil-h1 mil-muted mil-center">
-                For Your <span className="mil-thin">Business.</span>
-              </h2>
               <Link to="/services" className="mil-services-button mil-button mil-arrow-place">
                 <span>What we do</span>
               </Link>
@@ -149,7 +145,7 @@ function Services() {
                       }}
                     />
                   </div>
-                  <div style={{ position: 'relative', zIndex: 2 }}>
+                  <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
                     <h5 className="mil-muted mil-mb-30">{service.title}</h5>
                     <p className="mil-light-soft mil-mb-30">{service.description}</p>
                     <div className="mil-button mil-icon-button-sm mil-arrow-place"></div>
