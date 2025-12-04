@@ -9,10 +9,10 @@ function Partners() {
     { name: 'One Apparel', image: '/img/Logos/Logos/oneapparel.png' },
     { name: 'Prime Wish', image: '/img/Logos/Logos/primewish.jpeg' },
     { name: 'WCC', image: '/img/Logos/Logos/wcc.png' },
-    { name: 'Wish Capital', image: '/img/Logos/Logos/wishcapital.jpeg' },
-    { name: 'Wish Harbour', image: '/img/Logos/Logos/wishharbour.jpeg' },
-    { name: 'Wish Hospitality', image: '/img/Logos/Logos/wishhospitality.jpeg' },
-    { name: 'Wish Tuna', image: '/img/Logos/Logos/wishtuna.jpeg' },
+    { name: 'Wish Capital', image: '/img/Logos/Logos/wishcapital.png' },
+    { name: 'Wish Harbour', image: '/img/Logos/Logos/wishharbour.png' },
+    { name: 'Wish Hospitality', image: '/img/Logos/Logos/wishhospitality.png' },
+    { name: 'Wish Tuna', image: '/img/Logos/Logos/wishtuna.png' },
     { name: 'Wish Wow', image: '/img/Logos/Logos/wishwow.png' },
     { name: 'WWC', image: '/img/Logos/Logos/wwc.png' },
   ]
@@ -56,18 +56,21 @@ function Partners() {
                   justifyContent: 'center', 
                   alignItems: 'center',
                   width: '100%',
-                  height: '100px'
+                  height: '120px',
+                  padding: '10px'
                 }}
               >
                 <img 
                   src={partner.image} 
                   alt={partner.name}
                   style={{
-                    width: '120px',
-                    height: '120px',
+                    width: '100px',
+                    height: '100px',
                     objectFit: 'contain',
-                    maxWidth: '100%',
-                    maxHeight: '100%'
+                    objectPosition: 'center',
+                    maxWidth: '100px',
+                    maxHeight: '100px',
+                    display: 'block'
                   }}
                 />
               </div>

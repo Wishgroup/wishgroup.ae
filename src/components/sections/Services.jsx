@@ -7,24 +7,24 @@ function Services() {
 
   const services = [
     {
-      title: 'Branding and\nIdentity Design',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/1.jpg',
+      title: 'Tea Leaves',
+      description: 'Premium quality tea leaves, carefully harvested and processed to deliver the finest quality tea with rich, complex flavors.',
+      image: '/products/belimal.jpeg',
     },
     {
-      title: 'Website Design\nand Development',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/2.jpg',
+      title: 'Dry Sprat',
+      description: 'Fresh, high-grade dry sprats sourced from pristine waters, perfect for culinary excellence and premium seafood experiences.',
+      image: '/products/dryfish.jpeg',
     },
     {
-      title: 'Advertising and\nMarketing Campaigns',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/3.jpg',
+      title: 'Prawns',
+      description: 'Premium prawns of exceptional quality, hand-selected and processed to maintain their natural sweetness and firm texture.',
+      image: '/products/prawns.jpeg',
     },
     {
-      title: 'Creative Consulting\nand Development',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
-      image: '/img/works/4.jpg',
+      title: 'Yellowfin Tuna',
+      description: 'Premium quality yellowfin tuna, sustainably caught and carefully processed to preserve its rich flavor and nutritional value.',
+      image: '/products/yfin.jpg',
     },
   ]
 
@@ -72,15 +72,14 @@ function Services() {
             data-value-2="1.4"
             style={{ top: '300px', right: '-100px' }}
           ></div>
-          <div className="mil-animation mil-position-2 mil-scale" data-value-1="2" data-value-2="1" style={{ left: '150px' }}></div>
         </div>
         <div className="container mil-p-120-0">
           <div className="mil-mb-120">
             <div className="row">
               <div className="col-lg-10">
                 <span className="mil-suptitle mil-light-soft mil-suptitle-right mil-up">
-                  Professionals focused on helping your brand
-                  <br /> grow and move forward.
+                  Premium quality products sourced from the finest
+                  <br /> origins, delivered with excellence and care.
                 </span>
               </div>
             </div>
@@ -90,16 +89,8 @@ function Services() {
                 <img src="/img/photo/2.jpg" alt="team" />
               </span>
               <h2 className="mil-h1 mil-muted mil-center">
-                Unique <span className="mil-thin">Ideas</span>
+                Our Premium and Unique <span className="mil-thin">Products</span>
               </h2>
-            </div>
-            <div className="mil-complex-text justify-content-center mil-up">
-              <h2 className="mil-h1 mil-muted mil-center">
-                For Your <span className="mil-thin">Business.</span>
-              </h2>
-              <Link to="/services" className="mil-services-button mil-button mil-arrow-place">
-                <span>What we do</span>
-              </Link>
             </div>
           </div>
 
@@ -149,7 +140,7 @@ function Services() {
                       }}
                     />
                   </div>
-                  <div style={{ position: 'relative', zIndex: 2 }}>
+                  <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
                     <h5 className="mil-muted mil-mb-30">{service.title}</h5>
                     <p className="mil-light-soft mil-mb-30">{service.description}</p>
                     <div className="mil-button mil-icon-button-sm mil-arrow-place"></div>

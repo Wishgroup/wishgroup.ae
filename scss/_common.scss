@@ -46,10 +46,16 @@ body {
     color: $dt-50;
     line-height: 150%;
     overscroll-behavior: none;
+    cursor: none;
 
     @media screen and (max-width: 768px) {
         font-size: $text - 1px;
     }
+}
+
+/* Hide default cursor everywhere */
+* {
+    cursor: none !important;
 }
 
 *::selection {
@@ -505,7 +511,7 @@ button
     letter-spacing: 2px;
     font-size: 12px;
     background-color: $accent;
-    color: $dark;
+    color: $dark-light;
     border-radius: 70px;
     padding: 0 15px 0 50px;
     height: 70px;
@@ -523,7 +529,7 @@ button
         width: 40px;
         height: 40px;
         padding: 10px;
-        background-color: $dark;
+        background-color: $dark-light;
         transition: $t-md;
 
         & path {
@@ -596,7 +602,7 @@ input,
 textarea {
     position: relative;
     height: 70px;
-    padding: 0 30px;
+    padding: 0 20px;
     width: 100%;
     font-size: 12px;
     text-transform: uppercase;
@@ -606,7 +612,7 @@ textarea {
     color: $dark;
     border: none;
     border-bottom: solid 1px $dt-20;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     &:focus {
         outline: inherit;
@@ -622,7 +628,7 @@ textarea {
 }
 
 textarea {
-    padding: 15px 30px;
+    padding: 15px 20px;
     height: 300px;
 }
 
@@ -749,7 +755,7 @@ spaces
 
 ------------------------------------------- */
 .mil-mr-30 {
-    margin-right: 30px;
+    margin-right: 20px;
 }
 
 .mil-mb-5 {
@@ -769,110 +775,110 @@ spaces
 }
 
 .mil-mb-30 {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .mil-mb-60 {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .mil-mb-90 {
-    margin-bottom: 90px;
+    margin-bottom: 60px;
 }
 
 .mil-mb-120 {
-    margin-bottom: 120px;
+    margin-bottom: 80px;
 
     @media screen and (max-width: 992px) {
-        margin-bottom: 90px;
+        margin-bottom: 60px;
     }
 }
 
 
 .mil-mt-suptitle-offset {
-    margin-top: 70px;
+    margin-top: 50px;
 
     @media screen and (max-width: 992px) {
-        margin-top: 30px;
+        margin-top: 20px;
     }
 }
 
 .mil-p-120-120 {
-    padding-top: 120px;
-    padding-bottom: 120px;
+    padding-top: 80px;
+    padding-bottom: 80px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 90px;
-        padding-bottom: 90px;
+        padding-top: 60px;
+        padding-bottom: 60px;
     }
 }
 
 .mil-p-120-90 {
-    padding-top: 120px;
-    padding-bottom: 90px;
+    padding-top: 80px;
+    padding-bottom: 60px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 90px;
-        padding-bottom: 60px;
+        padding-top: 60px;
+        padding-bottom: 40px;
     }
 }
 
 .mil-p-0-120 {
-    padding-bottom: 120px;
+    padding-bottom: 80px;
 
     @media screen and (max-width: 992px) {
-        padding-bottom: 90px;
+        padding-bottom: 60px;
     }
 }
 
 .mil-p-120-0 {
-    padding-top: 120px;
+    padding-top: 80px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 90px;
+        padding-top: 60px;
     }
 }
 
 .mil-p-120-60 {
-    padding-top: 120px;
-    padding-bottom: 60px;
+    padding-top: 80px;
+    padding-bottom: 40px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 90px;
-        padding-bottom: 30px;
+        padding-top: 60px;
+        padding-bottom: 20px;
     }
 }
 
 .mil-p-90-90 {
-    padding-top: 90px;
-    padding-bottom: 90px;
+    padding-top: 60px;
+    padding-bottom: 60px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 60px;
-        padding-bottom: 60px;
+        padding-top: 40px;
+        padding-bottom: 40px;
     }
 }
 
 .mil-p-90-120 {
-    padding-top: 90px;
-    padding-bottom: 120px;
+    padding-top: 60px;
+    padding-bottom: 80px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 60px;
-        padding-bottom: 90px;
-    }
-}
-
-.mil-p-0-90 {
-    padding-bottom: 90px;
-
-    @media screen and (max-width: 992px) {
+        padding-top: 40px;
         padding-bottom: 60px;
     }
 }
 
+.mil-p-0-90 {
+    padding-bottom: 60px;
+
+    @media screen and (max-width: 992px) {
+        padding-bottom: 40px;
+    }
+}
+
 .mil-p-0-30 {
-    padding-bottom: 30px;
+    padding-bottom: 20px;
 
     @media screen and (max-width: 992px) {
         padding-bottom: 0;
@@ -880,11 +886,11 @@ spaces
 }
 
 .mil-p-120-30 {
-    padding-top: 120px;
-    padding-bottom: 30px;
+    padding-top: 80px;
+    padding-bottom: 20px;
 
     @media screen and (max-width: 992px) {
-        padding-top: 90px;
+        padding-top: 60px;
         padding-bottom: 0;
     }
 }
@@ -900,10 +906,10 @@ spaces
 }
 
 .mil-btn-space {
-    margin-right: 30px;
+    margin-right: 20px;
 
     @media screen and (max-width: 500px) {
         margin-right: 50px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 }

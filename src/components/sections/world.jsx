@@ -85,9 +85,20 @@ function IntroSection() {
           </div>
         </div>
         <div className="row justify-content-center">
-          <div className="col-lg-10 col-xl-8">
-            <div ref={globeRef} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '500px', opacity: 0 }}>
-              <Globe3D width={500} height={500} />
+          <div className="col-lg-10 col-xl-8 col-12">
+            <div 
+              ref={globeRef} 
+              className="globe-container"
+              style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                minHeight: '460px',
+                padding: '20px',
+                opacity: 0 
+              }}
+            >
+              <Globe3D width={400} height={400} />
             </div>
           </div>
         </div>

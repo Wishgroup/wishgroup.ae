@@ -1,18 +1,85 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import * as topojson from 'topojson-client'
 
-function Globe3D({ width = 500, height = 500 }) {
+function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
   const svgRef = useRef(null)
+  const containerRef = useRef(null)
   const isMountedRef = useRef(true)
   const stepTimeoutRef = useRef(null)
+  const isInitializingRef = useRef(false)
+  const [dimensions, setDimensions] = useState({ width: propWidth, height: propHeight })
+
+  // Handle responsive sizing
+  useEffect(() => {
+    function updateDimensions() {
+      const windowWidth = window.innerWidth
+      const isMobile = windowWidth < 768
+      const isTablet = windowWidth >= 768 && windowWidth < 1024
+      
+      let newWidth, newHeight
+      if (isMobile) {
+        // Mobile: use viewport width with padding, max 350px
+        const containerWidth = Math.min(windowWidth - 40, 350)
+        newWidth = containerWidth
+        newHeight = newWidth
+      } else if (isTablet) {
+        // Tablet: use 80% of viewport, max 400px
+        const containerWidth = Math.min(windowWidth * 0.8, 400)
+        newWidth = containerWidth
+        newHeight = newWidth
+      } else {
+        // Desktop: use prop dimensions
+        newWidth = propWidth
+        newHeight = propHeight
+      }
+      
+      setDimensions({ width: newWidth, height: newHeight })
+    }
+
+    // Initial update
+    updateDimensions()
+    
+    // Update on resize with debounce
+    let resizeTimeout
+    function handleResize() {
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(updateDimensions, 100)
+    }
+    
+    window.addEventListener('resize', handleResize)
+    
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      clearTimeout(resizeTimeout)
+    }
+  }, [propWidth, propHeight])
+
+  const { width, height } = dimensions
 
   useEffect(() => {
-    isMountedRef.current = true
-    const svg = d3.select(svgRef.current)
-    if (!svg.node()) return
+    // Prevent multiple simultaneous initializations
+    if (isInitializingRef.current) {
+      return
+    }
     
-    svg.selectAll('*').remove()
+    isMountedRef.current = true
+    isInitializingRef.current = true
+    
+    const svg = d3.select(svgRef.current)
+    if (!svg.node()) {
+      isInitializingRef.current = false
+      return
+    }
+    
+    // Clear all existing content and stop any ongoing transitions
+    svg.selectAll('*').interrupt().remove()
+    
+    // Clear any pending timeouts
+    if (stepTimeoutRef.current) {
+      clearTimeout(stepTimeoutRef.current)
+      stepTimeoutRef.current = null
+    }
 
     const projection = d3.geoOrthographic()
       .scale(height / 2.0)
@@ -27,22 +94,15 @@ function Globe3D({ width = 500, height = 500 }) {
 
     // Add styles
     svg.append('defs').append('style').text(`
-      .world-outline {
+      .world-outline-outer {
         fill: none;
         stroke: rgba(0, 0, 0, 0.1);
         stroke-width: 1.0px;
       }
-      .back-country {
-        fill: #dadac4;
-        stroke: #fff;
-        stroke-width: 0.0px;
-        stroke-linejoin: round;
-      }
-      .back-line {
+      .world-outline-inner {
         fill: none;
-        stroke: #000;
-        stroke-opacity: .05;
-        stroke-width: .5px;
+        stroke: rgba(0, 0, 0, 0.15);
+        stroke-width: 0.8px;
       }
       .country {
         fill: #737368;
@@ -64,12 +124,24 @@ function Globe3D({ width = 500, height = 500 }) {
       }
     `)
 
-    // World outline circle
-    svg.append('circle')
-      .attr('class', 'world-outline')
+    // Create outer and inner spheres with synchronized timing
+    const outerRadius = projection.scale()
+    const innerRadius = outerRadius * 0.85 // Inner sphere is 85% of outer
+    
+    svg.selectAll('circle.world-outline-outer').remove()
+    svg.selectAll('circle.world-outline-inner').remove()
+    
+    const outerSphere = svg.append('circle')
+      .attr('class', 'world-outline-outer')
       .attr('cx', width / 2)
       .attr('cy', height / 2)
-      .attr('r', projection.scale())
+      .attr('r', outerRadius)
+    
+    const innerSphere = svg.append('circle')
+      .attr('class', 'world-outline-inner')
+      .attr('cx', width / 2)
+      .attr('cy', height / 2)
+      .attr('r', innerRadius)
 
     // Great arc interpolator
     const d3_radians = Math.PI / 180
@@ -126,26 +198,96 @@ function Globe3D({ width = 500, height = 500 }) {
     // Load world data
     d3.json('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95802/world-110m.json')
       .then(function(world) {
-        if (!isMountedRef.current) return
+        if (!isMountedRef.current) {
+          isInitializingRef.current = false
+          return
+        }
         
-        const countries = topojson.feature(world, world.objects.countries).features
+        const allCountries = topojson.feature(world, world.objects.countries).features
+        
+        // Target countries to highlight: UAE, Sri Lanka, Maldives, Malaysia, Ghana, South Africa, UK
+        // Using known approximate centroid coordinates for each country
+        const targetLocations = [
+          { name: 'United Arab Emirates', lon: 54.4, lat: 24.3 },
+          { name: 'Sri Lanka', lon: 80.7, lat: 7.9 },
+          { name: 'Maldives', lon: 73.5, lat: 3.2 },
+          { name: 'Malaysia', lon: 101.9, lat: 4.2 },
+          { name: 'Ghana', lon: -1.0, lat: 7.9 },
+          { name: 'South Africa', lon: 25.0, lat: -29.0 },
+          { name: 'United Kingdom', lon: -2.0, lat: 54.5 }
+        ]
+        
+        // Helper function to find country by centroid coordinates with tolerance
+        function findCountryByLocation(countries, targetLon, targetLat, tolerance = 3) {
+          let bestMatch = null
+          let minDistance = Infinity
+          
+          countries.forEach(function(country) {
+            try {
+              const centroid = d3.geoCentroid(country)
+              // Calculate distance considering longitude wrapping
+              let lonDiff = Math.abs(centroid[0] - targetLon)
+              if (lonDiff > 180) lonDiff = 360 - lonDiff
+              const latDiff = Math.abs(centroid[1] - targetLat)
+              const distance = Math.sqrt(lonDiff * lonDiff + latDiff * latDiff)
+              
+              if (distance < minDistance && distance < tolerance) {
+                minDistance = distance
+                bestMatch = country
+              }
+            } catch (e) {
+              // Skip countries with invalid centroids
+            }
+          })
+          
+          return bestMatch
+        }
+        
+        // Find all target countries and preserve their names
+        const targetCountries = []
+        const targetCountryIds = new Set() // Store identifiers for matching
+        
+        targetLocations.forEach(loc => {
+          const country = findCountryByLocation(allCountries, loc.lon, loc.lat)
+          if (country) {
+            try {
+              const centroid = d3.geoCentroid(country)
+              // Create a unique identifier based on rounded centroid coordinates
+              const id = `${Math.round(centroid[0] * 10) / 10},${Math.round(centroid[1] * 10) / 10}`
+              country._name = loc.name // Store the name for display
+              country._id = id // Store identifier for matching
+              country._targetIndex = targetCountries.length // Store index for reference
+              targetCountries.push(country)
+              targetCountryIds.add(id)
+              console.log('Found:', loc.name, 'at', loc.lon, loc.lat, 'id:', id)
+            } catch (e) {
+              console.warn('Error processing country:', loc.name, e)
+            }
+          } else {
+            console.warn('Could not find:', loc.name)
+          }
+        })
+        
+        console.log('Found', targetCountries.length, 'out of', targetLocations.length, 'target countries')
+        
+        // Use all countries for rendering, but only target countries for animation
+        const countries = allCountries
+        
+        // Add identifiers to all countries for matching
+        countries.forEach(function(country) {
+          try {
+            const centroid = d3.geoCentroid(country)
+            country._id = `${Math.round(centroid[0] * 10) / 10},${Math.round(centroid[1] * 10) / 10}`
+          } catch (e) {
+            // Skip if can't get centroid
+            country._id = null
+          }
+        })
+        
         let i = -1
-        const n = countries.length
-
-        // Setup back hemisphere
-        projection.clipAngle(180)
-
-        const backLine = svg.append('path')
-          .datum(graticule)
-          .attr('class', 'back-line')
-          .attr('d', path)
-
-        const backCountry = svg.selectAll('.back-country')
-          .data(countries)
-          .enter()
-          .insert('path', '.back-line')
-          .attr('class', 'back-country')
-          .attr('d', path)
+        const n = targetCountries.length
+        let currentHighlightId = null // Track currently highlighted country
+        let currentCountryData = null // Track current country for text positioning
 
         // Setup front hemisphere
         projection.clipAngle(90)
@@ -160,11 +302,24 @@ function Globe3D({ width = 500, height = 500 }) {
           .enter()
           .insert('path', '.line')
           .attr('class', 'country')
+          .attr('data-country-id', d => d._id || '')
           .attr('d', path)
+          .style('fill', '#737368')
 
+        // Calculate responsive font size
+        const isMobile = window.innerWidth < 768
+        const fontSize = isMobile ? '14px' : '18px'
+        
         const title = svg.append('text')
-          .attr('x', width / 2)
-          .attr('y', height * 3 / 5)
+          .attr('class', 'country-title')
+          .style('text-anchor', 'middle')
+          .style('font-family', '"Helvetica Neue", Helvetica, Arial, sans-serif')
+          .style('font-size', fontSize)
+          .style('font-weight', 'bold')
+          .style('fill', '#333')
+          .style('pointer-events', 'none')
+          .style('opacity', 0)
+          .text('')
 
         // Animation step function
         function step() {
@@ -174,22 +329,56 @@ function Globe3D({ width = 500, height = 500 }) {
           }
           
           i = (i + 1) % n
-          const currentCountry = countries[i]
+          const currentCountry = targetCountries[i]
           
           if (!currentCountry) {
             stepTimeoutRef.current = setTimeout(step, 2000)
             return
           }
 
-          // Highlight country
+          // Update country name text immediately
+          const countryName = currentCountry._name || 'Country'
+          const currentCountryId = currentCountry._id
+          currentHighlightId = currentCountryId // Update the highlight tracker
+          currentCountryData = currentCountry // Store for updateGlobe function
+          console.log('Highlighting:', countryName, 'Index:', i, 'ID:', currentCountryId)
+          
+          // Get centroid for text positioning
+          let textPoint
+          try {
+            textPoint = d3.geoCentroid(currentCountry)
+          } catch (e) {
+            console.warn('Error getting centroid for text:', e)
+            textPoint = null
+          }
+          
+          if (textPoint) {
+            const projectedPoint = projection(textPoint)
+            if (projectedPoint) {
+              title
+                .transition()
+                .duration(200)
+                .style('opacity', 0)
+                .transition()
+                .duration(200)
+                .attr('x', projectedPoint[0])
+                .attr('y', projectedPoint[1] - 15) // Offset above the country
+                .text(countryName)
+                .style('opacity', 1)
+            }
+          }
+
+          // Highlight country - match by data attribute
           country
             .transition()
             .duration(300)
-            .style('fill', function(d, j) { 
-              return j === i ? 'red' : '#737368' 
+            .style('fill', function() {
+              // Match by comparing the data attribute
+              const countryId = d3.select(this).attr('data-country-id')
+              return countryId === currentCountryId ? '#A6033F' : '#737368'
             })
 
-          // Get centroid
+          // Get centroid for rotation
           let point
           try {
             point = d3.geoCentroid(currentCountry)
@@ -199,59 +388,167 @@ function Globe3D({ width = 500, height = 500 }) {
             return
           }
 
+          // Set up rotation interpolation
           const currentRotate = projection.rotate()
-          rotate.source(currentRotate).target([-point[0], -point[1]]).distance()
+          const targetRotate = [-point[0], -point[1]]
+          console.log('Rotating from', currentRotate, 'to', targetRotate, 'for', countryName)
+          
+          // Initialize the interpolator
+          const interpolator = rotate.source(currentRotate).target(targetRotate)
+          interpolator.distance() // Calculate distance
+          
+          // Function to update the globe paths
+          function updateGlobe(rotation) {
+            if (!isMountedRef.current) return
+            
+            // Update projection rotation
+            projection.rotate(rotation)
+            
+            // Update front hemisphere (visible side)
+            projection.clipAngle(90)
+            country.attr('d', path)
+            line.attr('d', path)
+            
+            // Maintain highlight during rotation
+            country.style('fill', function() {
+              const countryId = d3.select(this).attr('data-country-id')
+              return countryId === currentHighlightId ? '#A6033F' : '#737368'
+            })
+            
+            // Update text position to follow the country
+            if (currentCountryData && currentHighlightId) {
+              try {
+                const textPoint = d3.geoCentroid(currentCountryData)
+                const projectedPoint = projection(textPoint)
+                if (projectedPoint) {
+                  // Check if point is visible (within the front hemisphere)
+                  const textDistance = Math.sqrt(
+                    Math.pow(projectedPoint[0] - width / 2, 2) + 
+                    Math.pow(projectedPoint[1] - height / 2, 2)
+                  )
+                  const radius = projection.scale()
+                  
+                  if (textDistance <= radius) {
+                    title
+                      .attr('x', projectedPoint[0])
+                      .attr('y', projectedPoint[1] - 15)
+                      .style('opacity', 1)
+                  } else {
+                    title.style('opacity', 0)
+                  }
+                } else {
+                  title.style('opacity', 0)
+                }
+              } catch (e) {
+                // Silently handle errors
+                title.style('opacity', 0)
+              }
+            }
+          }
 
-          // Create and run animation - using original pattern with chained transitions
-          d3.transition()
-            .delay(250)
-            .duration(1250)
-            .tween('rotate', function() {
-              return function(progress) {
-                if (!isMountedRef.current) return
-                const newRotate = rotate(progress)
-                
-                // Update back hemisphere
-                projection.rotate(newRotate).clipAngle(180)
-                backCountry.attr('d', path)
-                backLine.attr('d', path)
-                
-                // Update front hemisphere
-                projection.rotate(newRotate).clipAngle(90)
-                country.attr('d', path)
-                line.attr('d', path)
+          // Create rotation animation using synchronized transitions for both spheres
+          // Use the outer sphere as the primary driver for synchronized timing
+          const outerSphereElement = svg.select('circle.world-outline-outer')
+          const innerSphereElement = svg.select('circle.world-outline-inner')
+          
+          if (!outerSphereElement.node() || !innerSphereElement.node()) {
+            console.warn('Sphere elements not found, skipping rotation')
+            stepTimeoutRef.current = setTimeout(step, 2000)
+            return
+          }
+          
+          // Create synchronized transitions for both spheres with identical timing
+          const transitionDelay = 250
+          const transitionDuration = 1500
+          const transitionEase = d3.easeCubicInOut
+          
+          // Both spheres use the same transition timing for perfect synchronization
+          const outerTransition = outerSphereElement
+            .transition()
+            .delay(transitionDelay)
+            .duration(transitionDuration)
+            .ease(transitionEase)
+          
+          // Inner sphere transition with identical timing parameters
+          innerSphereElement
+            .transition()
+            .delay(transitionDelay)
+            .duration(transitionDuration)
+            .ease(transitionEase)
+
+          // Single tween function shared by both spheres to ensure synchronized rotation
+          const rotationTween = function() {
+            return function(t) {
+              if (!isMountedRef.current) return
+              
+              // Interpolate rotation using the great arc interpolator
+              const newRotate = interpolator(t)
+              updateGlobe(newRotate)
+            }
+          }
+          
+          // Apply the same tween to both transitions for perfect synchronization
+          outerTransition.tween('rotate', rotationTween)
+
+          // Continue to next country after rotation completes (use outer transition as reference)
+          outerTransition
+            .end()
+            .then(function() {
+              console.log('Rotation completed for', countryName)
+              if (isMountedRef.current) {
+                step()
               }
             })
-            .transition()
-            .on('end', step)
+            .catch(function(err) {
+              console.warn('Transition error:', err)
+              // Transition was interrupted, try again after delay
+              if (isMountedRef.current) {
+                stepTimeoutRef.current = setTimeout(step, 2000)
+              }
+            })
         }
 
         // Start animation immediately
         setTimeout(() => {
           if (isMountedRef.current) {
+            isInitializingRef.current = false
             step()
+          } else {
+            isInitializingRef.current = false
           }
         }, 500)
       })
       .catch(function(error) {
         console.error('Error loading world map:', error)
+        isInitializingRef.current = false
       })
 
     return () => {
       isMountedRef.current = false
+      isInitializingRef.current = false
       if (stepTimeoutRef.current) {
         clearTimeout(stepTimeoutRef.current)
+        stepTimeoutRef.current = null
+      }
+      // Clear all SVG content and stop transitions
+      const svg = d3.select(svgRef.current)
+      if (svg.node()) {
+        svg.selectAll('*').interrupt().remove()
       }
     }
   }, [width, height])
 
   return (
-    <svg
-      ref={svgRef}
-      width={width}
-      height={height}
-      style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
-    />
+    <div ref={containerRef} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <svg
+        ref={svgRef}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
+        preserveAspectRatio="xMidYMid meet"
+      />
+    </div>
   )
 }
 

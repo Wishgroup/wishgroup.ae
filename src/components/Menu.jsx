@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import AuthButton from './AuthButton'
 
 function Menu() {
   const [isActive, setIsActive] = useState(false)
@@ -91,8 +92,11 @@ function Menu() {
         <Link to="/" className="mil-logo">
           <img src="/logo.png" alt="Wish Group Logo" style={{ height: '56px', width: 'auto' }} />
         </Link>
-        <div className="mil-menu-btn">
-          <span></span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <AuthButton />
+          <div className="mil-menu-btn">
+            <span></span>
+          </div>
         </div>
       </div>
       <div className="container">
