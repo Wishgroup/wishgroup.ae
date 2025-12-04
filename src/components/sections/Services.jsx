@@ -7,23 +7,23 @@ function Services() {
 
   const services = [
     {
-      title: 'Branding and\nIdentity Design',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      title: 'Tea Leaves',
+      description: 'Premium quality tea leaves, carefully harvested and processed to deliver the finest quality tea with rich, complex flavors.',
       image: '/products/belimal.jpeg',
     },
     {
-      title: 'Website Design\nand Development',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      title: 'Dry Sprat',
+      description: 'Fresh, high-grade dry sprats sourced from pristine waters, perfect for culinary excellence and premium seafood experiences.',
       image: '/products/dryfish.jpeg',
     },
     {
-      title: 'Advertising and\nMarketing Campaigns',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      title: 'Prawns',
+      description: 'Premium prawns of exceptional quality, hand-selected and processed to maintain their natural sweetness and firm texture.',
       image: '/products/prawns.jpeg',
     },
     {
-      title: 'Creative Consulting\nand Development',
-      description: 'Our creative agency is a team of professionals focused on helping your brand grow.',
+      title: 'Yellowfin Tuna',
+      description: 'Premium quality yellowfin tuna, sustainably caught and carefully processed to preserve its rich flavor and nutritional value.',
       image: '/products/yfin.jpg',
     },
   ]
@@ -78,8 +78,8 @@ function Services() {
             <div className="row">
               <div className="col-lg-10">
                 <span className="mil-suptitle mil-light-soft mil-suptitle-right mil-up">
-                  Professionals focused on helping your brand
-                  <br /> grow and move forward.
+                  Premium quality products sourced from the finest
+                  <br /> origins, delivered with excellence and care.
                 </span>
               </div>
             </div>
@@ -91,11 +91,6 @@ function Services() {
               <h2 className="mil-h1 mil-muted mil-center">
                 Our Premium and Unique <span className="mil-thin">Products</span>
               </h2>
-            </div>
-            <div className="mil-complex-text justify-content-center mil-up">
-              <Link to="/services" className="mil-services-button mil-button mil-arrow-place">
-                <span>What we do</span>
-              </Link>
             </div>
           </div>
 

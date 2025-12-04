@@ -57,7 +57,7 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
       )}
 
       {/* Hover Tooltip */}
-      {hoveredPerson && !selectedPerson && (
+      {hoveredPerson && !selectedPerson && hoveredPerson.name && hoveredPerson.role && (
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
           <div style={{
             background: 'rgba(255, 255, 255, 0.9)',
@@ -67,8 +67,8 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
             padding: '0.75rem 1rem',
             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
           }}>
-            <h4 style={{ color: '#1a1a1a', fontWeight: 600, fontSize: '0.875rem' }}>{hoveredPerson.name}</h4>
-            <p style={{ color: '#dc2626', fontFamily: 'monospace', fontSize: '0.75rem' }}>{hoveredPerson.role}</p>
+            <h4 style={{ color: '#1a1a1a', fontWeight: 600, fontSize: '0.875rem' }}>{hoveredPerson.name || 'Unknown'}</h4>
+            <p style={{ color: '#dc2626', fontFamily: 'monospace', fontSize: '0.75rem' }}>{hoveredPerson.role || 'Unknown Role'}</p>
           </div>
         </div>
       )}

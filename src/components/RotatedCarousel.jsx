@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Constants
 const CARD_WIDTH = 400;
@@ -33,7 +34,7 @@ const defaultItems = [
   },
   { 
     id: 3, 
-    image: "/img/projects/4.jpg",
+    image: "/img/projects/4.png",
     heading: "Dreams on the Horizon",
     paragraph: "The exciting ventures we are preparing to launch.",
     link: "/project-4"
@@ -118,6 +119,8 @@ export default function RotatedCarousel({ items = defaultItems }) {
   const containerRef = useRef(null);
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const navigate = useNavigate();
 
   const updateCarousel = useCallback((newIndex) => {
     if (isAnimating) return;
@@ -345,9 +348,19 @@ export default function RotatedCarousel({ items = defaultItems }) {
                         pointerEvents: "auto",
                       }}
                     >
-                      <Link
-                        to={item.link || `/project-${index + 1}`}
-                        onClick={(e) => e.stopPropagation()}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isAuthenticated) {
+                            navigate(item.link || `/project-${index + 1}`);
+                          } else {
+                            loginWithRedirect({
+                              appState: {
+                                returnTo: item.link || `/project-${index + 1}`,
+                              },
+                            });
+                          }
+                        }}
                         style={{
                           display: "inline-block",
                           padding: "12px 28px",
@@ -370,7 +383,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
                         }}
                       >
                         View Project
-                      </Link>
+                      </button>
                     </div>
                   )}
                 </>

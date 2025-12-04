@@ -94,10 +94,15 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
 
     // Add styles
     svg.append('defs').append('style').text(`
-      .world-outline {
+      .world-outline-outer {
         fill: none;
         stroke: rgba(0, 0, 0, 0.1);
         stroke-width: 1.0px;
+      }
+      .world-outline-inner {
+        fill: none;
+        stroke: rgba(0, 0, 0, 0.15);
+        stroke-width: 0.8px;
       }
       .country {
         fill: #737368;
@@ -119,13 +124,24 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
       }
     `)
 
-    // World outline circle - ensure only one exists
-    svg.selectAll('circle.world-outline').remove()
-    const worldCircle = svg.append('circle')
-      .attr('class', 'world-outline')
+    // Create outer and inner spheres with synchronized timing
+    const outerRadius = projection.scale()
+    const innerRadius = outerRadius * 0.85 // Inner sphere is 85% of outer
+    
+    svg.selectAll('circle.world-outline-outer').remove()
+    svg.selectAll('circle.world-outline-inner').remove()
+    
+    const outerSphere = svg.append('circle')
+      .attr('class', 'world-outline-outer')
       .attr('cx', width / 2)
       .attr('cy', height / 2)
-      .attr('r', projection.scale())
+      .attr('r', outerRadius)
+    
+    const innerSphere = svg.append('circle')
+      .attr('class', 'world-outline-inner')
+      .attr('cx', width / 2)
+      .attr('cy', height / 2)
+      .attr('r', innerRadius)
 
     // Great arc interpolator
     const d3_radians = Math.PI / 180
@@ -430,21 +446,38 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             }
           }
 
-          // Create rotation animation using a selection-based transition
-          // We'll use the circle element as a driver for the transition
-          const circleElement = svg.select('circle.world-outline')
-          if (!circleElement.node()) {
-            console.warn('Circle element not found, skipping rotation')
+          // Create rotation animation using synchronized transitions for both spheres
+          // Use the outer sphere as the primary driver for synchronized timing
+          const outerSphereElement = svg.select('circle.world-outline-outer')
+          const innerSphereElement = svg.select('circle.world-outline-inner')
+          
+          if (!outerSphereElement.node() || !innerSphereElement.node()) {
+            console.warn('Sphere elements not found, skipping rotation')
             stepTimeoutRef.current = setTimeout(step, 2000)
             return
           }
-          const circleTransition = circleElement
+          
+          // Create synchronized transitions for both spheres with identical timing
+          const transitionDelay = 250
+          const transitionDuration = 1500
+          const transitionEase = d3.easeCubicInOut
+          
+          // Both spheres use the same transition timing for perfect synchronization
+          const outerTransition = outerSphereElement
             .transition()
-            .delay(250)
-            .duration(1500)
-            .ease(d3.easeCubicInOut)
+            .delay(transitionDelay)
+            .duration(transitionDuration)
+            .ease(transitionEase)
+          
+          // Inner sphere transition with identical timing parameters
+          innerSphereElement
+            .transition()
+            .delay(transitionDelay)
+            .duration(transitionDuration)
+            .ease(transitionEase)
 
-          circleTransition.tween('rotate', function() {
+          // Single tween function shared by both spheres to ensure synchronized rotation
+          const rotationTween = function() {
             return function(t) {
               if (!isMountedRef.current) return
               
@@ -452,10 +485,13 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
               const newRotate = interpolator(t)
               updateGlobe(newRotate)
             }
-          })
+          }
+          
+          // Apply the same tween to both transitions for perfect synchronization
+          outerTransition.tween('rotate', rotationTween)
 
-          // Continue to next country after rotation completes
-          circleTransition
+          // Continue to next country after rotation completes (use outer transition as reference)
+          outerTransition
             .end()
             .then(function() {
               console.log('Rotation completed for', countryName)
