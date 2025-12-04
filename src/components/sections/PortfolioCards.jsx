@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function PortfolioCards() {
   const [activeIndex, setActiveIndex] = useState(0)
+  const { isAuthenticated, loginWithRedirect } = useAuth0()
+  const navigate = useNavigate()
 
   const projects = [
     {
@@ -233,7 +236,7 @@ function PortfolioCards() {
                                 {project.description}
                               </p>
 
-                              <div 
+                              <div
                                 className="absolute left-28 top-[10.9rem]"
                                 style={{
                                   textAlign: 'left',
@@ -248,15 +251,33 @@ function PortfolioCards() {
                                   padding: 0
                                 }}
                               >
-                                <Link 
-                                  to={project.link}
+                                <button
+                                  onClick={() => {
+                                    if (isAuthenticated) {
+                                      navigate(project.link)
+                                    } else {
+                                      loginWithRedirect({
+                                        appState: {
+                                          returnTo: project.link,
+                                        },
+                                      })
+                                    }
+                                  }}
                                   style={{
                                     color: 'white',
-                                    textDecoration: 'none'
+                                    textDecoration: 'none',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    fontFamily: 'Arial, sans-serif',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                    padding: 0,
+                                    margin: 0
                                   }}
                                 >
                                   VIEW PROJECT
-                                </Link>
+                                </button>
                               </div>
                             </div>
                           </div>

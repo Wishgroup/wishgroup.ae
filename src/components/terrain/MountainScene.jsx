@@ -3,6 +3,8 @@ import { OrbitControls, Stars } from "@react-three/drei";
 import { Suspense, useRef, useState, useCallback } from "react";
 import { Terrain } from "./Terrain";
 import { BusinessmanBillboards } from "./BusinessmanBillboards";
+import { FlowerField } from "./FlowerField";
+import { GrassField } from "./GrassField";
 import * as THREE from "three";
 
 const CameraController = ({
@@ -108,6 +110,24 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
             depthSegments={180}
             heightScale={0.3}
             wireframe={true}
+          />
+          
+          <GrassField
+            width={25}
+            depth={25}
+            heightScale={0.3}
+            density={6000}
+            minHeight={0.12}
+            maxHeight={0.28}
+          />
+          
+          <FlowerField
+            width={25}
+            depth={25}
+            heightScale={0.3}
+            count={150}
+            minScale={0.15}
+            maxScale={0.35}
           />
           
           <BusinessmanBillboards 

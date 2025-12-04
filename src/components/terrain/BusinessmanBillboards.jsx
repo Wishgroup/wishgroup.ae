@@ -1,75 +1,77 @@
-import { Billboard, useTexture } from "@react-three/drei";
-import chairmanImg from "../../assets/person-chairman.png";
-import ceoImg from "../../assets/person-ceo.png";
-import ctoImg from "../../assets/person-cto.png";
-import cfoImg from "../../assets/person-cfo.png";
-import cooImg from "../../assets/person-coo.png";
-import mdImg from "../../assets/person-md.png";
-import directorImg from "../../assets/person-director.png";
+import { Billboard, useTexture, Text } from "@react-three/drei";
 
 export const peopleData = [
   { 
     id: 1,
-    name: "Richard Morrison",
-    role: "Chairman",
-    description: "Founding visionary with 30+ years shaping industry standards.",
-    position: [-6, 0.5, 2], 
-    scale: 2.5,
-    image: chairmanImg
+    name: "Mr. Gerard Algama",
+    role: "Brand Manager",
+    description: "Leading brand strategy and marketing initiatives.",
+    position: [-7, 0.5, 4], 
+    scale: 4,
+    image: "/Terrain /brandmanager.png"
   },
   { 
     id: 2,
-    name: "Sarah Chen",
-    role: "Chief Executive Officer",
-    description: "Strategic leader driving global expansion and innovation.",
-    position: [5, 0.3, 0], 
-    scale: 2,
-    image: ceoImg
+    name: "Mr. Havindu Wickramarathne",
+    role: "Project Manager",
+    description: "Overseeing project execution and delivery.",
+    position: [6, 0.5, 5], 
+    scale: 4,
+    image: "/Terrain /Projectmanager.png"
   },
   { 
     id: 3,
-    name: "Michael Torres",
-    role: "Chief Technology Officer",
-    description: "Expert in AI and distributed systems architecture.",
-    position: [-3, 0.8, -4], 
-    scale: 1.5,
-    image: ctoImg
+    name: "Manjima TV",
+    role: "Accountant",
+    description: "Managing financial operations and accounting.",
+    position: [2, 0.5, -7], 
+    scale: 4,
+    image: "/Terrain /Accountant.png"
   },
   { 
     id: 4,
-    name: "Amanda Roberts",
-    role: "Chief Financial Officer",
-    description: "Financial strategist overseeing global operations.",
-    position: [8, 0.2, -6], 
-    scale: 1.2,
-    image: cfoImg
+    name: "Ahmed Moulana",
+    role: "Chairman",
+    description: "Leading the organization with strategic vision and governance.",
+    position: [0, 0.5, 5], 
+    scale: 4,
+    image: "/Terrain /chairman.png"
   },
   { 
     id: 5,
-    name: "James Anderson",
-    role: "Chief Operating Officer",
-    description: "Optimizing operations for peak organizational performance.",
-    position: [-10, 0.4, -8], 
-    scale: 1,
-    image: cooImg
+    name: "Andrew Fernando",
+    role: "Events and Entertainment Manager",
+    description: "Managing events and entertainment operations.",
+    position: [-10, 0.5, -6], 
+    scale: 4,
+    image: "/Terrain /eventsandentertainmentmanager.png"
   },
   { 
     id: 6,
-    name: "Victoria Hayes",
-    role: "Managing Director",
-    description: "Leading regional initiatives and business development.",
-    position: [2, 1, -10], 
-    scale: 0.8,
-    image: mdImg
+    name: "Arundathi Mahakumbura",
+    role: "HR Manager",
+    description: "Overseeing human resources and talent management.",
+    position: [8, 0.5, -4], 
+    scale: 4,
+    image: "/Terrain /hrmanager.png"
   },
   { 
     id: 7,
-    name: "Daniel Foster",
-    role: "Board Director",
-    description: "Ensuring governance and stakeholder value creation.",
-    position: [-8, 0.6, -12], 
-    scale: 0.6,
-    image: directorImg
+    name: "Mr. Danushka Ambalangodage",
+    role: "Senior Accountant",
+    description: "Managing senior financial operations and accounting.",
+    position: [5, 0.5, 2.5], 
+    scale: 4,
+    image: "/Terrain /SeniorAccountant.png"
+  },
+  { 
+    id: 8,
+    name: "Asan Egodagamage",
+    role: "Head of IT",
+    description: "Leading IT infrastructure and technology initiatives.",
+    position: [-5, 0.5, -2.5], 
+    scale: 4,
+    image: "/Terrain /headofit.png"
   },
 ];
 
@@ -82,41 +84,63 @@ const PersonBillboard = ({
   
   const handleClick = (e) => {
     e.stopPropagation();
-    onPersonClick(person);
+    if (onPersonClick && person) {
+      onPersonClick(person);
+    }
   };
 
-  const handlePointerOver = () => {
+  const handlePointerOver = (e) => {
+    e.stopPropagation();
     document.body.style.cursor = 'pointer';
-    onPersonHover(person);
+    if (onPersonHover && person) {
+      onPersonHover(person);
+    }
   };
 
-  const handlePointerOut = () => {
+  const handlePointerOut = (e) => {
+    e.stopPropagation();
     document.body.style.cursor = 'default';
-    onPersonHover(null);
+    if (onPersonHover) {
+      onPersonHover(null);
+    }
   };
   
   return (
-    <Billboard
-      position={person.position}
-      follow={true}
-      lockX={false}
-      lockY={false}
-      lockZ={false}
-    >
-      <mesh 
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
+    <>
+      <Billboard
+        position={person.position}
+        follow={true}
+        lockX={false}
+        lockY={false}
+        lockZ={false}
       >
-        <planeGeometry args={[person.scale, person.scale * 1.2]} />
-        <meshBasicMaterial 
-          map={texture} 
-          transparent 
-          alphaTest={0.5}
-          depthWrite={true}
-        />
-      </mesh>
-    </Billboard>
+        <mesh 
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          <planeGeometry args={[person.scale, person.scale * 1.2]} />
+          <meshBasicMaterial 
+            map={texture} 
+            transparent 
+            alphaTest={0.5}
+            depthWrite={true}
+          />
+        </mesh>
+      </Billboard>
+      
+      <Text
+        position={[person.position[0], person.position[1] + person.scale * 0.65, person.position[2]]}
+        fontSize={0.15}
+        color="#000000"
+        anchorX="center"
+        anchorY="bottom"
+        outlineWidth={0.02}
+        outlineColor="#ffffff"
+      >
+        {person.name}
+      </Text>
+    </>
   );
 };
 
