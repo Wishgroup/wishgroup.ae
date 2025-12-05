@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
-import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Home2 from './pages/Home2'
 import Portfolio1 from './pages/Portfolio1'
@@ -35,16 +34,14 @@ function App() {
           <Route path="/service" element={<Service />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/publication" element={<Publication />} />
-          {/* Example: Protect the Team page - uncomment to require authentication */}
-          {/* <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} /> */}
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/project-1" element={<ProtectedRoute><Project1 /></ProtectedRoute>} />
-          <Route path="/project-2" element={<ProtectedRoute><Project2 /></ProtectedRoute>} />
-          <Route path="/project-3" element={<ProtectedRoute><Project3 /></ProtectedRoute>} />
-          <Route path="/project-4" element={<ProtectedRoute><Project4 /></ProtectedRoute>} />
-          <Route path="/project-5" element={<ProtectedRoute><Project5 /></ProtectedRoute>} />
-          <Route path="/project-6" element={<ProtectedRoute><Project6 /></ProtectedRoute>} />
+          <Route path="/project-1" element={<Project1 />} />
+          <Route path="/project-2" element={<Project2 />} />
+          <Route path="/project-3" element={<Project3 />} />
+          <Route path="/project-4" element={<Project4 />} />
+          <Route path="/project-5" element={<Project5 />} />
+          <Route path="/project-6" element={<Project6 />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

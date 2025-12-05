@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { FaArrowDown } from 'react-icons/fa6'
 import Footer from '../components/Footer'
 import { useScrollAnimations } from '../hooks/useScrollAnimations'
 
@@ -7,120 +8,69 @@ function Project1() {
   useScrollAnimations()
 
   const projectImages = [
-    '/img/works/1/1.jpg',
-    '/img/works/1/2.jpg',
-    '/img/works/1/3.jpg',
-    '/img/works/1/4.jpg',
-    '/img/works/1/5.jpg',
-    '/img/works/1/6.jpg',
-    '/img/works/1/7.jpg',
+    '/img/Project1/Ciprea/image.webp',
+    '/img/Project1/Ciprea/about.webp',
+    '/img/Project1/Ciprea/skipjacktuna.webp',
+    '/img/Project1/Ciprea/yellofin tuna.webp',
+    '/img/Project1/Prime Wish/prawns1.webp',
+    '/img/Project1/Prime Wish/prawns3.webp',
+    '/img/Project1/Prime Wish/primetune.webp',
+    '/img/Project1/Prime Wish/tea.webp',
   ]
   
   const galleryImages = projectImages.slice(1)
-  const additionalImages = projectImages.slice(4)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  
-  // Additional images strip state
-  const [additionalScrollPosition, setAdditionalScrollPosition] = useState(0)
-  const [isAdditionalPaused, setIsAdditionalPaused] = useState(false)
-  const additionalStripRef = React.useRef(null)
-  const additionalAnimationRef = React.useRef(null)
-  const additionalIsDragging = React.useRef(false)
-  const additionalStartX = React.useRef(0)
-  const additionalScrollLeft = React.useRef(0)
+  const [isButtonPressed, setIsButtonPressed] = useState(false)
 
   // Auto-play carousel for gallery
+  const autoPlayIntervalRef = React.useRef(null)
+
   useEffect(() => {
+    // Clear any existing interval
+    if (autoPlayIntervalRef.current) {
+      clearInterval(autoPlayIntervalRef.current)
+    }
+
     if (!isAutoPlaying) return
     
-    const interval = setInterval(() => {
+    // Set up auto-play interval
+    autoPlayIntervalRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % galleryImages.length)
-    }, 4000) // Change slide every 4 seconds
+    }, 2500) // Change slide every 2.5 seconds
 
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, galleryImages.length])
-
-  // Continuous animation for additional images strip
-  useEffect(() => {
-    if (isAdditionalPaused || additionalIsDragging.current) return
-
-    const animate = () => {
-      if (!isAdditionalPaused && !additionalIsDragging.current) {
-        setAdditionalScrollPosition((prev) => {
-          const newPos = prev + 0.5 // Adjust speed here
-          const maxScroll = additionalStripRef.current ? additionalStripRef.current.scrollWidth - additionalStripRef.current.clientWidth : 0
-          return newPos >= maxScroll ? 0 : newPos // Loop back to start
-        })
-      }
-      additionalAnimationRef.current = requestAnimationFrame(animate)
-    }
-
-    additionalAnimationRef.current = requestAnimationFrame(animate)
     return () => {
-      if (additionalAnimationRef.current) {
-        cancelAnimationFrame(additionalAnimationRef.current)
+      if (autoPlayIntervalRef.current) {
+        clearInterval(autoPlayIntervalRef.current)
       }
     }
-  }, [isAdditionalPaused])
+  }, [isAutoPlaying, galleryImages.length])
 
   const goToSlide = (index) => {
     setCurrentIndex(index)
+    // Temporarily pause auto-play, then resume after 2.5 seconds
     setIsAutoPlaying(false)
+    setTimeout(() => {
+      setIsAutoPlaying(true)
+    }, 2500)
   }
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)
+    // Temporarily pause auto-play, then resume after 2.5 seconds
     setIsAutoPlaying(false)
+    setTimeout(() => {
+      setIsAutoPlaying(true)
+    }, 2500)
   }
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % galleryImages.length)
+    // Temporarily pause auto-play, then resume after 2.5 seconds
     setIsAutoPlaying(false)
-  }
-
-  // Handle mouse drag for additional images
-  const handleAdditionalMouseDown = (e) => {
-    additionalIsDragging.current = true
-    setIsAdditionalPaused(true)
-    additionalStartX.current = e.pageX - (additionalStripRef.current?.offsetLeft || 0)
-    additionalScrollLeft.current = additionalScrollPosition
-  }
-
-  const handleAdditionalMouseMove = (e) => {
-    if (!additionalIsDragging.current || !additionalStripRef.current) return
-    e.preventDefault()
-    const x = e.pageX - (additionalStripRef.current.offsetLeft || 0)
-    const walk = (x - additionalStartX.current) * 2 // Scroll speed multiplier
-    const newPosition = additionalScrollLeft.current - walk
-    const maxScroll = additionalStripRef.current.scrollWidth - additionalStripRef.current.clientWidth
-    setAdditionalScrollPosition(Math.max(0, Math.min(newPosition, maxScroll)))
-  }
-
-  const handleAdditionalMouseUp = () => {
-    additionalIsDragging.current = false
-    setIsAdditionalPaused(false)
-  }
-
-  const handleAdditionalMouseLeave = () => {
-    additionalIsDragging.current = false
-    if (!additionalIsDragging.current) {
-      setIsAdditionalPaused(false)
-    }
-  }
-
-  // Handle wheel scroll for additional images
-  const handleAdditionalWheel = (e) => {
-    if (!additionalStripRef.current) return
-    e.preventDefault()
-    setIsAdditionalPaused(true)
-    const delta = e.deltaY > 0 ? 50 : -50
-    const newPosition = additionalScrollPosition + delta
-    const maxScroll = additionalStripRef.current.scrollWidth - additionalStripRef.current.clientWidth
-    setAdditionalScrollPosition(Math.max(0, Math.min(newPosition, maxScroll)))
-    
-    // Resume auto-scroll after a delay
-    setTimeout(() => setIsAdditionalPaused(false), 2000)
+    setTimeout(() => {
+      setIsAutoPlaying(true)
+    }, 2500)
   }
 
   const handleScrollToProject = (e) => {
@@ -128,6 +78,28 @@ function Project1() {
     const projectSection = document.getElementById('project')
     if (projectSection) {
       projectSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+
+  const handleScrollToAchievements = (e) => {
+    e.preventDefault()
+    const achievementsSection = document.getElementById('achievements')
+    if (achievementsSection) {
+      achievementsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
+
+  const handleScrollToContact = (e) => {
+    e.preventDefault()
+    const contactSection = document.getElementById('get-in-touch')
+    if (contactSection) {
+      contactSection.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
       })
@@ -146,108 +118,443 @@ function Project1() {
             <ul className="mil-breadcrumbs mil-mb-60">
               <li>
                 <Link to="/">Homepage</Link>
-              </li>
+              </li> 
               <li>
                 <Link to="/portfolio-1">Portfolio</Link>
               </li>
-              <li>Trade Centre</li>
+              <li>Wishes FulFilled</li> 
             </ul>
             <h1 className="mil-mb-60">
-              Trade <span className="mil-thin">Centre</span>
+             Wishes <span className="mil-thin">Fulfilled</span>
             </h1>
             <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '600px', marginLeft: 0, marginRight: 'auto',textAlign: 'justify' }}>
-              Trade Centre is a main land development project in the Maldives, Sri Lanka, and the Hawaii Islands. A strategic investment initiative that combines luxury real estate development with sustainable tourism infrastructure.
+            Wishes Fulfilled highlights Wish Group's landmark achievements across hospitality, food & beverage manufacturing, export–import trading, and premium lifestyle development.
+            Featuring signature success stories like Ciprea and Prime Wish Trading LLC, this portfolio showcases our proven expertise in delivering high-quality projects that drive global impact.
+            Through innovative design, strategic execution, and industry-leading standards, Wish Group continues to transform visionary concepts into sustainable, market-ready results
             </p>
             <a 
-              href="#project" 
-              onClick={handleScrollToProject}
-              className="mil-link mil-dark mil-arrow-place mil-down-arrow mil-up"
+              href="#achievements" 
+              onClick={handleScrollToAchievements}
+              className="mil-up"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '15px',
+                padding: '15px 30px',
+                borderRadius: '70px',
+                border: '1px solid #8596A6',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                textDecoration: 'none',
+                color: '#3C4C59',
+                fontSize: '12px',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                fontWeight: 500,
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
+                position: 'relative',
+                overflow: 'hidden',
+                minWidth: 'fit-content'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
+                e.currentTarget.style.borderColor = '#3C4C59'
+                e.currentTarget.style.transform = 'scale(1.02)'
+                const arrowCircle = e.currentTarget.querySelector('div')
+                const arrow = e.currentTarget.querySelector('svg')
+                if (arrowCircle) {
+                  arrowCircle.style.borderColor = '#3C4C59'
+                }
+                if (arrow) {
+                  arrow.style.transform = 'translateY(3px)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+                e.currentTarget.style.borderColor = '#8596A6'
+                e.currentTarget.style.transform = 'scale(1)'
+                const arrowCircle = e.currentTarget.querySelector('div')
+                const arrow = e.currentTarget.querySelector('svg')
+                if (arrowCircle) {
+                  arrowCircle.style.borderColor = '#8596A6'
+                }
+                if (arrow) {
+                  arrow.style.transform = 'translateY(0)'
+                }
+              }}
             >
-              <span>View Project</span>
+              <span style={{ whiteSpace: 'nowrap' }}>View Projects</span>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '30px',
+                height: '30px',
+                borderRadius: '50%',
+                border: '1px solid #8596A6',
+                transition: 'all 0.3s ease'
+              }}>
+                <FaArrowDown style={{ 
+                  fontSize: '16px',
+                  transition: 'transform 0.4s ease',
+                  display: 'block',
+                  color: '#3C4C59'
+                }} />
+              </div>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Project Overview Section */}
-      <section id="project" className="mil-p-120-120">
+      {/* Completed Projects Section - Futuristic Design */}
+      <section id="achievements" className="mil-p-120-120" style={{ 
+        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(60, 76, 89, 0.02) 50%, rgba(255, 255, 255, 0) 100%)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
         <div className="container">
-          <div className="row justify-content-between align-items-start mil-mb-90">
-            <div className="col-12 col-md-6 col-lg-7 mil-mb-30" style={{ 
-              display: 'flex',
-              alignItems: 'flex-start',
-              paddingTop: 0,
-              marginTop: 0
-            }}>
-              <div className="mil-cover-frame mil-up" style={{ 
-                width: '100%', 
-                maxWidth: '100%',
-                overflow: 'hidden',
-                marginTop: 0,
-                paddingTop: 0
-              }}>
-                <img  
-                  src={projectImages[0]} 
-                  alt="Trade Centre" 
-                  className="mil-scale"   
-                  data-value-1="1" 
-                  data-value-2="1.1" 
-                  style={{ 
-                    width: '100%', 
-                    height: 'auto',
-                    display: 'block',
-                    maxWidth: '100%',
-                    objectFit: 'cover',
-                    marginTop: 0,
-                    paddingTop: 0,
-                    paddingRight: '50px',
-                    verticalAlign: 'top'
-                  }} 
-                />
-              </div>
-            </div>
-            <div className="col-12 col-md-6 col-lg-5 mil-mb-30" style={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              paddingTop: 0,
-              marginTop: 0
-            }}>
-              <div className="mil-mb-60" style={{ marginTop: 0, paddingTop: 0 }}>
-                <h2 className="mil-up mil-mb-30" style={{ marginTop: 0, paddingTop: 0, lineHeight: '1.2' }}>
-                  Project <span className="mil-thin">Overview</span>
-                </h2>
-                <p className="mil-up mil-mb-30" style={{ maxWidth: '600px', marginLeft: 0, marginRight: 'auto',textAlign: 'justify' }}>
-                  Trade Centre represents a landmark development initiative spanning three strategic locations: the pristine Maldives, the culturally rich Sri Lanka, and the tropical paradise of Hawaii Islands. This ambitious project combines luxury real estate development with world-class commercial infrastructure.
-                </p>  
-                <p className="mil-up mil-mb-30" style={{ maxWidth: '600px', marginLeft: 0, marginRight: 'auto',textAlign: 'justify' }}>
-                  Our vision is to create integrated trade centers that serve as hubs for international business, tourism, and sustainable development. Each location has been carefully selected for its unique advantages and strategic importance in global trade routes.
-                </p>
-              </div>
-              <div className="row">
-                <div className="col-12 col-sm-6 mil-mb-30">
-                  <div className="mil-icon-box mil-up">
-                    <div className="mil-icon-frame mil-icon-frame-md mil-mb-30">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '24px', height: '24px' }}>
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+          <div className="mil-center mil-mb-90">
+            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
+              letterSpacing: '4px',
+              fontSize: '11px',
+              opacity: 0.8
+            }}>COMPLETED PROJECTS</span>
+            <h2 className="mil-up mil-mb-60">Wished &
+               <span className="mil-thin">Achieved</span>
+            </h2>
+          </div>
+
+          <div className="row" style={{ gap: '40px', justifyContent: 'center' }}>
+            {/* CIPREA Card */}
+            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project1/Ciprea/about.webp"
+                    alt="CIPREA - Premium Tuna from the Maldives"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      // Fallback to about.webp if image.webp fails
+                      if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
+                        e.currentTarget.src = '/img/Project1/Ciprea/image.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        <span style={{ fontWeight: 300 }}>CIPREA</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>PREMIUM TUNA • MALDIVES</div>
                     </div>
-                    <h5 className="mil-mb-15">Strategic Locations</h5>
-                    <p className="mil-text-sm">Three prime locations across Maldives, Sri Lanka, and Hawaii Islands</p>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    CIPREA's Fresh & Frozen Tuna Portfolio, located on Himmafushi Island, Kaafu Atoll, Maldives, represents our commitment to delivering exceptional seafood products globally. This state-of-the-art facility specializes in processing premium Yellowfin and Skipjack Tuna, processed with care in the pristine waters of the Maldives.
+                  </p>
+
+                  {/* Stats */}
+                  <div style={{
+                    display: 'flex',
+                    gap: '30px',
+                    marginTop: '30px',
+                    paddingTop: '30px',
+                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
+                  }}>
+                    <div>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: 600,
+                        color: '#A6033F',
+                        lineHeight: '1'
+                      }}>HACCP</div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#8596A6',
+                        marginTop: '6px',
+                        letterSpacing: '1px',
+                        textTransform: 'uppercase'
+                      }}>Certified</div>
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: 600,
+                        color: '#A6033F',
+                        lineHeight: '1'
+                      }}>ISO</div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#8596A6',
+                        marginTop: '6px',
+                        letterSpacing: '1px',
+                        textTransform: 'uppercase'
+                      }}>Certified</div>
+                    </div>
                   </div>
                 </div>
-                <div className="col-12 col-sm-6 mil-mb-30">
-                  <div className="mil-icon-box mil-up">
-                    <div className="mil-icon-frame mil-icon-frame-md mil-mb-30">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '24px', height: '24px' }}>
-                        <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+              </div>
+            </div>
+
+            {/* Prime Wish Trading LLC Card */}
+            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project1/Prime Wish/prawns1.webp"
+                    alt="Prime Wish Trading LLC - Premium Seafood Products"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      // Fallback to prawns3.webp if prawns1.webp fails
+                      if (e.currentTarget.src !== '/img/Project1/Prime Wish/prawns3.webp') {
+                        e.currentTarget.src = '/img/Project1/Prime Wish/prawns3.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        Prime Wish <span style={{ fontWeight: 300 }}>Trading LLC</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>PREMIUM SEAFOOD • UAE</div>
                     </div>
-                    <h5 className="mil-mb-15">Global Reach</h5>
-                    <p className="mil-text-sm">Connecting international markets and trade routes</p>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Prime Wish Trading LLC is a well-established UAE-based manufacturing and export-import company specializing in high-quality food products under the "PRIME WISH" brand. We proudly serve many reputed clients worldwide, offering premium products at competitive prices, connecting global markets with premium seafood products.
+                  </p>
+
+                  {/* Stats */}
+                  <div style={{
+                    display: 'flex',
+                    gap: '30px',
+                    marginTop: '30px',
+                    paddingTop: '30px',
+                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
+                  }}>
+                    <div>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: 600,
+                        color: '#A6033F',
+                        lineHeight: '1'
+                      }}>Global</div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#8596A6',
+                        marginTop: '6px',
+                        letterSpacing: '1px',
+                        textTransform: 'uppercase'
+                      }}>Reach</div>
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: 600,
+                        color: '#A6033F',
+                        lineHeight: '1'
+                      }}>Premium</div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#8596A6',
+                        marginTop: '6px',
+                        letterSpacing: '1px',
+                        textTransform: 'uppercase'
+                      }}>Quality</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -266,12 +573,16 @@ function Project1() {
             </h2>
           </div>
           {/* Carousel Container */}
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            overflow: 'hidden',
-            padding: '20px 0'
-          }}>
+          <div 
+            style={{
+              position: 'relative',
+              width: '100%',
+              overflow: 'hidden',
+              padding: '20px 0 0 0'
+            }}
+            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseLeave={() => setIsAutoPlaying(true)}
+          >
             {/* Carousel Track */}
             <div style={{
               display: 'flex',
@@ -316,7 +627,7 @@ function Project1() {
                       data-value-2="1.1"
                       style={{
                         width: '100%',
-                        height: 'auto',
+                        height: '500px',
                         display: 'block',
                         borderRadius: '8px',
                         objectFit: 'cover'
@@ -397,34 +708,36 @@ function Project1() {
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
-
-            {/* Indicators/Dots */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '12px',
-              marginTop: '30px',
-              zIndex: 10,
-              position: 'relative'
-            }}>
-              {galleryImages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  style={{
-                    width: index === currentIndex ? '40px' : '12px',
-                    height: '12px',
-                    borderRadius: '6px',
-                    border: 'none',
-                    background: index === currentIndex ? '#333' : '#ddd',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    padding: 0
-                  }}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
+          </div>
+          
+          {/* Indicators/Dots - positioned right below image border, outside carousel */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '12px',
+            width: '100%',
+            maxWidth: '800px',
+            margin: '15px auto 0',
+            padding: '0 20px',
+            boxSizing: 'border-box'
+          }}>
+            {galleryImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                style={{
+                  width: index === currentIndex ? '40px' : '12px',
+                  height: '12px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  background: index === currentIndex ? '#333' : '#ddd',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  padding: 0
+                }}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
         
@@ -440,141 +753,8 @@ function Project1() {
         `}</style>
       </section>
 
-      {/* Features Section */}
-      <section className="mil-p-120-120">
-        <div className="container">
-          <div className="row justify-content-between align-items-center">
-            <div className="col-12 col-md-6 col-lg-6 mil-mb-60">
-              <div className="mil-mb-60">
-                <h2 className="mil-up mil-mb-30">
-                  Key <span className="mil-thin">Features</span>
-                </h2>
-                <p className="mil-up mil-mb-30" style={{ maxWidth: '600px', marginLeft: 0, marginRight: 'auto',textAlign: 'justify' }}>
-                  Trade Centre is designed to be a comprehensive development that integrates commercial, residential, and hospitality components. Each location offers unique advantages while maintaining consistent quality and service standards.
-                </p>
-              </div>
-              <div className="mil-up">
-                <ul className="mil-list mil-mb-30" style={{ maxWidth: '600px', marginLeft:'50px', marginRight: 'auto',textAlign: 'justify' }}>
-                  <li>Luxury residential complexes</li>
-                  <li>World-class commercial spaces</li>
-                  <li>International trade facilities</li>
-                  <li>Sustainable infrastructure</li>
-                  <li>Premium hospitality services</li>
-                  <li>Strategic investment opportunities</li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-12 col-md-6 col-lg-6 mil-mb-60">
-              <div className="mil-cover-frame mil-up">
-                <img src={projectImages[4]} alt="Trade Centre Features" className="mil-scale" data-value-1="1" data-value-2="1.1" style={{ width: '100%', height: 'auto', display: 'block',paddingLeft: '50px'}} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Images Section */}
-      <section className="mil-p-120-120 mil-soft-bg">
-        <div className="container">
-          {/* Animated Scrolling Strip */}
-          <div
-            ref={additionalStripRef}
-            onMouseDown={handleAdditionalMouseDown}
-            onMouseMove={handleAdditionalMouseMove}
-            onMouseUp={handleAdditionalMouseUp}
-            onMouseLeave={handleAdditionalMouseLeave}
-            onWheel={handleAdditionalWheel}
-            onMouseEnter={() => setIsAdditionalPaused(true)}
-            style={{
-              position: 'relative',
-              width: '100%',
-              overflow: 'hidden',
-              padding: '20px 0',
-              cursor: additionalIsDragging.current ? 'grabbing' : 'grab',
-              userSelect: 'none'
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                gap: '30px',
-                transform: `translateX(-${additionalScrollPosition}px)`,
-                transition: isAdditionalPaused || additionalIsDragging.current ? 'none' : 'transform 0.1s linear',
-                willChange: 'transform'
-              }}
-            >
-              {/* Duplicate images for seamless loop */}
-              {[...additionalImages, ...additionalImages, ...additionalImages].map((image, index) => (
-                <div
-                  key={index}
-                  className="mil-cover-frame mil-up"
-                  style={{
-                    flex: '0 0 auto',
-                    width: 'clamp(300px, 35vw, 500px)',
-                    minWidth: '300px',
-                    cursor: 'pointer',
-                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                    transformOrigin: 'center center',
-                    pointerEvents: additionalIsDragging.current ? 'none' : 'auto'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!additionalIsDragging.current) {
-                      e.currentTarget.style.transform = 'scale(1.05) translateY(-10px)'
-                      e.currentTarget.style.zIndex = '10'
-                      e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1) translateY(0)'
-                    e.currentTarget.style.zIndex = '1'
-                    e.currentTarget.style.boxShadow = 'none'
-                  }}
-                >
-                  <img
-                    src={image}
-                    alt={`Trade Centre ${(index % additionalImages.length) + 5}`}
-                    className="mil-scale"
-                    data-value-1="1"
-                    data-value-2="1.1"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      display: 'block',
-                      borderRadius: '8px',
-                      pointerEvents: 'none',
-                      userSelect: 'none',
-                      draggable: false
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-            
-            {/* Scroll hint overlay */}
-            {isAdditionalPaused && !additionalIsDragging.current && (
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                background: 'rgba(0, 0, 0, 0.7)',
-                color: 'white',
-                padding: '10px 20px',
-                borderRadius: '8px',
-                fontSize: '14px',
-                pointerEvents: 'none',
-                zIndex: 20,
-                opacity: 0.8
-              }}>
-                Scroll or drag to navigate
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* Call to Action Section */}
-      <section className="mil-p-120-120">
+      <section id="get-in-touch" className="mil-p-120-120">
         <div className="container">
           <div className="mil-center">
             <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up">Get in Touch</span>
@@ -584,9 +764,14 @@ function Project1() {
             <p className="mil-text mil-up mil-mb-60" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
               Contact us to learn more about Trade Centre and explore investment opportunities across our strategic locations.
             </p>
-            <Link to="/contact" className="mil-button mil-button-lg mil-arrow-place mil-up">
+            <a 
+              href="#get-in-touch" 
+              onClick={handleScrollToContact}
+              className="mil-button mil-arrow-place mil-up"
+              style={{ textDecoration: 'none' }}
+            >
               <span>Contact Us</span>
-            </Link>
+            </a>
           </div>
         </div>
       </section>

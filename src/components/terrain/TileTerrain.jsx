@@ -1,30 +1,31 @@
 import { useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { createNoise2D } from "simplex-noise";
 
-export const Terrain = ({
-  width = 20,
-  depth = 20,
+export const TileTerrain = ({
+  width = 25,
+  depth = 25,
+  tileSize = 2.5,
   widthSegments = 200,
   depthSegments = 200,
-  heightScale = 1.5,
+  heightScale = 0.3,
   wireframe = false,
 }) => {
   const meshRef = useRef(null);
   const noise2D = useMemo(() => createNoise2D(), []);
   
-  const { geometry, colors } = useMemo(() => {
+  const { geometry } = useMemo(() => {
     const geo = new THREE.PlaneGeometry(width, depth, widthSegments, depthSegments);
     const positions = geo.attributes.position;
     const colorArray = new Float32Array(positions.count * 3);
     
     // Color palette for realistic green grassy field - more vibrant
-    const deepColor = new THREE.Color().setHSL(110 / 360, 0.6, 0.2); // Dark green
-    const lowColor = new THREE.Color().setHSL(110 / 360, 0.65, 0.25); // Medium-dark green
-    const midColor = new THREE.Color().setHSL(105 / 360, 0.6, 0.3); // Medium green
-    const highColor = new THREE.Color().setHSL(100 / 360, 0.55, 0.35); // Light green
-    const peakColor = new THREE.Color().setHSL(95 / 360, 0.5, 0.4); // Lighter green
+    const deepColor = new THREE.Color().setHSL(110 / 360, 0.6, 0.2);
+    const lowColor = new THREE.Color().setHSL(110 / 360, 0.65, 0.25);
+    const midColor = new THREE.Color().setHSL(105 / 360, 0.6, 0.3);
+    const highColor = new THREE.Color().setHSL(100 / 360, 0.55, 0.35);
+    const peakColor = new THREE.Color().setHSL(95 / 360, 0.5, 0.4);
     
     let minHeight = Infinity;
     let maxHeight = -Infinity;
@@ -81,7 +82,7 @@ export const Terrain = ({
     geo.setAttribute("color", new THREE.BufferAttribute(colorArray, 3));
     geo.computeVertexNormals();
     
-    return { geometry: geo, colors: colorArray };
+    return { geometry: geo };
   }, [width, depth, widthSegments, depthSegments, heightScale, noise2D]);
 
   useFrame((state) => {

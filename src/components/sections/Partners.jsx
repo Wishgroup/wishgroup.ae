@@ -5,7 +5,6 @@ import 'swiper/css'
 
 function Partners() {
   const partners = [
-    { name: '1 Bond', image: '/img/Logos/Logos/1bond.png' },
     { name: 'One Apparel', image: '/img/Logos/Logos/oneapparel.png' },
     { name: 'Prime Wish', image: '/img/Logos/Logos/primewish.jpeg' },
     { name: 'WCC', image: '/img/Logos/Logos/wcc.png' },
