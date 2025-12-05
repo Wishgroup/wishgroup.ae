@@ -1,16 +1,19 @@
 import { useMemo, useRef, useEffect } from "react";
-import { useFrame, extend } from "@react-three/fiber";
+import { useFrame, extend, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { createNoise2D } from "simplex-noise";
 
-// Enhanced shader material for grass with advanced wind animation
+// Enhanced shader material for grass with cursor-responsive wind
 const GrassShaderMaterial = {
   uniforms: {
     time: { value: 0 },
     windStrength: { value: 0.3 },
     windSpeed: { value: 1.2 },
     windFrequency: { value: 0.5 },
-    grassColor: { value: new THREE.Color(0.2, 0.7, 0.12) }, // Very vibrant green
+    cursorPosition: { value: new THREE.Vector3(0, 0, 0) },
+    cursorInfluence: { value: 0.0 },
+    cursorRadius: { value: 5.0 },
+    grassColor: { value: new THREE.Color(0.2, 0.7, 0.12) },
     grassColorVariation: { value: 0.15 },
     lightDirection: { value: new THREE.Vector3(0.5, 1.0, 0.3).normalize() },
     ambientLight: { value: 0.5 },
@@ -21,6 +24,9 @@ const GrassShaderMaterial = {
     uniform float windStrength;
     uniform float windSpeed;
     uniform float windFrequency;
+    uniform vec3 cursorPosition;
+    uniform float cursorInfluence;
+    uniform float cursorRadius;
     
     varying vec3 vPosition;
     varying vec3 vNormal;
@@ -31,19 +37,28 @@ const GrassShaderMaterial = {
     
     // Multi-layered wind function for more natural movement
     float windWave(float x, float z, float t) {
-      // Create unique offset from position for variation
       float offset = sin(x * 7.3 + z * 11.7) * 50.0;
-      
-      // Primary wind wave
       float wave1 = sin(t * windSpeed + (x + offset) * windFrequency * 2.0 + (z + offset) * windFrequency * 1.5) * 0.5 + 0.5;
-      
-      // Secondary wind wave (smaller, faster)
       float wave2 = sin(t * windSpeed * 1.7 + (x + offset) * windFrequency * 3.0 + (z + offset) * windFrequency * 2.0) * 0.3 + 0.5;
-      
-      // Tertiary wind wave (very small, very fast)
       float wave3 = sin(t * windSpeed * 2.3 + (x + offset) * windFrequency * 5.0) * 0.2 + 0.5;
-      
       return (wave1 * 0.6 + wave2 * 0.3 + wave3 * 0.1);
+    }
+    
+    // Cursor influence function - creates ripple effect
+    float cursorWindEffect(vec3 worldPos, vec3 cursorPos, float influence, float radius) {
+      float dist = distance(worldPos.xz, cursorPos.xz);
+      if (dist > radius) return 0.0;
+      
+      // Smooth falloff
+      float falloff = 1.0 - smoothstep(0.0, radius, dist);
+      
+      // Direction from cursor to grass
+      vec2 dir = normalize(worldPos.xz - cursorPos.xz);
+      
+      // Animated ripple effect
+      float ripple = sin(time * 3.0 - dist * 2.0) * 0.5 + 0.5;
+      
+      return falloff * influence * ripple * 0.5;
     }
     
     void main() {
@@ -51,33 +66,42 @@ const GrassShaderMaterial = {
       vNormal = normal;
       vUv = uv;
       
-      // Get world position for wind calculation
       vec4 worldPos = modelMatrix * vec4(position, 1.0);
       vWorldPos = worldPos.xyz;
       
-      // Normalize height to 0-1 range (assuming grass blade goes from -height/2 to height/2)
-      float normalizedHeight = (position.y + 0.2) / 0.4; // Adjust based on actual blade height
+      float normalizedHeight = (position.y + 0.2) / 0.4;
       normalizedHeight = clamp(normalizedHeight, 0.0, 1.0);
-      
       vHeight = normalizedHeight;
       
-      // Calculate wind effect with multiple layers using world position
+      // Base wind effect
       float wind = windWave(worldPos.x, worldPos.z, time);
       
-      // Wind effect increases with height (top of blade bends more)
-      float heightFactor = pow(normalizedHeight, 1.5); // Exponential for more natural bend
-      float bendAmount = windStrength * heightFactor * (wind - 0.5) * 2.0;
+      // Cursor wind effect
+      float cursorWind = cursorWindEffect(worldPos.xyz, cursorPosition, cursorInfluence, cursorRadius);
       
-      // Apply wind displacement
-      // Wind primarily affects X (sideways), with slight Z component
+      // Combine wind effects
+      float combinedWind = wind + cursorWind;
+      float heightFactor = pow(normalizedHeight, 1.5);
+      float bendAmount = windStrength * heightFactor * (combinedWind - 0.5) * 2.0;
+      
+      // Apply wind displacement with smooth easing
       vec3 pos = position;
       pos.x += bendAmount * 0.8;
       pos.z += bendAmount * 0.3 * cos(time * windSpeed * 0.5);
       
-      // Slight vertical compression at bend points for realism
-      pos.y -= abs(bendAmount) * 0.1 * heightFactor;
+      // Additional cursor-based displacement
+      if (cursorInfluence > 0.0) {
+        float dist = distance(worldPos.xz, cursorPosition.xz);
+        if (dist < cursorRadius) {
+          vec2 cursorDir = normalize(worldPos.xz - cursorPosition.xz);
+          float cursorBend = (1.0 - dist / cursorRadius) * cursorInfluence * heightFactor;
+          pos.x += cursorDir.x * cursorBend * 0.5;
+          pos.z += cursorDir.y * cursorBend * 0.5;
+        }
+      }
       
-      vWind = wind;
+      pos.y -= abs(bendAmount) * 0.1 * heightFactor;
+      vWind = combinedWind;
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       gl_Position = projectionMatrix * mvPosition;
@@ -98,47 +122,33 @@ const GrassShaderMaterial = {
     varying vec3 vWorldPos;
     
     void main() {
-      // Base color variation based on world position and wind
       float positionVariation = sin(vWorldPos.x * 8.0 + vWorldPos.z * 8.0) * grassColorVariation;
       float windVariation = (vWind - 0.5) * grassColorVariation * 0.3;
       
       vec3 color = grassColor;
-      
-      // Add color variation (slightly greener/yellower variations)
       color.r += positionVariation * 0.08 + windVariation * 0.04;
-      color.g += positionVariation * 0.2 + windVariation * 0.1; // More green variation
+      color.g += positionVariation * 0.2 + windVariation * 0.1;
       color.b += positionVariation * 0.08;
       
-      // Height-based color gradient (darker at base, lighter at top)
       float heightGradient = mix(0.7, 1.2, pow(vHeight, 0.6));
       color *= heightGradient;
       
-      // Add slight yellow tint at the tips
       float tipTint = smoothstep(0.7, 1.0, vHeight) * 0.1;
       color.r += tipTint * 0.15;
       color.g += tipTint * 0.1;
       
-      // Lighting calculation
       vec3 normal = normalize(vNormal);
       float NdotL = max(dot(normal, lightDirection), 0.0);
-      
-      // Ambient + diffuse lighting
       float lighting = ambientLight + (NdotL * diffuseLight);
       
-      // Add slight rim lighting for depth
       vec3 viewDir = normalize(-vPosition);
       float rim = pow(1.0 - max(dot(viewDir, normal), 0.0), 2.0) * 0.2;
       
       color *= (lighting + rim);
-      
-      // Subtle shadow at the base
       float baseShadow = mix(0.85, 1.0, smoothstep(0.0, 0.2, vHeight));
       color *= baseShadow;
       
-      // Alpha for smooth edges (if using transparency)
-      float alpha = 1.0;
-      
-      gl_FragColor = vec4(color, alpha);
+      gl_FragColor = vec4(color, 1.0);
     }
   `,
 };
@@ -152,7 +162,7 @@ class GrassMaterial extends THREE.ShaderMaterial {
 
 extend({ GrassMaterial });
 
-// Helper function to calculate terrain height at a given position
+// Helper function to calculate terrain height
 const calculateTerrainHeight = (x, y, noise2D, heightScale = 0.3) => {
   let height = 0;
   let amplitude = 1;
@@ -176,48 +186,37 @@ const terrainToWorldPosition = (x, y, height) => {
   return [localPos.x, localPos.y, localPos.z];
 };
 
-// Create a more detailed and realistic grass blade geometry
+// Create grass blade geometry
 const createGrassBladeGeometry = () => {
-  const segments = 8; // More segments for smoother curves
+  const segments = 8;
   const width = 0.05;
   const height = 0.35;
   
   const geometry = new THREE.PlaneGeometry(width, height, 1, segments);
   const positions = geometry.attributes.position;
   
-  // Create curved grass blade with natural shape
   for (let i = 0; i < positions.count; i++) {
     const x = positions.getX(i);
     const y = positions.getY(i);
     const z = positions.getZ(i);
     
-    // Normalize y to 0-1 range (from -height/2 to height/2)
     const normalizedY = (y + height / 2) / height;
-    
-    // Create natural curve - wider at base, narrower at top
-    const widthVariation = 1.0 - normalizedY * 0.3; // Taper from base to top
+    const widthVariation = 1.0 - normalizedY * 0.3;
     const newX = x * widthVariation;
     
-    // Add slight S-curve for natural grass shape
     const curveAmount = Math.pow(normalizedY, 1.8) * 0.08;
     const sCurve = Math.sin(normalizedY * Math.PI * 1.5) * curveAmount;
-    
-    // Slight forward lean
     const lean = normalizedY * 0.02;
     
     positions.setXYZ(i, newX + sCurve, y, z + lean);
   }
   
-  // Compute normals for proper lighting
   geometry.computeVertexNormals();
-  
-  // Smooth normals for better appearance
   const normals = geometry.attributes.normal;
   for (let i = 0; i < normals.count; i++) {
     const nx = normals.getX(i);
     const ny = normals.getY(i);
     const nz = normals.getZ(i);
-    // Slightly adjust normals for better lighting
     normals.setXYZ(i, nx * 0.9, ny, nz * 0.9);
   }
   normals.needsUpdate = true;
@@ -225,13 +224,75 @@ const createGrassBladeGeometry = () => {
   return geometry;
 };
 
-export const GrassField = ({
+// Hook to track cursor position in 3D space
+const useCursorPosition = () => {
+  const { camera, size } = useThree();
+  const cursorPos = useRef(new THREE.Vector3(0, 0, 0));
+  const cursorInfluence = useRef(0.0);
+  const targetInfluence = useRef(0.0);
+  const raycaster = useMemo(() => new THREE.Raycaster(), []);
+  const mouse = useMemo(() => new THREE.Vector2(), []);
+
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      const canvas = event.target;
+      if (!canvas || canvas.tagName !== 'CANVAS') return;
+      
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      
+      // Raycast to find ground position (terrain is at y = -1, rotated)
+      raycaster.setFromCamera(mouse, camera);
+      
+      // Create a plane at the terrain level
+      const planeNormal = new THREE.Vector3(0, 1, 0);
+      const planePoint = new THREE.Vector3(0, -1, 0);
+      const plane = new THREE.Plane();
+      plane.setFromNormalAndCoplanarPoint(planeNormal, planePoint);
+      
+      const intersectPoint = new THREE.Vector3();
+      raycaster.ray.intersectPlane(plane, intersectPoint);
+      
+      if (intersectPoint && !isNaN(intersectPoint.x)) {
+        cursorPos.current.lerp(intersectPoint, 0.15); // Smooth lerp
+        targetInfluence.current = 1.0;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      targetInfluence.current = 0.0;
+    };
+
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+      canvas.addEventListener('mousemove', handleMouseMove);
+      canvas.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (canvas) {
+        canvas.removeEventListener('mousemove', handleMouseMove);
+        canvas.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [camera, raycaster, mouse]);
+
+  useFrame(() => {
+    // Smooth influence interpolation
+    cursorInfluence.current += (targetInfluence.current - cursorInfluence.current) * 0.05;
+  });
+
+  return { cursorPos: cursorPos.current, cursorInfluence: cursorInfluence.current };
+};
+
+export const InteractiveGrassField = ({
   width = 25,
   depth = 25,
   heightScale = 0.3,
-  density = 15000, // Much higher density for realistic coverage
-  minHeight = 0.15,
-  maxHeight = 0.35,
+  density = 20000,
+  minHeight = 0.18,
+  maxHeight = 0.38,
   avoidSteepSlopes = true,
   maxSlope = 0.3,
   windStrength = 0.2,
@@ -240,29 +301,23 @@ export const GrassField = ({
   const meshRef = useRef(null);
   const materialRef = useRef(null);
   const noise2D = useMemo(() => createNoise2D(), []);
+  const { cursorPos, cursorInfluence } = useCursorPosition();
   
-  // Create base grass blade geometry
   const grassGeometry = useMemo(() => createGrassBladeGeometry(), []);
   
-  // Generate grass blade positions and attributes
-  const { positions, scales, rotations, randomOffsets, count } = useMemo(() => {
+  const { positions, scales, rotations, count } = useMemo(() => {
     const posArray = [];
     const scaleArray = [];
     const rotArray = [];
-    const offsetArray = [];
     
     const attempts = density * 2;
     let placed = 0;
     
     for (let i = 0; i < attempts && placed < density; i++) {
-      // Random position within terrain bounds
       const x = (Math.random() - 0.5) * width;
       const y = (Math.random() - 0.5) * depth;
-      
-      // Calculate terrain height
       const height = calculateTerrainHeight(x, y, noise2D, heightScale);
       
-      // Avoid steep slopes
       if (avoidSteepSlopes) {
         const sampleDistance = 0.2;
         const h1 = calculateTerrainHeight(x + sampleDistance, y, noise2D, heightScale);
@@ -274,27 +329,16 @@ export const GrassField = ({
         const slopeY = Math.abs(h3 - h4) / (sampleDistance * 2);
         const maxSlopeValue = Math.max(slopeX, slopeY);
         
-        if (maxSlopeValue > maxSlope) {
-          continue;
-        }
+        if (maxSlopeValue > maxSlope) continue;
       }
       
-      // Transform to world position
       const worldPos = terrainToWorldPosition(x, y, height);
-      
-      // Random scale for variety
       const scale = minHeight + Math.random() * (maxHeight - minHeight);
-      
-      // Random rotation around Y axis
       const rotation = Math.random() * Math.PI * 2;
-      
-      // Random offset for wind variation (each blade moves slightly differently)
-      const randomOffset = Math.random() * 100.0;
       
       posArray.push(worldPos[0], worldPos[1] + 0.02, worldPos[2]);
       scaleArray.push(scale);
       rotArray.push(rotation);
-      offsetArray.push(randomOffset);
       
       placed++;
     }
@@ -303,17 +347,13 @@ export const GrassField = ({
       positions: new Float32Array(posArray),
       scales: new Float32Array(scaleArray),
       rotations: new Float32Array(rotArray),
-      randomOffsets: new Float32Array(offsetArray),
       count: placed,
     };
   }, [width, depth, heightScale, density, minHeight, maxHeight, noise2D, avoidSteepSlopes, maxSlope]);
   
-  // Initialize instance matrices
   useEffect(() => {
     if (meshRef.current && count > 0) {
       const matrix = new THREE.Matrix4();
-      
-      // Set instance matrices
       for (let i = 0; i < count; i++) {
         const x = positions[i * 3];
         const y = positions[i * 3 + 1];
@@ -324,20 +364,19 @@ export const GrassField = ({
         matrix.makeRotationY(rotation);
         matrix.setPosition(x, y, z);
         matrix.scale(new THREE.Vector3(scale, scale, scale));
-        
         meshRef.current.setMatrixAt(i, matrix);
       }
-      
       meshRef.current.instanceMatrix.needsUpdate = true;
     }
   }, [meshRef, count, positions, scales, rotations]);
   
-  // Update shader uniforms for wind animation
   useFrame((state) => {
     if (materialRef.current) {
       materialRef.current.uniforms.time.value = state.clock.elapsedTime;
       materialRef.current.uniforms.windStrength.value = windStrength;
       materialRef.current.uniforms.windSpeed.value = windSpeed;
+      materialRef.current.uniforms.cursorPosition.value.copy(cursorPos);
+      materialRef.current.uniforms.cursorInfluence.value = cursorInfluence;
     }
   });
   
@@ -360,3 +399,4 @@ export const GrassField = ({
     </instancedMesh>
   );
 };
+

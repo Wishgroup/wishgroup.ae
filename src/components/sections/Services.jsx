@@ -12,8 +12,8 @@ function Services() {
       image: '/products/belimal.jpeg',
     },
     {
-      title: 'Dry Sprat',
-      description: 'Fresh, high-grade dry sprats sourced from pristine waters, perfect for culinary excellence and premium seafood experiences.',
+      title: 'Dry fish sprats',
+      description: 'Fresh, high-grade Dry fish sprats sourced from pristine waters, perfect for culinary excellence and premium seafood experiences.',
       image: '/products/dryfish.jpeg',
     },
     {

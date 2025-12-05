@@ -1,10 +1,11 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import { Suspense, useRef, useState, useCallback } from "react";
-import { Terrain } from "./Terrain";
+import { TileTerrain } from "./TileTerrain";
 import { BusinessmanBillboards } from "./BusinessmanBillboards";
 import { FlowerField } from "./FlowerField";
-import { GrassField } from "./GrassField";
+import { InteractiveGrassField } from "./InteractiveGrassField";
+import { InteractiveDandelionField } from "./InteractiveDandelionField";
 import * as THREE from "three";
 
 const CameraController = ({
@@ -82,7 +83,7 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
   }
 
   return (
-    <div style={{ position: 'absolute', inset: 0, background: '#f5f0e8' }}>
+    <div style={{ position: 'absolute', inset: 0, background: '#d4e8d4' }}>
       <Canvas
         camera={{
           position: [0, 5, 12],
@@ -91,34 +92,49 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
           far: 1000,
         }}
         gl={{ antialias: true, alpha: false }}
+        shadows
       >
-        <color attach="background" args={["#f5f0e8"]} />
-        <fog attach="fog" args={["#f5f0e8", 10, 35]} />
+        <color attach="background" args={["#d4e8d4"]} />
+        <fog attach="fog" args={["#d4e8d4", 15, 40]} />
         
         <Suspense fallback={null}>
-          <ambientLight intensity={0.6} color="#fffaf0" />
-          <directionalLight position={[5, 10, 5]} intensity={0.8} color="#fff8dc" />
-          <pointLight position={[0, -3, 0]} intensity={0.4} color="#ffefd5" distance={15} />
-          <pointLight position={[-10, 5, -10]} intensity={0.3} color="#fffacd" distance={25} />
+          <ambientLight intensity={0.7} color="#ffffff" />
+          <directionalLight 
+            position={[10, 20, 10]} 
+            intensity={1.2} 
+            color="#ffffff"
+            castShadow
+            shadow-mapSize-width={2048}
+            shadow-mapSize-height={2048}
+            shadow-camera-far={50}
+            shadow-camera-left={-20}
+            shadow-camera-right={20}
+            shadow-camera-top={20}
+            shadow-camera-bottom={-20}
+          />
+          <directionalLight position={[-5, 10, -5]} intensity={0.4} color="#e8f5e9" />
+          <pointLight position={[0, 8, 0]} intensity={0.5} color="#ffffff" distance={30} />
           
           <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={0.5} />
           
-          <Terrain
+          <TileTerrain
             width={25}
             depth={25}
             widthSegments={180}
             depthSegments={180}
             heightScale={0.3}
-            wireframe={true}
+            wireframe={false}
           />
           
-          <GrassField
+          <InteractiveGrassField
             width={25}
             depth={25}
             heightScale={0.3}
-            density={6000}
-            minHeight={0.12}
-            maxHeight={0.28}
+            density={20000}
+            minHeight={0.18}
+            maxHeight={0.38}
+            windStrength={0.25}
+            windSpeed={1.5}
           />
           
           <FlowerField
@@ -128,6 +144,13 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
             count={150}
             minScale={0.15}
             maxScale={0.35}
+          />
+          
+          <InteractiveDandelionField
+            width={25}
+            depth={25}
+            heightScale={0.3}
+            count={1000}
           />
           
           <BusinessmanBillboards 
