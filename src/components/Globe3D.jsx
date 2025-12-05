@@ -89,9 +89,6 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
     const path = d3.geoPath()
       .projection(projection)
 
-    const graticule = d3.geoGraticule()
-      .extent([[-180, -90], [180 - 0.1, 90 - 0.1]])
-
     // Add styles
     svg.append('defs').append('style').text(`
       .world-outline-outer {
@@ -110,21 +107,11 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
         stroke-width: 0.0px;
         stroke-linejoin: round;
       }
-      .line {
-        fill: none;
-        stroke: #000;
-        stroke-opacity: .08;
-        stroke-width: .5px;
-      }
       text {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 18px;
         font-weight: bold;
         text-anchor: middle;
-      }
-      .world-map-overlay {
-        opacity: 0.4;
-        mix-blend-mode: multiply;
       }
       .popup-area {
         pointer-events: auto;
@@ -132,58 +119,6 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
       }
     `)
 
-    // Create defs for world map pattern and clip path
-    const defs = svg.append('defs')
-    
-    // Create clip path for the globe
-    const clipPath = defs.append('clipPath')
-      .attr('id', 'globe-clip')
-    
-    clipPath.append('circle')
-      .attr('cx', width / 2)
-      .attr('cy', height / 2)
-      .attr('r', projection.scale())
-    
-    // Create pattern for world map image
-    // Store reference to pattern and image for rotation updates
-    let worldMapPattern = null
-    let worldMapImage = null
-    let worldMapGroup = null
-    let worldMapOverlay = null
-    
-    // Try to load world map image, fallback to pattern if image doesn't exist
-    const worldMapImagePath = '/img/flower/Dandelion.png' // Can be replaced with actual world map
-    
-    // Create pattern for world map image
-    worldMapPattern = defs.append('pattern')
-      .attr('id', 'world-map-pattern')
-      .attr('patternUnits', 'userSpaceOnUse')
-      .attr('width', 720) // Standard world map width (360 * 2)
-      .attr('height', 360) // Standard world map height (180 * 2)
-      .attr('patternTransform', 'translate(0, 0)')
-    
-    // Add world map image to pattern
-    worldMapImage = worldMapPattern.append('image')
-      .attr('href', worldMapImagePath)
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('width', 720)
-      .attr('height', 360)
-      .attr('preserveAspectRatio', 'none')
-    
-    // Create a group for the world map overlay that will rotate
-    worldMapGroup = svg.append('g')
-      .attr('class', 'world-map-group')
-      .attr('clip-path', 'url(#globe-clip)')
-    
-    // Create the world map overlay sphere
-    worldMapOverlay = worldMapGroup.append('circle')
-      .attr('class', 'world-map-overlay')
-      .attr('cx', width / 2)
-      .attr('cy', height / 2)
-      .attr('r', projection.scale())
-      .style('fill', 'url(#world-map-pattern)')
-      .style('opacity', 0.3)
 
     // Great arc interpolator
     const d3_radians = Math.PI / 180
@@ -334,15 +269,10 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
         // Setup front hemisphere
         projection.clipAngle(90)
 
-        const line = svg.append('path')
-          .datum(graticule)
-          .attr('class', 'line')
-          .attr('d', path)
-
         const country = svg.selectAll('.country')
           .data(countries)
           .enter()
-          .insert('path', '.line')
+          .append('path')
           .attr('class', 'country')
           .attr('data-country-id', d => d._id || '')
           .attr('d', path)
@@ -358,13 +288,19 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
           .style('font-family', '"Helvetica Neue", Helvetica, Arial, sans-serif')
           .style('font-size', fontSize)
           .style('font-weight', 'bold')
-          .style('fill', '#333')
+          .style('fill', '#000')
           .style('pointer-events', 'none')
           .style('opacity', 0)
           .text('')
 
-        // Animation step function
+        // Animation step function - optimized and smooth
         function step() {
+          // Clear any pending timeouts to prevent stuck states
+          if (stepTimeoutRef.current) {
+            clearTimeout(stepTimeoutRef.current)
+            stepTimeoutRef.current = null
+          }
+
           if (!isMountedRef.current) {
             console.log('Component unmounted, stopping animation')
             return
@@ -378,47 +314,11 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             return
           }
 
-          // Update country name text
+          // Store country info for later use
           const countryName = currentCountry._name || 'Country'
           const currentCountryId = currentCountry._id
-          currentHighlightId = currentCountryId // Update the highlight tracker
           currentCountryData = currentCountry // Store for updateGlobe function
-          console.log('Highlighting:', countryName, 'Index:', i, 'ID:', currentCountryId)
-          
-          // Get centroid for text positioning
-          let textPoint
-          try {
-            textPoint = d3.geoCentroid(currentCountry)
-          } catch (e) {
-            console.warn('Error getting centroid for text:', e)
-            textPoint = null
-          }
-          
-          if (textPoint) {
-            const projectedPoint = projection(textPoint)
-            if (projectedPoint) {
-              title
-                .transition()
-                .duration(200)
-                .style('opacity', 0)
-                .transition()
-                .duration(200)
-                .attr('x', projectedPoint[0])
-                .attr('y', projectedPoint[1] - 15) // Offset above the country
-                .text(countryName)
-                .style('opacity', 1)
-            }
-          }
-
-          // Highlight country - match by data attribute
-          country
-            .transition()
-            .duration(300)
-            .style('fill', function() {
-              // Match by comparing the data attribute
-              const countryId = d3.select(this).attr('data-country-id')
-              return countryId === currentCountryId ? '#A6033F' : '#737368'
-            })
+          console.log('Rotating to:', countryName, 'Index:', i, 'ID:', currentCountryId)
 
           // Get centroid for rotation
           let point
@@ -449,74 +349,34 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             // Update front hemisphere (visible side)
             projection.clipAngle(90)
             country.attr('d', path)
-            line.attr('d', path)
             
-            // Update world map pattern rotation to match globe rotation
-            const [lon, lat] = rotation
-            const normalizedLon = ((lon % 360) + 360) % 360
-            const patternX = -(normalizedLon / 360) * 720
+            // Keep all countries in default color during rotation (no highlighting yet)
+            country.style('fill', '#737368')
             
-            if (worldMapImage) {
-              worldMapImage.attr('x', patternX)
-            }
-            
-            if (worldMapPattern) {
-              worldMapPattern.attr('patternTransform', `translate(${patternX}, 0)`)
-            }
-            
-            // Maintain highlight during rotation
-            country.style('fill', function() {
-              const countryId = d3.select(this).attr('data-country-id')
-              return countryId === currentHighlightId ? '#A6033F' : '#737368'
-            })
-            
-            // Update text position to follow the country
-            if (currentCountryData && currentHighlightId) {
-              try {
-                const textPoint = d3.geoCentroid(currentCountryData)
-                const projectedPoint = projection(textPoint)
-                if (projectedPoint) {
-                  // Check if point is visible (within the front hemisphere)
-                  const textDistance = Math.sqrt(
-                    Math.pow(projectedPoint[0] - width / 2, 2) + 
-                    Math.pow(projectedPoint[1] - height / 2, 2)
-                  )
-                  const radius = projection.scale()
-                  
-                  if (textDistance <= radius) {
-                    title
-                      .attr('x', projectedPoint[0])
-                      .attr('y', projectedPoint[1] - 15)
-                      .style('opacity', 1)
-                  } else {
-                    title.style('opacity', 0)
-                  }
-                } else {
-                  title.style('opacity', 0)
-                }
-              } catch (e) {
-                // Silently handle errors
-                title.style('opacity', 0)
-              }
-            }
+            // Hide text during rotation
+            title.style('opacity', 0)
           }
 
           // Create rotation animation using a selection-based transition
-          // Use the line element as a driver for the transition
-          const lineElement = svg.select('path.line')
-          if (!lineElement.node()) {
-            console.warn('Line element not found, skipping rotation')
+          // Use the country element as a driver for the transition
+          const countryElement = svg.select('path.country')
+          if (!countryElement.node()) {
+            console.warn('Country element not found, skipping rotation')
             stepTimeoutRef.current = setTimeout(step, 2000)
             return
           }
           
-          const lineTransition = lineElement
+          // Clear any existing transitions to prevent conflicts
+          countryElement.interrupt()
+          title.interrupt()
+          
+          const countryTransition = countryElement
             .transition()
-            .delay(250)
-            .duration(1500)
+            .delay(100)
+            .duration(2000) // Smoother, longer rotation
             .ease(d3.easeCubicInOut)
 
-          lineTransition.tween('rotate', function() {
+          countryTransition.tween('rotate', function() {
             return function(t) {
               if (!isMountedRef.current) return
               
@@ -526,14 +386,91 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             }
           })
 
-          // Continue to next country after rotation completes
-          lineTransition
+          // After rotation completes, wait 3 seconds, then highlight and show name
+          countryTransition
             .end()
             .then(function() {
               console.log('Rotation completed for', countryName)
-              if (isMountedRef.current) {
-                step()
-              }
+              if (!isMountedRef.current) return
+              
+              // Wait 3 seconds before highlighting
+              stepTimeoutRef.current = setTimeout(() => {
+                if (!isMountedRef.current) return
+                
+                // Update highlight tracker
+                currentHighlightId = currentCountryId
+                
+                // Get centroid for text positioning
+                let textPoint
+                try {
+                  textPoint = d3.geoCentroid(currentCountry)
+                } catch (e) {
+                  console.warn('Error getting centroid for text:', e)
+                  textPoint = null
+                }
+                
+                // Highlight the country
+                country
+                  .transition()
+                  .duration(400)
+                  .ease(d3.easeCubicOut)
+                  .style('fill', function() {
+                    const countryId = d3.select(this).attr('data-country-id')
+                    return countryId === currentCountryId ? '#A6033F' : '#737368'
+                  })
+                
+                // Show country name - always display when highlighted
+                if (textPoint) {
+                  const projectedPoint = projection(textPoint)
+                  if (projectedPoint) {
+                    // Position and show the country name
+                    title
+                      .attr('x', projectedPoint[0])
+                      .attr('y', projectedPoint[1] - 15)
+                      .text(countryName)
+                      .transition()
+                      .duration(400)
+                      .ease(d3.easeCubicOut)
+                      .style('opacity', 1)
+                  }
+                }
+                
+                // After showing name for 2.5 seconds, fade away and move to next
+                stepTimeoutRef.current = setTimeout(() => {
+                  if (!isMountedRef.current) return
+                  
+                  // Fade away highlight
+                  country
+                    .transition()
+                    .duration(500)
+                    .ease(d3.easeCubicIn)
+                    .style('fill', '#737368')
+                  
+                  // Fade away text
+                  title
+                    .transition()
+                    .duration(500)
+                    .ease(d3.easeCubicIn)
+                    .style('opacity', 0)
+                    .end()
+                    .then(() => {
+                      // Clear highlight tracker
+                      currentHighlightId = null
+                      
+                      // Move to next country
+                      if (isMountedRef.current) {
+                        step()
+                      }
+                    })
+                    .catch(() => {
+                      // If transition fails, still move to next
+                      currentHighlightId = null
+                      if (isMountedRef.current) {
+                        step()
+                      }
+                    })
+                }, 2500) // Show name for 2.5 seconds before fading
+              }, 3000) // Wait 3 seconds after rotation completes
             })
             .catch(function(err) {
               console.warn('Transition error:', err)

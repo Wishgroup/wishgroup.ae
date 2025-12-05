@@ -1,4 +1,200 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+
+// Simple Countdown Clock Component
+function FlipperClock() {
+  const [time, setTime] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
+  const formatTime = (date) => {
+    const hours = date.getHours().toString().padStart(2, '0')
+    const minutes = date.getMinutes().toString().padStart(2, '0')
+    const seconds = date.getSeconds().toString().padStart(2, '0')
+    return { hours, minutes, seconds }
+  }
+
+  const { hours, minutes, seconds } = formatTime(time)
+
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px',
+      height: '50px',
+      transform: 'scaleX(1.02)'
+    }}>
+      <span style={{
+        color: '#ffffff',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        fontFamily: 'monospace',
+        textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
+      }}>{hours}</span>
+      <span style={{
+        color: '#ffffff',
+        fontSize: '20px',
+        textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
+      }}>:</span>
+      <span style={{
+        color: '#ffffff',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        fontFamily: 'monospace',
+        textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
+      }}>{minutes}</span>
+      <span style={{
+        color: '#ffffff',
+        fontSize: '20px',
+        textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
+      }}>:</span>
+      <span style={{
+        color: '#ffffff',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        fontFamily: 'monospace',
+        textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
+      }}>{seconds}</span>
+    </div>
+  )
+}
+
+// Flipping Container Component
+function FlippingContainer() {
+  const [showClock, setShowClock] = useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowClock(prev => !prev)
+    }, 5000) // Toggle every 5 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      height: '50px',
+      perspective: '1000px'
+    }}>
+      <div style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        transformStyle: 'preserve-3d',
+        transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: showClock ? 'rotateX(0deg)' : 'rotateX(180deg)'
+      }}>
+        {/* Clock side - front */}
+        <div style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
+        }}>
+          <FlipperClock />
+        </div>
+        
+        {/* App Store badges side - back */}
+        <div style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          transform: 'rotateX(180deg)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          gap: '10px',
+          flexWrap: 'wrap'
+        }}>
+          <a 
+            href="https://play.google.com/store/apps" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ 
+              display: 'inline-block',
+              backgroundColor: '#000000',
+              borderRadius: '6px',
+              padding: '6px 12px',
+              textDecoration: 'none',
+              transition: 'opacity 0.3s',
+              height: '40px'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+              <div style={{ 
+                width: '20px', 
+                height: '20px', 
+                marginRight: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5Z" fill="#00D9FF"/>
+                  <path d="M16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12Z" fill="#00D9FF"/>
+                  <path d="M6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z" fill="#00D9FF"/>
+                  <path d="M20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.53 12.9 20.18 13.18L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81Z" fill="#00D9FF"/>
+                </svg>
+              </div>
+              <div style={{ color: '#ffffff', fontSize: '10px', lineHeight: '1.2' }}>
+                GET IT ON<br />
+                <span style={{ fontSize: '13px', fontWeight: '600' }}>Google Play</span>
+              </div>
+            </div>
+          </a>
+          <a 
+            href="https://apps.apple.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ 
+              display: 'inline-block',
+              backgroundColor: '#000000',
+              borderRadius: '6px',
+              padding: '6px 12px',
+              textDecoration: 'none',
+              transition: 'opacity 0.3s',
+              height: '40px'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+              <div style={{ 
+                width: '20px', 
+                height: '20px', 
+                marginRight: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff">
+                  <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+                </svg>
+              </div>
+              <div style={{ color: '#ffffff', fontSize: '10px', lineHeight: '1.2' }}>
+                Download on the<br />
+                <span style={{ fontSize: '13px', fontWeight: '600' }}>App Store</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function Footer() {
   return (
@@ -50,87 +246,13 @@ function Footer() {
               </p>
             </div>
             
-            {/* Right: App Store Badges */}
+            {/* Right: Flipper Clock Timer / App Store Icons */}
             <div className="col-md-3 col-lg-3" style={{ 
               display: 'flex', 
               justifyContent: 'flex-end',
-              alignItems: 'center',
-              gap: '10px',
-              flexWrap: 'wrap'
+              alignItems: 'center'
             }}>
-              <a 
-                href="https://play.google.com/store/apps" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ 
-                  display: 'inline-block',
-                  backgroundColor: '#000000',
-                  borderRadius: '6px',
-                  padding: '6px 12px',
-                  textDecoration: 'none',
-                  transition: 'opacity 0.3s',
-                  height: '40px'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-                  <div style={{ 
-                    width: '20px', 
-                    height: '20px', 
-                    marginRight: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12L3.84 21.85C3.34 21.6 3 21.09 3 20.5Z" fill="#00D9FF"/>
-                      <path d="M16.81 15.12L6.05 21.34L14.54 12.85L16.81 15.12Z" fill="#00D9FF"/>
-                      <path d="M6.05 2.66L16.81 8.88L14.54 11.15L6.05 2.66Z" fill="#00D9FF"/>
-                      <path d="M20.16 10.81C20.5 11.08 20.75 11.5 20.75 12C20.75 12.5 20.53 12.9 20.18 13.18L17.89 14.5L15.39 12L17.89 9.5L20.16 10.81Z" fill="#00D9FF"/>
-                    </svg>
-                  </div>
-                  <div style={{ color: '#ffffff', fontSize: '10px', lineHeight: '1.2' }}>
-                    GET IT ON<br />
-                    <span style={{ fontSize: '13px', fontWeight: '600' }}>Google Play</span>
-                  </div>
-                </div>
-              </a>
-              <a 
-                href="https://apps.apple.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ 
-                  display: 'inline-block',
-                  backgroundColor: '#000000',
-                  borderRadius: '6px',
-                  padding: '6px 12px',
-                  textDecoration: 'none',
-                  transition: 'opacity 0.3s',
-                  height: '40px'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-                  <div style={{ 
-                    width: '20px', 
-                    height: '20px', 
-                    marginRight: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff">
-                      <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-                    </svg>
-                  </div>
-                  <div style={{ color: '#ffffff', fontSize: '10px', lineHeight: '1.2' }}>
-                    Download on the<br />
-                    <span style={{ fontSize: '13px', fontWeight: '600' }}>App Store</span>
-                  </div>
-                </div>
-              </a>
+              <FlippingContainer />
             </div>
           </div>
         </div>

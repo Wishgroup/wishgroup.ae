@@ -84,10 +84,17 @@ const GrassShaderMaterial = {
       float heightFactor = pow(normalizedHeight, 1.5);
       float bendAmount = windStrength * heightFactor * (combinedWind - 0.5) * 2.0;
       
+      // Random in/out bending (forward/backward) - varies per blade
+      float randomSeed = sin(worldPos.x * 12.9898 + worldPos.z * 78.233) * 43758.5453;
+      float inOutBend = sin(time * windSpeed * 0.8 + randomSeed) * 0.4 + 0.6;
+      float inOutAmount = windStrength * heightFactor * (inOutBend - 0.5) * 1.5;
+      
       // Apply wind displacement with smooth easing
       vec3 pos = position;
+      // Left/right bending
       pos.x += bendAmount * 0.8;
-      pos.z += bendAmount * 0.3 * cos(time * windSpeed * 0.5);
+      // In/out bending (forward/backward) - random per blade
+      pos.z += inOutAmount * 0.6 + bendAmount * 0.3 * cos(time * windSpeed * 0.5);
       
       // Additional cursor-based displacement
       if (cursorInfluence > 0.0) {
@@ -290,17 +297,18 @@ export const InteractiveGrassField = ({
   width = 25,
   depth = 25,
   heightScale = 0.3,
-  density = 20000,
+  density = 35000, // Increased density significantly
   minHeight = 0.18,
   maxHeight = 0.38,
   avoidSteepSlopes = true,
   maxSlope = 0.3,
-  windStrength = 0.2,
+  windStrength = 0.25,
   windSpeed = 1.5,
 }) => {
   const meshRef = useRef(null);
   const materialRef = useRef(null);
   const noise2D = useMemo(() => createNoise2D(), []);
+  const clusterNoise = useMemo(() => createNoise2D(), []); // For uneven clustering
   const { cursorPos, cursorInfluence } = useCursorPosition();
   
   const grassGeometry = useMemo(() => createGrassBladeGeometry(), []);
@@ -310,12 +318,33 @@ export const InteractiveGrassField = ({
     const scaleArray = [];
     const rotArray = [];
     
-    const attempts = density * 2;
+    const attempts = density * 3; // More attempts for uneven spacing
     let placed = 0;
     
     for (let i = 0; i < attempts && placed < density; i++) {
-      const x = (Math.random() - 0.5) * width;
-      const y = (Math.random() - 0.5) * depth;
+      // Create uneven spacing using noise-based clustering
+      // First get a random position
+      let x = (Math.random() - 0.5) * width;
+      let y = (Math.random() - 0.5) * depth;
+      
+      // Use noise to create clusters - some areas denser, some sparser
+      const clusterValue = clusterNoise(x * 0.3, y * 0.3);
+      const clusterThreshold = 0.2; // Adjust for clustering intensity
+      
+      // Skip positions in sparse areas (below threshold)
+      if (clusterValue < clusterThreshold && Math.random() > 0.3) {
+        continue;
+      }
+      
+      // Add random jitter for more natural uneven spacing
+      x += (Math.random() - 0.5) * 0.4;
+      y += (Math.random() - 0.5) * 0.4;
+      
+      // Ensure still within bounds
+      if (Math.abs(x) > width / 2 || Math.abs(y) > depth / 2) {
+        continue;
+      }
+      
       const height = calculateTerrainHeight(x, y, noise2D, heightScale);
       
       if (avoidSteepSlopes) {
@@ -349,7 +378,7 @@ export const InteractiveGrassField = ({
       rotations: new Float32Array(rotArray),
       count: placed,
     };
-  }, [width, depth, heightScale, density, minHeight, maxHeight, noise2D, avoidSteepSlopes, maxSlope]);
+  }, [width, depth, heightScale, density, minHeight, maxHeight, noise2D, clusterNoise, avoidSteepSlopes, maxSlope]);
   
   useEffect(() => {
     if (meshRef.current && count > 0) {

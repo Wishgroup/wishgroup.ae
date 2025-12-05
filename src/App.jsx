@@ -1,6 +1,8 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 import Layout from './components/Layout'
+import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Home2 from './pages/Home2'
 import Portfolio1 from './pages/Portfolio1'
@@ -20,9 +22,32 @@ import Project5 from './pages/Project5'
 import Project6 from './pages/Project6'
 import NotFound from './pages/NotFound'
 
+// Component to handle Auth0 redirect after authentication
+const AuthRedirectHandler = () => {
+  const { isAuthenticated, isLoading } = useAuth0()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      // Check for stored returnTo path
+      const returnTo = sessionStorage.getItem('auth0_returnTo')
+      if (returnTo) {
+        sessionStorage.removeItem('auth0_returnTo')
+        // Use a small delay to ensure Auth0 state is fully restored
+        setTimeout(() => {
+          navigate(returnTo, { replace: true })
+        }, 100)
+      }
+    }
+  }, [isAuthenticated, isLoading, navigate])
+
+  return null
+}
+
 function App() {
   return (
     <Router>
+      <AuthRedirectHandler />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,12 +61,54 @@ function App() {
           <Route path="/publication" element={<Publication />} />
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/project-1" element={<Project1 />} />
-          <Route path="/project-2" element={<Project2 />} />
-          <Route path="/project-3" element={<Project3 />} />
-          <Route path="/project-4" element={<Project4 />} />
-          <Route path="/project-5" element={<Project5 />} />
-          <Route path="/project-6" element={<Project6 />} />
+          <Route 
+            path="/project-1" 
+            element={
+              <ProtectedRoute>
+                <Project1 />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/project-2" 
+            element={
+              <ProtectedRoute>
+                <Project2 />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/project-3" 
+            element={
+              <ProtectedRoute>
+                <Project3 />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/project-4" 
+            element={
+              <ProtectedRoute>
+                <Project4 />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/project-5" 
+            element={
+              <ProtectedRoute>
+                <Project5 />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/project-6" 
+            element={
+              <ProtectedRoute>
+                <Project6 />
+              </ProtectedRoute>
+            } 
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

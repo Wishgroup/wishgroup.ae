@@ -1,7 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Banner() {
+  const { loginWithRedirect, isAuthenticated } = useAuth0()
+
+  const handleSignUp = () => {
+    if (!isAuthenticated) {
+      loginWithRedirect({
+        screen_hint: 'signup',
+      })
+    }
+  }
+
   return (
     <section className="mil-banner mil-dark-bg">
       <div className="mi-invert-fix" style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -46,13 +57,20 @@ function Banner() {
               </div>
             </div>
 
-            <Link to="/services" className="mil-button mil-arrow-place mil-btn-space">
+            <a href="#about" className="mil-button mil-arrow-place mil-btn-space">
               <span>What we do</span>
-            </Link>
+            </a>
 
-            <Link to="/portfolio-1" className="mil-link mil-muted mil-arrow-place">
-              <span>View works</span>
-            </Link>
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault()
+                handleSignUp()
+              }}
+              className="mil-link mil-muted mil-arrow-place"
+            >
+              <span>Sign up</span>
+            </a>
 
             <div className="mil-circle-text">
               <svg

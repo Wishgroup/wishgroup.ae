@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { Billboard, useTexture } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { createNoise2D } from "simplex-noise";
 
@@ -36,17 +37,35 @@ const terrainToWorldPosition = (x, y, height) => {
   return [localPos.x, localPos.y, localPos.z];
 };
 
-const Flower = ({ position, scale, texture }) => {
+const Flower = ({ position, scale, texture, randomOffset, windStrength = 0.2, windSpeed = 1.5 }) => {
+  const meshRef = useRef(null);
+  const groupRef = useRef(null);
+  
+  // Random initial rotation for variety
+  const initialRotation = useMemo(() => Math.random() * Math.PI * 2, []);
+  
+  useFrame((state) => {
+    if (groupRef.current && meshRef.current) {
+      const time = state.clock.elapsedTime;
+      
+      // Calculate wind effect with random offset for each flower
+      const windWave = Math.sin(time * windSpeed + randomOffset) * 0.5 + 0.5;
+      const bendAmount = windStrength * (windWave - 0.5) * 2.0;
+      
+      // Apply random left/right bending (rotate around Y axis)
+      const bendAngle = bendAmount * 0.3; // Max 0.3 radians (~17 degrees)
+      groupRef.current.rotation.y = initialRotation + bendAngle;
+      
+      // Slight forward/backward tilt for more natural movement
+      groupRef.current.rotation.x = Math.sin(time * windSpeed * 0.7 + randomOffset) * 0.1;
+    }
+  });
+  
   return (
-    <Billboard
-      position={position}
-      follow={true}
-      lockX={false}
-      lockY={false}
-      lockZ={false}
-    >
-      <mesh>
-        <planeGeometry args={[scale, scale]} />
+    <group ref={groupRef} position={position}>
+      <mesh ref={meshRef}>
+        {/* Use circle geometry for round texture */}
+        <circleGeometry args={[scale, 32]} />
         <meshBasicMaterial 
           map={texture} 
           transparent 
@@ -55,7 +74,7 @@ const Flower = ({ position, scale, texture }) => {
           side={THREE.DoubleSide}
         />
       </mesh>
-    </Billboard>
+    </group>
   );
 };
 
@@ -66,9 +85,11 @@ export const FlowerField = ({
   count = 150,
   minScale = 0.15,
   maxScale = 0.35,
-  flowerTexturePath = "/img/flower/Dandelion.png",
+  flowerTexturePath = "/Terrain /Flower.png",
   avoidSteepSlopes = true,
   maxSlope = 0.3,
+  windStrength = 0.2,
+  windSpeed = 1.5,
 }) => {
   const texture = useTexture(flowerTexturePath);
   const noise2D = useMemo(() => createNoise2D(), []);
@@ -114,6 +135,9 @@ export const FlowerField = ({
       const offsetX = (Math.random() - 0.5) * 0.1;
       const offsetZ = (Math.random() - 0.5) * 0.1;
       
+      // Random offset for wind animation (each flower moves differently)
+      const randomOffset = Math.random() * 100.0;
+      
       flowerPositions.push({
         position: [
           worldPos[0] + offsetX,
@@ -121,6 +145,7 @@ export const FlowerField = ({
           worldPos[2] + offsetZ
         ],
         scale,
+        randomOffset,
       });
       
       placed++;
@@ -137,6 +162,9 @@ export const FlowerField = ({
           position={flower.position}
           scale={flower.scale}
           texture={texture}
+          randomOffset={flower.randomOffset}
+          windStrength={windStrength}
+          windSpeed={windSpeed}
         />
       ))}
     </>

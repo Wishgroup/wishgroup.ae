@@ -10,7 +10,7 @@ function About() {
             <div className="mil-mb-90">
               <h2 className="mil-up mil-mb-60">
                 Discover <br />
-                Our <span className="mil-thin">Projetcs</span>
+                Our <span className="mil-thin">Projects</span>
               </h2>
               <p className="mil-up mil-mb-30">
               At the WISH GROUP, our projects are the tangible realization of our vision for the future, accomplished through global initiatives and human connection. They embody our commitment to Excellence, Integrity, and Service. Our ventures are diverse, encompassing strategic investment sourcing, mixed project developments, real estate, and property development across our country network. We approach each project with diligence to create winning outcomes. We work to make wishes come true and achieve together to become a number one capital company.

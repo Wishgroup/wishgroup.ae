@@ -3,22 +3,6 @@ import gsap from 'gsap'
 
 function Preloader() {
   useEffect(() => {
-    // Only show preloader on initial page load, not on route changes
-    const hasShown = sessionStorage.getItem('preloader-shown')
-    if (hasShown === 'true') {
-      // Hide preloader immediately if it's already been shown
-      const preloader = document.querySelector('.mil-preloader')
-      if (preloader) {
-        preloader.classList.add('mil-hidden')
-        preloader.style.opacity = '0'
-        preloader.style.display = 'none'
-      }
-      return
-    }
-    
-    // Mark as shown
-    sessionStorage.setItem('preloader-shown', 'true')
-    
     const timeline = gsap.timeline()
 
     timeline.to('.mil-preloader-animation', {

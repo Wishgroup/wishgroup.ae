@@ -130,7 +130,7 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
             width={25}
             depth={25}
             heightScale={0.3}
-            density={20000}
+            density={35000}
             minHeight={0.18}
             maxHeight={0.38}
             windStrength={0.25}
@@ -141,9 +141,11 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
             width={25}
             depth={25}
             heightScale={0.3}
-            count={150}
+            count={200}
             minScale={0.15}
             maxScale={0.35}
+            windStrength={0.25}
+            windSpeed={1.5}
           />
           
           <InteractiveDandelionField

@@ -8,10 +8,10 @@ function Project1() {
   useScrollAnimations()
 
   const projectImages = [
-    '/img/Project1/Ciprea/image.webp',
-    '/img/Project1/Ciprea/about.webp',
-    '/img/Project1/Ciprea/skipjacktuna.webp',
-    '/img/Project1/Ciprea/yellofin tuna.webp',
+    '/img/Project1/WishHoldings/image.webp',
+    '/img/Project1/WishHoldings/about.webp',
+    '/img/Project1/WishHoldings/skipjacktuna.webp',
+    '/img/Project1/WishHoldings/yellofin tuna.webp',
     '/img/Project1/Prime Wish/prawns1.webp',
     '/img/Project1/Prime Wish/prawns3.webp',
     '/img/Project1/Prime Wish/primetune.webp',
@@ -127,11 +127,6 @@ function Project1() {
             <h1 className="mil-mb-60">
              Wishes <span className="mil-thin">Fulfilled</span>
             </h1>
-            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '600px', marginLeft: 0, marginRight: 'auto',textAlign: 'justify' }}>
-            Wishes Fulfilled highlights Wish Group's landmark achievements across hospitality, food & beverage manufacturing, export–import trading, and premium lifestyle development.
-            Featuring signature success stories like Ciprea and Prime Wish Trading LLC, this portfolio showcases our proven expertise in delivering high-quality projects that drive global impact.
-            Through innovative design, strategic execution, and industry-leading standards, Wish Group continues to transform visionary concepts into sustainable, market-ready results
-            </p>
             <a 
               href="#achievements" 
               onClick={handleScrollToAchievements}
@@ -222,13 +217,13 @@ function Project1() {
               fontSize: '11px',
               opacity: 0.8
             }}>COMPLETED PROJECTS</span>
-            <h2 className="mil-up mil-mb-60">Wished &
-               <span className="mil-thin">Achieved</span>
+            <h2 className="mil-up mil-mb-60">Completed
+               <span className="mil-thin"> Projects</span>
             </h2>
           </div>
 
           <div className="row" style={{ gap: '40px', justifyContent: 'center' }}>
-            {/* CIPREA Card */}
+            {/* WISH HOLDINGS Card */}
             <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
               <div
                 className="mil-up"
@@ -270,8 +265,8 @@ function Project1() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project1/Ciprea/about.webp"
-                    alt="CIPREA - Premium Tuna from the Maldives"
+                    src="/img/Project1/Ciprea/image.webp"
+                    alt="WISH HOLDINGS - Premium Tuna from the Maldives"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -287,7 +282,7 @@ function Project1() {
                     onError={(e) => {
                       // Fallback to about.webp if image.webp fails
                       if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
-                        e.currentTarget.src = '/img/Project1/Ciprea/image.webp'
+                        e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
                       }
                     }}
                   />
@@ -328,7 +323,7 @@ function Project1() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        <span style={{ fontWeight: 300 }}>CIPREA</span>
+                        <span style={{ fontWeight: 300 }}>WISH HOLDINGS</span>
                       </h3>
                       <div style={{
                         fontSize: '11px',
@@ -348,7 +343,7 @@ function Project1() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    CIPREA's Fresh & Frozen Tuna Portfolio, located on Himmafushi Island, Kaafu Atoll, Maldives, represents our commitment to delivering exceptional seafood products globally. This state-of-the-art facility specializes in processing premium Yellowfin and Skipjack Tuna, processed with care in the pristine waters of the Maldives.
+                    WISH HOLDINGS's Fresh & Frozen Tuna Portfolio, located on Himmafushi Island, Kaafu Atoll, Maldives, represents our commitment to delivering exceptional seafood products globally. This state-of-the-art facility specializes in processing premium Yellowfin and Skipjack Tuna, processed with care in the pristine waters of the Maldives.
                   </p>
 
                   {/* Stats */}
@@ -554,6 +549,172 @@ function Project1() {
                         letterSpacing: '1px',
                         textTransform: 'uppercase'
                       }}>Quality</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CIPREA Card */}
+            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project1/Ciprea/image.webp"
+                    alt="CIPREA - Premium Seafood Products"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      // Fallback to about.webp if image.webp fails
+                      if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
+                        e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        <span style={{ fontWeight: 300 }}>CIPREA</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>PREMIUM SEAFOOD • EXPORT</div>
+                    </div>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    CIPREA specializes in premium seafood products, focusing on high-quality Yellowfin and Skipjack Tuna. Our commitment to excellence ensures that we deliver the finest seafood products to markets worldwide, maintaining the highest standards of quality and freshness.
+                  </p>
+
+                  {/* Stats */}
+                  <div style={{
+                    display: 'flex',
+                    gap: '30px',
+                    marginTop: '30px',
+                    paddingTop: '30px',
+                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
+                  }}>
+                    <div>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: 600,
+                        color: '#A6033F',
+                        lineHeight: '1'
+                      }}>Quality</div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#8596A6',
+                        marginTop: '6px',
+                        letterSpacing: '1px',
+                        textTransform: 'uppercase'
+                      }}>Assured</div>
+                    </div>
+                    <div>
+                      <div style={{
+                        fontSize: '28px',
+                        fontWeight: 600,
+                        color: '#A6033F',
+                        lineHeight: '1'
+                      }}>Global</div>
+                      <div style={{
+                        fontSize: '12px',
+                        color: '#8596A6',
+                        marginTop: '6px',
+                        letterSpacing: '1px',
+                        textTransform: 'uppercase'
+                      }}>Export</div>
                     </div>
                   </div>
                 </div>
