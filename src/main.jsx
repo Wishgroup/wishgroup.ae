@@ -1,17 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-// import { Auth0Provider } from '@auth0/auth0-react' // Auth0 disabled
+import { Auth0Provider } from '@auth0/auth0-react'
 import App from './App'
 import './styles/main.scss'
 
-// const domain = import.meta.env.VITE_AUTH0_DOMAIN
-// const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
-// const audience = import.meta.env.VITE_AUTH0_AUDIENCE
+const domain = import.meta.env.VITE_AUTH0_DOMAIN
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
+const audience = import.meta.env.VITE_AUTH0_AUDIENCE
+
+const onRedirectCallback = (appState) => {
+  // Store the returnTo path - AuthRedirectHandler will handle navigation
+  const returnTo = appState?.returnTo || sessionStorage.getItem('auth0_returnTo')
+  if (returnTo) {
+    sessionStorage.setItem('auth0_returnTo', returnTo)
+  }
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* Auth0 disabled - removed Auth0Provider wrapper */}
-    <App />
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: audience || undefined,
+      }}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>
 )
 

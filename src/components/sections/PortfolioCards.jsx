@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { useAuth0 } from '@auth0/auth0-react' // Auth0 disabled
+import { useAuth0 } from '@auth0/auth0-react'
 
 function PortfolioCards() {
   const [activeIndex, setActiveIndex] = useState(0)
-  // const { isAuthenticated, loginWithRedirect } = useAuth0() // Auth0 disabled
+  const { isAuthenticated, loginWithRedirect } = useAuth0()
   const navigate = useNavigate()
 
   const projects = [
@@ -253,8 +253,17 @@ function PortfolioCards() {
                               >
                                 <button
                                   onClick={() => {
-                                    // Auth0 disabled - navigate directly
-                                    navigate(project.link)
+                                    if (isAuthenticated) {
+                                      navigate(project.link)
+                                    } else {
+                                      // Store the returnTo path and redirect to Auth0 login
+                                      sessionStorage.setItem('auth0_returnTo', project.link);
+                                      loginWithRedirect({
+                                        appState: {
+                                          returnTo: project.link,
+                                        },
+                                      })
+                                    }
                                   }}
                                   style={{
                                     color: 'white',

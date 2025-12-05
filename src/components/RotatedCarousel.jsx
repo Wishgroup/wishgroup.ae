@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { useAuth0 } from "@auth0/auth0-react"; // Auth0 disabled
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Constants
 const CARD_WIDTH = 400;
@@ -119,7 +119,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
   const containerRef = useRef(null);
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
-  // const { isAuthenticated, loginWithRedirect } = useAuth0(); // Auth0 disabled
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const navigate = useNavigate();
 
   const updateCarousel = useCallback((newIndex) => {
@@ -251,11 +251,20 @@ export default function RotatedCarousel({ items = defaultItems }) {
                 if (e.target.closest('a') || e.target.closest('button')) {
                   return;
                 }
-                // If card is centered, navigate to the project page based on item.link
+                // If card is centered, check authentication before navigating
                 if (positionClass === "center" && item.link) {
                   const projectPath = item.link;
-                  // Auth0 disabled - navigate directly
-                  navigate(projectPath, { replace: false });
+                  if (isAuthenticated) {
+                    navigate(projectPath, { replace: false });
+                  } else {
+                    // Store the returnTo path and redirect to Auth0 login
+                    sessionStorage.setItem('auth0_returnTo', projectPath);
+                    loginWithRedirect({
+                      appState: {
+                        returnTo: projectPath,
+                      },
+                    });
+                  }
                   return;
                 }
                 // Otherwise, update carousel
@@ -362,8 +371,17 @@ export default function RotatedCarousel({ items = defaultItems }) {
                           e.preventDefault();
                           // Navigate to the project page based on item.link
                           const projectPath = item.link || `/project-${index + 1}`;
-                          // Auth0 disabled - navigate directly
-                          navigate(projectPath, { replace: false });
+                          if (isAuthenticated) {
+                            navigate(projectPath, { replace: false });
+                          } else {
+                            // Store the returnTo path and redirect to Auth0 login
+                            sessionStorage.setItem('auth0_returnTo', projectPath);
+                            loginWithRedirect({
+                              appState: {
+                                returnTo: projectPath,
+                              },
+                            });
+                          }
                         }}
                         style={{
                           display: "inline-block",
