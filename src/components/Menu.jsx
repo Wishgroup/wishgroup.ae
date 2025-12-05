@@ -78,12 +78,10 @@ function Menu() {
   ]
 
   const projects = [
-    { title: 'Interior design studio', path: '/project-1' },
-    { title: 'Home Security Camera', path: '/project-2' },
-    { title: 'Kemia Honest Skincare', path: '/project-3' },
-    { title: 'Cascade of Lava', path: '/project-4' },
-    { title: 'Air Pro by Molekule', path: '/project-5' },
-    { title: "Tony's Chocolonely", path: '/project-6' },
+    { title: 'Wishes Fulfilled', path: '/project-1' },
+    { title: 'Seeds Taking Root', path: '/project-2' },
+    { title: 'Partnerships for Impact', path: '/project-3' },
+    { title: 'Dreams on the Horizon', path: '/project-4' },
   ]
 
   return (
@@ -107,7 +105,11 @@ function Menu() {
                 <ul>
                   {menuItems.map((item, index) => (
                     <li key={index} className="mil-has-children">
-                      <a href="#.">{item.title}</a>
+                      {item.title === 'Homepage' ? (
+                        <Link to="/">{item.title}</Link>
+                      ) : (
+                        <a href="#.">{item.title}</a>
+                      )}
                       <ul>
                         {item.children.map((child, childIndex) => (
                           <li key={childIndex}>

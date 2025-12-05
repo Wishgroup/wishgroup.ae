@@ -122,26 +122,68 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
         font-weight: bold;
         text-anchor: middle;
       }
+      .world-map-overlay {
+        opacity: 0.4;
+        mix-blend-mode: multiply;
+      }
+      .popup-area {
+        pointer-events: auto;
+        cursor: pointer;
+      }
     `)
 
-    // Create outer and inner spheres with synchronized timing
-    const outerRadius = projection.scale()
-    const innerRadius = outerRadius * 0.85 // Inner sphere is 85% of outer
+    // Create defs for world map pattern and clip path
+    const defs = svg.append('defs')
     
-    svg.selectAll('circle.world-outline-outer').remove()
-    svg.selectAll('circle.world-outline-inner').remove()
+    // Create clip path for the globe
+    const clipPath = defs.append('clipPath')
+      .attr('id', 'globe-clip')
     
-    const outerSphere = svg.append('circle')
-      .attr('class', 'world-outline-outer')
+    clipPath.append('circle')
       .attr('cx', width / 2)
       .attr('cy', height / 2)
-      .attr('r', outerRadius)
+      .attr('r', projection.scale())
     
-    const innerSphere = svg.append('circle')
-      .attr('class', 'world-outline-inner')
+    // Create pattern for world map image
+    // Store reference to pattern and image for rotation updates
+    let worldMapPattern = null
+    let worldMapImage = null
+    let worldMapGroup = null
+    let worldMapOverlay = null
+    
+    // Try to load world map image, fallback to pattern if image doesn't exist
+    const worldMapImagePath = '/img/flower/Dandelion.png' // Can be replaced with actual world map
+    
+    // Create pattern for world map image
+    worldMapPattern = defs.append('pattern')
+      .attr('id', 'world-map-pattern')
+      .attr('patternUnits', 'userSpaceOnUse')
+      .attr('width', 720) // Standard world map width (360 * 2)
+      .attr('height', 360) // Standard world map height (180 * 2)
+      .attr('patternTransform', 'translate(0, 0)')
+    
+    // Add world map image to pattern
+    worldMapImage = worldMapPattern.append('image')
+      .attr('href', worldMapImagePath)
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', 720)
+      .attr('height', 360)
+      .attr('preserveAspectRatio', 'none')
+    
+    // Create a group for the world map overlay that will rotate
+    worldMapGroup = svg.append('g')
+      .attr('class', 'world-map-group')
+      .attr('clip-path', 'url(#globe-clip)')
+    
+    // Create the world map overlay sphere
+    worldMapOverlay = worldMapGroup.append('circle')
+      .attr('class', 'world-map-overlay')
       .attr('cx', width / 2)
       .attr('cy', height / 2)
-      .attr('r', innerRadius)
+      .attr('r', projection.scale())
+      .style('fill', 'url(#world-map-pattern)')
+      .style('opacity', 0.3)
 
     // Great arc interpolator
     const d3_radians = Math.PI / 180
@@ -336,7 +378,7 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             return
           }
 
-          // Update country name text immediately
+          // Update country name text
           const countryName = currentCountry._name || 'Country'
           const currentCountryId = currentCountry._id
           currentHighlightId = currentCountryId // Update the highlight tracker
@@ -396,7 +438,7 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
           // Initialize the interpolator
           const interpolator = rotate.source(currentRotate).target(targetRotate)
           interpolator.distance() // Calculate distance
-          
+
           // Function to update the globe paths
           function updateGlobe(rotation) {
             if (!isMountedRef.current) return
@@ -408,6 +450,19 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             projection.clipAngle(90)
             country.attr('d', path)
             line.attr('d', path)
+            
+            // Update world map pattern rotation to match globe rotation
+            const [lon, lat] = rotation
+            const normalizedLon = ((lon % 360) + 360) % 360
+            const patternX = -(normalizedLon / 360) * 720
+            
+            if (worldMapImage) {
+              worldMapImage.attr('x', patternX)
+            }
+            
+            if (worldMapPattern) {
+              worldMapPattern.attr('patternTransform', `translate(${patternX}, 0)`)
+            }
             
             // Maintain highlight during rotation
             country.style('fill', function() {
@@ -446,38 +501,22 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
             }
           }
 
-          // Create rotation animation using synchronized transitions for both spheres
-          // Use the outer sphere as the primary driver for synchronized timing
-          const outerSphereElement = svg.select('circle.world-outline-outer')
-          const innerSphereElement = svg.select('circle.world-outline-inner')
-          
-          if (!outerSphereElement.node() || !innerSphereElement.node()) {
-            console.warn('Sphere elements not found, skipping rotation')
+          // Create rotation animation using a selection-based transition
+          // Use the line element as a driver for the transition
+          const lineElement = svg.select('path.line')
+          if (!lineElement.node()) {
+            console.warn('Line element not found, skipping rotation')
             stepTimeoutRef.current = setTimeout(step, 2000)
             return
           }
           
-          // Create synchronized transitions for both spheres with identical timing
-          const transitionDelay = 250
-          const transitionDuration = 1500
-          const transitionEase = d3.easeCubicInOut
-          
-          // Both spheres use the same transition timing for perfect synchronization
-          const outerTransition = outerSphereElement
+          const lineTransition = lineElement
             .transition()
-            .delay(transitionDelay)
-            .duration(transitionDuration)
-            .ease(transitionEase)
-          
-          // Inner sphere transition with identical timing parameters
-          innerSphereElement
-            .transition()
-            .delay(transitionDelay)
-            .duration(transitionDuration)
-            .ease(transitionEase)
+            .delay(250)
+            .duration(1500)
+            .ease(d3.easeCubicInOut)
 
-          // Single tween function shared by both spheres to ensure synchronized rotation
-          const rotationTween = function() {
+          lineTransition.tween('rotate', function() {
             return function(t) {
               if (!isMountedRef.current) return
               
@@ -485,13 +524,10 @@ function Globe3D({ width: propWidth = 400, height: propHeight = 400 }) {
               const newRotate = interpolator(t)
               updateGlobe(newRotate)
             }
-          }
-          
-          // Apply the same tween to both transitions for perfect synchronization
-          outerTransition.tween('rotate', rotationTween)
+          })
 
-          // Continue to next country after rotation completes (use outer transition as reference)
-          outerTransition
+          // Continue to next country after rotation completes
+          lineTransition
             .end()
             .then(function() {
               console.log('Rotation completed for', countryName)

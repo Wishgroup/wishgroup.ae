@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react"; // Auth0 disabled
 
 // Constants
 const CARD_WIDTH = 400;
@@ -119,7 +119,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
   const containerRef = useRef(null);
   const touchStartY = useRef(0);
   const touchEndY = useRef(0);
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  // const { isAuthenticated, loginWithRedirect } = useAuth0(); // Auth0 disabled
   const navigate = useNavigate();
 
   const updateCarousel = useCallback((newIndex) => {
@@ -251,6 +251,14 @@ export default function RotatedCarousel({ items = defaultItems }) {
                 if (e.target.closest('a') || e.target.closest('button')) {
                   return;
                 }
+                // If card is centered, navigate to the project page based on item.link
+                if (positionClass === "center" && item.link) {
+                  const projectPath = item.link;
+                  // Auth0 disabled - navigate directly
+                  navigate(projectPath, { replace: false });
+                  return;
+                }
+                // Otherwise, update carousel
                 updateCarousel(index);
               }}
               style={cardStyle}
@@ -351,15 +359,11 @@ export default function RotatedCarousel({ items = defaultItems }) {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (isAuthenticated) {
-                            navigate(item.link || `/project-${index + 1}`);
-                          } else {
-                            loginWithRedirect({
-                              appState: {
-                                returnTo: item.link || `/project-${index + 1}`,
-                              },
-                            });
-                          }
+                          e.preventDefault();
+                          // Navigate to the project page based on item.link
+                          const projectPath = item.link || `/project-${index + 1}`;
+                          // Auth0 disabled - navigate directly
+                          navigate(projectPath, { replace: false });
                         }}
                         style={{
                           display: "inline-block",
