@@ -338,7 +338,7 @@ export const InteractiveDandelionField = ({
         receiveShadow
       >
         <meshStandardMaterial
-          color={new THREE.Color().setHSL(110 / 360, 0.7, 0.3)}
+          color={new THREE.Color().setHSL(120 / 360, 0.75, 0.35)}
           roughness={0.95}
           metalness={0.05}
         />
@@ -352,10 +352,10 @@ export const InteractiveDandelionField = ({
         receiveShadow
       >
         <meshStandardMaterial
-          color={new THREE.Color().setHSL(55 / 360, 0.15, 0.98)}
-          emissive={new THREE.Color().setHSL(55 / 360, 0.25, 0.95)}
-          emissiveIntensity={0.6}
-          roughness={0.6}
+          color={new THREE.Color(1.0, 1.0, 1.0)}
+          emissive={new THREE.Color(1.0, 0.98, 0.95)}
+          emissiveIntensity={0.3}
+          roughness={0.8}
           metalness={0.0}
         />
       </instancedMesh>
