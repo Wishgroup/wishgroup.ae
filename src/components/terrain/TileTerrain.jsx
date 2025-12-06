@@ -20,12 +20,12 @@ export const TileTerrain = ({
     const positions = geo.attributes.position;
     const colorArray = new Float32Array(positions.count * 3);
     
-    // Color palette for realistic green grassy field - more vibrant
-    const deepColor = new THREE.Color().setHSL(110 / 360, 0.6, 0.2);
-    const lowColor = new THREE.Color().setHSL(110 / 360, 0.65, 0.25);
-    const midColor = new THREE.Color().setHSL(105 / 360, 0.6, 0.3);
-    const highColor = new THREE.Color().setHSL(100 / 360, 0.55, 0.35);
-    const peakColor = new THREE.Color().setHSL(95 / 360, 0.5, 0.4);
+    // Color palette for vibrant green grassy field matching dandelion field image
+    const deepColor = new THREE.Color().setHSL(120 / 360, 0.75, 0.25);
+    const lowColor = new THREE.Color().setHSL(120 / 360, 0.8, 0.3);
+    const midColor = new THREE.Color().setHSL(115 / 360, 0.75, 0.35);
+    const highColor = new THREE.Color().setHSL(110 / 360, 0.7, 0.4);
+    const peakColor = new THREE.Color().setHSL(105 / 360, 0.65, 0.45);
     
     let minHeight = Infinity;
     let maxHeight = -Infinity;
