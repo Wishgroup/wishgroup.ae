@@ -478,6 +478,20 @@ menu
                 color: $light;
             }
         }
+
+        &.mil-project-item {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: $t-md;
+            transition-property: opacity, transform;
+            pointer-events: none;
+
+            &.mil-animate-in {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: all;
+            }
+        }
     }
 
     &.mil-hori-list {
