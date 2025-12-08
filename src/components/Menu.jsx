@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AuthButton from './AuthButton'
 
 function Menu() {
   const [isActive, setIsActive] = useState(false)
   const [isProjectsActive, setIsProjectsActive] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const scrollTimeoutRef = useRef(null)
 
   useEffect(() => {
     const menuBtn = document.querySelectorAll('.mil-menu-btn')
@@ -38,9 +40,71 @@ function Menu() {
     setIsProjectsActive(false)
   }, [location])
 
+  // Save scroll position when menu state changes
+  useEffect(() => {
+    if (location.pathname === '/') {
+      const scrollY = window.scrollY || window.pageYOffset
+      sessionStorage.setItem('homepage_scroll_position', scrollY.toString())
+    }
+  }, [isActive, location])
+
+  // Track scroll position and save to sessionStorage
+  useEffect(() => {
+    const saveScrollPosition = () => {
+      if (location.pathname === '/') {
+        const scrollY = window.scrollY || window.pageYOffset
+        sessionStorage.setItem('homepage_scroll_position', scrollY.toString())
+      }
+    }
+
+    // Save scroll position on scroll (throttled)
+    const handleScroll = () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+      scrollTimeoutRef.current = setTimeout(saveScrollPosition, 100)
+    }
+
+    // Save scroll position on user interactions
+    const handleInteraction = () => {
+      saveScrollPosition()
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('click', handleInteraction, { passive: true })
+    window.addEventListener('touchstart', handleInteraction, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('click', handleInteraction)
+      window.removeEventListener('touchstart', handleInteraction)
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+    }
+  }, [location])
+
   const handleProjectsClick = (e) => {
     e.preventDefault()
     setIsProjectsActive((prev) => !prev)
+  }
+
+  const handleHomepageClick = (e) => {
+    const savedScrollPosition = sessionStorage.getItem('homepage_scroll_position')
+    
+    if (location.pathname === '/') {
+      // Already on homepage, prevent navigation and just restore scroll position
+      e.preventDefault()
+      if (savedScrollPosition) {
+        window.scrollTo({
+          top: parseInt(savedScrollPosition, 10),
+          behavior: 'smooth'
+        })
+      }
+    } else {
+      // Allow Link to navigate naturally, scroll will be restored by Home component
+      // No need to prevent default - let React Router handle navigation
+    }
   }
 
   const menuItems = [
@@ -54,10 +118,9 @@ function Menu() {
     },
     {
       title: 'About Us',
+      path: '/about-us',
       children: [
-        { title: 'Grid type 1', path: '/portfolio-1' },
-        { title: 'Grid type 2', path: '/portfolio-2' },
-        { title: 'Slider', path: '/portfolio-3' },
+        { title: 'About Us', path: '/about-us' },
       ],
     },
     {
@@ -94,7 +157,7 @@ function Menu() {
   return (
     <div className={`mil-menu-frame ${isActive ? 'mil-active' : ''}`}>
       <div className="mil-frame-top">
-        <Link to="/" className="mil-logo">
+        <Link to="/" className="mil-logo" onClick={handleHomepageClick}>
           <img src="/logo.png" alt="Wish Group Logo" style={{ height: '56px', width: 'auto' }} />
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -116,16 +179,22 @@ function Menu() {
                       className={`mil-has-children ${item.title === 'Projects' && isProjectsActive ? 'mil-active' : ''}`}
                     >
                       {item.title === 'Homepage' ? (
-                        <Link to="/">{item.title}</Link>
+                        <Link to="/" onClick={handleHomepageClick}>{item.title}</Link>
                       ) : item.title === 'Projects' ? (
                         <a href="#." onClick={handleProjectsClick}>{item.title}</a>
+                      ) : item.path ? (
+                        <Link to={item.path}>{item.title}</Link>
                       ) : (
                         <a href="#.">{item.title}</a>
                       )}
                       <ul>
                         {item.children.map((child, childIndex) => (
                           <li key={childIndex}>
-                            <Link to={child.path}>{child.title}</Link>
+                            {child.path === '/' ? (
+                              <Link to={child.path} onClick={handleHomepageClick}>{child.title}</Link>
+                            ) : (
+                              <Link to={child.path}>{child.title}</Link>
+                            )}
                           </li>
                         ))}
                       </ul>
@@ -168,34 +237,25 @@ function Menu() {
                   <div className="mil-divider mil-mb-60"></div>
                   <div className="row justify-content-between">
                     <div className="col-lg-6 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30">Dubai, U.A.E.</h6>
-                      <p className="mil-light-soft mil-up">
-                        4004/4005, 40th Floor, Citadel Tower,<br />
-                        Al Marasi Drive Business Bay, Dubai- U.A.E.<br />
-                        P.O.BOX: 417425, Dubai UAE<br />
-                        <span className="mil-no-wrap">+971 4259 7167</span> / <span className="mil-no-wrap">+971 4259 4795</span>
-                      </p>
-                    </div>
-                    <div className="col-lg-4 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30">Useful links</h6>
+                      <h6 className="mil-muted mil-mb-30" style={{ width: 'fit-content' ,whiteSpace: 'nowrap' }}>Useful links</h6>
                       <ul className="mil-menu-list">
                         <li>
-                          <a href="#." className="mil-light-soft">
+                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
                             Privacy Policy
                           </a>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft">
+                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
                             Terms and conditions
                           </a>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft">
+                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
                             Cookie Policy
                           </a>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft">
+                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
                             Careers
                           </a>
                         </li>
