@@ -1,5 +1,7 @@
 import React from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
+// AUTH0 DISABLED - Using mock hook
+// import { useAuth0 } from '@auth0/auth0-react'
+import { useAuth0 } from '../utils/mockAuth0'
 
 function AuthButton() {
   const { isAuthenticated, loginWithRedirect, logout, user, isLoading } = useAuth0()

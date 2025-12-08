@@ -1,6 +1,8 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+// AUTH0 DISABLED - Using mock hook
+// import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "../utils/mockAuth0";
 
 // Constants
 const CARD_WIDTH = 400;
@@ -111,7 +113,21 @@ const getCardStyle = (positionClass) => {
 };
 
 export default function RotatedCarousel({ items = defaultItems }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Check if there's a stored carousel index from navigation
+  const storedIndex = sessionStorage.getItem('carousel_index');
+  let initialIndex = 0;
+  
+  if (storedIndex) {
+    const parsedIndex = parseInt(storedIndex, 10);
+    // Validate index is within bounds
+    if (!isNaN(parsedIndex) && parsedIndex >= 0 && parsedIndex < items.length) {
+      initialIndex = parsedIndex;
+    }
+    // Clear the stored index after using it
+    sessionStorage.removeItem('carousel_index');
+  }
+
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isAnimating, setIsAnimating] = useState(false);
   const scrollTimeoutRef = useRef(null);
   const isScrollingRef = useRef(false);
