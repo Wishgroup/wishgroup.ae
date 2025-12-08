@@ -14,6 +14,21 @@ import { useScrollAnimations } from '../hooks/useScrollAnimations'
 function Home() {
   useScrollAnimations()
 
+  useEffect(() => {
+    // Restore scroll position if it exists
+    const savedScrollPosition = sessionStorage.getItem('homepage_scroll_position')
+    if (savedScrollPosition) {
+      // Wait for page to render, then restore scroll
+      const timer = setTimeout(() => {
+        window.scrollTo({
+          top: parseInt(savedScrollPosition, 10),
+          behavior: 'auto'
+        })
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
   return (
     <>
       <Banner />

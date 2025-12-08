@@ -1,24 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Auth0Provider } from '@auth0/auth0-react'
+// import { Auth0Provider } from '@auth0/auth0-react' // AUTH0 DISABLED
 import App from './App'
 import './styles/main.scss'
 
-const domain = import.meta.env.VITE_AUTH0_DOMAIN
-const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
-const audience = import.meta.env.VITE_AUTH0_AUDIENCE
+// AUTH0 DISABLED - Uncomment below to re-enable
+// const domain = import.meta.env.VITE_AUTH0_DOMAIN
+// const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
+// const audience = import.meta.env.VITE_AUTH0_AUDIENCE
 
-const onRedirectCallback = (appState) => {
-  // Store the returnTo path - AuthRedirectHandler will handle navigation
-  const returnTo = appState?.returnTo || sessionStorage.getItem('auth0_returnTo')
-  if (returnTo) {
-    sessionStorage.setItem('auth0_returnTo', returnTo)
-  }
-}
+// const onRedirectCallback = (appState) => {
+//   // Store the returnTo path - AuthRedirectHandler will handle navigation
+//   const returnTo = appState?.returnTo || sessionStorage.getItem('auth0_returnTo')
+//   if (returnTo) {
+//     sessionStorage.setItem('auth0_returnTo', returnTo)
+//   }
+// }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Auth0Provider
+    {/* AUTH0 DISABLED - Uncomment below to re-enable */}
+    {/* <Auth0Provider
       domain={domain}
       clientId={clientId}
       authorizationParams={{
@@ -26,9 +28,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         audience: audience || undefined,
       }}
       onRedirectCallback={onRedirectCallback}
-    >
+    > */}
       <App />
-    </Auth0Provider>
+    {/* </Auth0Provider> */}
   </React.StrictMode>
 )
 

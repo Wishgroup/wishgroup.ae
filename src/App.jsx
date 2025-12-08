@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
+// import { useAuth0 } from '@auth0/auth0-react' // AUTH0 DISABLED
 import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
@@ -14,6 +14,7 @@ import Blog from './pages/Blog'
 import Publication from './pages/Publication'
 import Team from './pages/Team'
 import Contact from './pages/Contact'
+import AboutUs from './pages/AboutUs'
 import Project1 from './pages/Project1'
 import Project2 from './pages/Project2'
 import Project3 from './pages/Project3'
@@ -22,32 +23,33 @@ import Project5 from './pages/Project5'
 import Project6 from './pages/Project6'
 import NotFound from './pages/NotFound'
 
-// Component to handle Auth0 redirect after authentication
-const AuthRedirectHandler = () => {
-  const { isAuthenticated, isLoading } = useAuth0()
-  const navigate = useNavigate()
+// AUTH0 DISABLED - Component to handle Auth0 redirect after authentication
+// Uncomment below to re-enable
+// const AuthRedirectHandler = () => {
+//   const { isAuthenticated, isLoading } = useAuth0()
+//   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      // Check for stored returnTo path
-      const returnTo = sessionStorage.getItem('auth0_returnTo')
-      if (returnTo) {
-        sessionStorage.removeItem('auth0_returnTo')
-        // Use a small delay to ensure Auth0 state is fully restored
-        setTimeout(() => {
-          navigate(returnTo, { replace: true })
-        }, 100)
-      }
-    }
-  }, [isAuthenticated, isLoading, navigate])
+//   useEffect(() => {
+//     if (!isLoading && isAuthenticated) {
+//       // Check for stored returnTo path
+//       const returnTo = sessionStorage.getItem('auth0_returnTo')
+//       if (returnTo) {
+//         sessionStorage.removeItem('auth0_returnTo')
+//         // Use a small delay to ensure Auth0 state is fully restored
+//         setTimeout(() => {
+//           navigate(returnTo, { replace: true })
+//         }, 100)
+//       }
+//     }
+//   }, [isAuthenticated, isLoading, navigate])
 
-  return null
-}
+//   return null
+// }
 
 function App() {
   return (
     <Router>
-      <AuthRedirectHandler />
+      {/* <AuthRedirectHandler /> AUTH0 DISABLED */}
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -61,6 +63,7 @@ function App() {
           <Route path="/publication" element={<Publication />} />
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route 
             path="/project-1" 
             element={
