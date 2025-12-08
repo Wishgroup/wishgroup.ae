@@ -4,6 +4,7 @@ import AuthButton from './AuthButton'
 
 function Menu() {
   const [isActive, setIsActive] = useState(false)
+  const [isProjectsActive, setIsProjectsActive] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
@@ -34,7 +35,13 @@ function Menu() {
 
   useEffect(() => {
     setIsActive(false)
+    setIsProjectsActive(false)
   }, [location])
+
+  const handleProjectsClick = (e) => {
+    e.preventDefault()
+    setIsProjectsActive((prev) => !prev)
+  }
 
   const menuItems = [
     {
@@ -46,7 +53,7 @@ function Menu() {
       ],
     },
     {
-      title: 'Portfolio',
+      title: 'About Us',
       children: [
         { title: 'Grid type 1', path: '/portfolio-1' },
         { title: 'Grid type 2', path: '/portfolio-2' },
@@ -54,21 +61,21 @@ function Menu() {
       ],
     },
     {
-      title: 'Services',
+      title: 'Businesses',
       children: [
         { title: 'Services List', path: '/services' },
         { title: 'Single service', path: '/service' },
       ],
     },
     {
-      title: 'Newsletter',
+      title: 'Projects',
       children: [
         { title: 'Blog List', path: '/blog' },
         { title: 'Publication', path: '/publication' },
       ],
     },
     {
-      title: 'Other pages',
+      title: 'Contact us',
       children: [
         { title: 'Team', path: '/team' },
         { title: 'Contact', path: '/contact' },
@@ -104,9 +111,14 @@ function Menu() {
               <nav className="mil-main-menu">
                 <ul>
                   {menuItems.map((item, index) => (
-                    <li key={index} className="mil-has-children">
+                    <li 
+                      key={index} 
+                      className={`mil-has-children ${item.title === 'Projects' && isProjectsActive ? 'mil-active' : ''}`}
+                    >
                       {item.title === 'Homepage' ? (
                         <Link to="/">{item.title}</Link>
+                      ) : item.title === 'Projects' ? (
+                        <a href="#." onClick={handleProjectsClick}>{item.title}</a>
                       ) : (
                         <a href="#.">{item.title}</a>
                       )}
@@ -132,16 +144,37 @@ function Menu() {
                 <div className="mil-menu-right">
                   <div className="row">
                     <div className="col-lg-8 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30">Projects</h6>
                       <ul className="mil-menu-list">
                         {projects.map((project, index) => (
-                          <li key={index}>
-                            <Link to={project.path} className="mil-light-soft">
+                          <li 
+                            key={index}
+                            className={`mil-project-item ${isProjectsActive ? 'mil-animate-in' : ''}`}
+                            style={{ 
+                              transitionDelay: isProjectsActive ? `${0.1 + index * 0.1}s` : '0s'
+                            }}
+                          >
+                            <Link 
+                              to={project.path} 
+                              className="mil-light-soft"
+                              onClick={() => setIsProjectsActive(false)}
+                            >
                               {project.title}
                             </Link>
                           </li>
                         ))}
                       </ul>
+                    </div>
+                  </div>
+                  <div className="mil-divider mil-mb-60"></div>
+                  <div className="row justify-content-between">
+                    <div className="col-lg-6 mil-mb-60">
+                      <h6 className="mil-muted mil-mb-30">Dubai, U.A.E.</h6>
+                      <p className="mil-light-soft mil-up">
+                        4004/4005, 40th Floor, Citadel Tower,<br />
+                        Al Marasi Drive Business Bay, Dubai- U.A.E.<br />
+                        P.O.BOX: 417425, Dubai UAE<br />
+                        <span className="mil-no-wrap">+971 4259 7167</span> / <span className="mil-no-wrap">+971 4259 4795</span>
+                      </p>
                     </div>
                     <div className="col-lg-4 mil-mb-60">
                       <h6 className="mil-muted mil-mb-30">Useful links</h6>
@@ -167,18 +200,6 @@ function Menu() {
                           </a>
                         </li>
                       </ul>
-                    </div>
-                  </div>
-                  <div className="mil-divider mil-mb-60"></div>
-                  <div className="row justify-content-between">
-                    <div className="col-lg-6 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30">Dubai, U.A.E.</h6>
-                      <p className="mil-light-soft mil-up">
-                        4004/4005, 40th Floor, Citadel Tower,<br />
-                        Al Marasi Drive Business Bay, Dubai- U.A.E.<br />
-                        P.O.BOX: 417425, Dubai UAE<br />
-                        <span className="mil-no-wrap">+971 4259 7167</span> / <span className="mil-no-wrap">+971 4259 4795</span>
-                      </p>
                     </div>
                   </div>
                 </div>

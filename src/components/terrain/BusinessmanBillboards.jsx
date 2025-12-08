@@ -11,7 +11,7 @@ export const peopleData = [
     description: "Leading brand strategy and marketing initiatives.",
     position: [-7, 0.5, 4], 
     scale: 4,
-    image: "/Terrain /brandmanager.png",
+    image: "/Terrain/brandmanager.png",
     isOnline: true,
     isOccupied: true
   },
@@ -22,7 +22,7 @@ export const peopleData = [
     description: "Overseeing project execution and delivery.",
     position: [6, 0.5, 5], 
     scale: 4,
-    image: "/Terrain /Projectmanager.png",
+    image: "/Terrain/Projectmanager.png",
     isOnline: false,
     isOccupied: false
   },
@@ -33,7 +33,7 @@ export const peopleData = [
     description: "Managing financial operations and accounting.",
     position: [2, 0.5, -7], 
     scale: 4,
-    image: "/Terrain /Accountant.png",
+    image: "/Terrain/Accountant.png",
     isOnline: true,
     isOccupied: true
   },
@@ -44,7 +44,7 @@ export const peopleData = [
     description: "Leading the organization with strategic vision and governance.",
     position: [0, 0.5, 5], 
     scale: 4,
-    image: "/Terrain /chairman.png",
+    image: "/Terrain/chairman.png",
     isOnline: true,
     isOccupied: false
   },
@@ -55,7 +55,7 @@ export const peopleData = [
     description: "Managing events and entertainment operations.",
     position: [-10, 0.5, -6], 
     scale: 4,
-    image: "/Terrain /eventsandentertainmentmanager.png",
+    image: "/Terrain/eventsandentertainmentmanager.png",
     isOnline: false,
     isOccupied: true
   },
@@ -66,7 +66,7 @@ export const peopleData = [
     description: "Overseeing human resources and talent management.",
     position: [8, 0.5, -4], 
     scale: 4,
-    image: "/Terrain /hrmanager.png",
+    image: "/Terrain/hrmanager.png",
     isOnline: true,
     isOccupied: true
   },
@@ -77,7 +77,7 @@ export const peopleData = [
     description: "Managing senior financial operations and accounting.",
     position: [5, 0.5, 2.5], 
     scale: 4,
-    image: "/Terrain /SeniorAccountant.png",
+    image: "/Terrain/SeniorAccountant.png",
     isOnline: false,
     isOccupied: false
   },
@@ -88,7 +88,7 @@ export const peopleData = [
     description: "Leading IT infrastructure and technology initiatives.",
     position: [-5, 0.5, -2.5], 
     scale: 4,
-    image: "/Terrain /headofit.png",
+    image: "/Terrain/headofit.png",
     isOnline: true,
     isOccupied: true
   },
