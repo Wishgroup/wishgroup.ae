@@ -145,6 +145,13 @@ function Menu() {
         { title: '404', path: '/404' },
       ],
     },
+    {
+      title: 'Attendance',
+      path: '/attendance',
+      children: [
+        { title: 'Staff Attendance', path: '/attendance' },
+      ],
+    },
   ]
 
   const projects = [
@@ -225,6 +232,7 @@ function Menu() {
                             <Link 
                               to={project.path} 
                               className="mil-light-soft"
+                              style={{ whiteSpace: 'nowrap' }}
                               onClick={() => setIsProjectsActive(false)}
                             >
                               {project.title}

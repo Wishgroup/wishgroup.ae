@@ -8,14 +8,10 @@ function Project2() {
   useScrollAnimations()
 
   const projectImages = [
-    '/img/Project2/image1.webp',
-    '/img/Project2/image2.webp',
-    '/img/Project2/image3.webp',
-    '/img/Project2/image4.webp',
-    '/img/Project2/image5.webp',
-    '/img/Project2/image6.webp',
-    '/img/Project2/image7.webp',
-    '/img/Project2/image8.webp',
+    '/img/Project2/Beverley Air/couple.webp',
+    '/img/Project2/Crystal Lagoon Experience/lagoon2.jpeg',
+    '/img/Project2/Wish Brands/wishcasa.webp',
+    '/img/Project2/Wish World/track.webp',
   ]
   
   const galleryImages = projectImages.slice(1)
@@ -222,8 +218,8 @@ function Project2() {
               fontSize: '11px',
               opacity: 0.8
             }}>ONGOING PROJECTS</span>
-            <h2 className="mil-up mil-mb-60">Seeds
-               <span className="mil-thin">Rooting</span>
+            <h2 className="mil-up mil-mb-60">Ongoing
+               <span className="mil-thin"> Projects</span>
             </h2>
           </div>
 
@@ -270,8 +266,8 @@ function Project2() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project2/image1.webp"
-                    alt="Project 2 Image"
+                    src="/img/Project2/Beverley Air/couple.webp"
+                    alt="Beverley Air - Private Island Luxury Resort"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -285,9 +281,9 @@ function Project2() {
                       e.currentTarget.style.transform = 'scale(1)'
                     }}
                     onError={(e) => {
-                      // Fallback to image2.webp if image1.webp fails
-                      if (e.currentTarget.src !== '/img/Project2/image2.webp') {
-                        e.currentTarget.src = '/img/Project2/image2.webp'
+                      // Fallback to image1.webp if couple.webp fails
+                      if (e.currentTarget.src !== '/img/Project2/image1.webp') {
+                        e.currentTarget.src = '/img/Project2/image1.webp'
                       }
                     }}
                   />

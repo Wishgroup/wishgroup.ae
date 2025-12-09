@@ -21,6 +21,7 @@ import Project3 from './pages/Project3'
 import Project4 from './pages/Project4'
 import Project5 from './pages/Project5'
 import Project6 from './pages/Project6'
+import Attendance from './pages/Attendance'
 import NotFound from './pages/NotFound'
 
 // AUTH0 DISABLED - Component to handle Auth0 redirect after authentication
@@ -109,6 +110,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Project6 />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/attendance" 
+            element={
+              <ProtectedRoute>
+                <Attendance />
               </ProtectedRoute>
             } 
           />

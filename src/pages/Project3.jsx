@@ -1,30 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FaArrowDown } from 'react-icons/fa6'
 import Footer from '../components/Footer'
 import { useScrollAnimations } from '../hooks/useScrollAnimations'
 
 function Project3() {
   useScrollAnimations()
-  const navigate = useNavigate()
 
-  const handleNavigateToCarousel = (e) => {
-    e.preventDefault()
-    // Store the carousel index to show "Partnerships for Impact" (index 2)
-    sessionStorage.setItem('carousel_index', '2')
-    // Navigate to homepage
-    navigate('/')
-    // Scroll to the about section after a short delay to allow page to load
-    setTimeout(() => {
-      const aboutSection = document.getElementById('about')
-      if (aboutSection) {
-        aboutSection.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        })
-      }
-    }, 100)
-  }
 
   const projectImages = [
     '/img/Project1/WishHoldings/image.webp',
@@ -141,60 +123,12 @@ function Project3() {
               <li>
                 <Link to="/portfolio-1">Portfolio</Link>
               </li>
-              <li>
-                <a 
-                  href="#carousel" 
-                  onClick={handleNavigateToCarousel}
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  Partnerships for Impact
-                </a>
-              </li> 
+              <li>Partnerships for Impact</li> 
             </ul>
             <h1 className="mil-mb-60">
              Partnerships <span className="mil-thin">for Impact</span>
             </h1>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              <a 
-                href="#carousel" 
-                onClick={handleNavigateToCarousel}
-                className="mil-up"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '15px',
-                  padding: '15px 30px',
-                  borderRadius: '70px',
-                  border: '1px solid #A6033F',
-                  background: 'rgba(166, 3, 63, 0.1)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  textDecoration: 'none',
-                  color: '#A6033F',
-                  fontSize: '12px',
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                  fontWeight: 500,
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  minWidth: 'fit-content'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(166, 3, 63, 0.2)'
-                  e.currentTarget.style.borderColor = '#A6033F'
-                  e.currentTarget.style.transform = 'scale(1.02)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(166, 3, 63, 0.1)'
-                  e.currentTarget.style.borderColor = '#A6033F'
-                  e.currentTarget.style.transform = 'scale(1)'
-                }}
-              >
-                <span style={{ whiteSpace: 'nowrap' }}>View Carousel</span>
-              </a>
               <a 
                 href="#achievements" 
                 onClick={handleScrollToAchievements}
@@ -285,9 +219,9 @@ function Project3() {
               letterSpacing: '4px',
               fontSize: '11px',
               opacity: 0.8
-            }}>COMPLETED PROJECTS</span>
-            <h2 className="mil-up mil-mb-60">Completed
-               <span className="mil-thin"> Projects</span>
+            }}>STRATEGIC INVESTMENTS AND COLLABARATION</span>
+            <h2 className="mil-up mil-mb-60">Strategic Ivestments
+               <span className="mil-thin"> And Collabaration</span>
             </h2>
           </div>
 
