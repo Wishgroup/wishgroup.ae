@@ -13,21 +13,21 @@ export default defineConfig({
     port: 4000,
   },
   build: {
+    target: 'es2018',
+    sourcemap: false,
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 1200,
     rollupOptions: {
       output: {
+        // Split heavy libs for better long-term caching and faster initial load
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'animation-vendor': ['gsap'],
-          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
-          'ui-vendor': ['react-icons', 'lucide-react', 'phosphor-react'],
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          three: ['three', '@react-three/fiber', '@react-three/drei'],
+          viz: ['d3', 'topojson-client'],
+          animation: ['gsap'],
         },
       },
-    },
-    chunkSizeWarningLimit: 1000,
-    sourcemap: false,
-    minify: 'esbuild', // Faster than terser
-    esbuild: {
-      drop: ['console', 'debugger'], // Remove console and debugger in production
     },
   },
 })
