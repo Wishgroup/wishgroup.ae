@@ -12,5 +12,23 @@ export default defineConfig({
   server: {
     port: 4000,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'animation-vendor': ['gsap'],
+          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
+          'ui-vendor': ['react-icons', 'lucide-react', 'phosphor-react'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+    sourcemap: false,
+    minify: 'esbuild', // Faster than terser
+    esbuild: {
+      drop: ['console', 'debugger'], // Remove console and debugger in production
+    },
+  },
 })
 

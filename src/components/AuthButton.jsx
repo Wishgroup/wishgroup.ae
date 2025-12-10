@@ -1,10 +1,31 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 // AUTH0 DISABLED - Using mock hook
 // import { useAuth0 } from '@auth0/auth0-react'
 import { useAuth0 } from '../utils/mockAuth0'
 
+// Extract inline styles to constants
+const CONTAINER_STYLE = { display: 'flex', alignItems: 'center', gap: '1rem' }
+const AVATAR_STYLE = { width: '32px', height: '32px', borderRadius: '50%' }
+const TEXT_STYLE = { color: '#fff' }
+const BUTTON_STYLE = {
+  padding: '8px 16px',
+  backgroundColor: 'transparent',
+  border: '1px solid #fff',
+  color: '#fff',
+  cursor: 'pointer',
+  borderRadius: '4px',
+}
+
 function AuthButton() {
   const { isAuthenticated, loginWithRedirect, logout, user, isLoading } = useAuth0()
+
+  const handleLogout = useCallback(() => {
+    logout({ logoutParams: { returnTo: window.location.origin } })
+  }, [logout])
+
+  const handleLogin = useCallback(() => {
+    loginWithRedirect()
+  }, [loginWithRedirect])
 
   if (isLoading) {
     return null
@@ -12,30 +33,16 @@ function AuthButton() {
 
   if (isAuthenticated) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div style={CONTAINER_STYLE}>
         {user?.picture && (
           <img
             src={user.picture}
             alt={user?.name}
-            style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-            }}
+            style={AVATAR_STYLE}
           />
         )}
-        <span style={{ color: '#fff' }}>{user?.name || user?.email}</span>
-        <button
-          onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: 'transparent',
-            border: '1px solid #fff',
-            color: '#fff',
-            cursor: 'pointer',
-            borderRadius: '4px',
-          }}
-        >
+        <span style={TEXT_STYLE}>{user?.name || user?.email}</span>
+        <button onClick={handleLogout} style={BUTTON_STYLE}>
           Log Out
         </button>
       </div>
@@ -43,17 +50,7 @@ function AuthButton() {
   }
 
   return (
-    <button
-      onClick={() => loginWithRedirect()}
-      style={{
-        padding: '8px 16px',
-        backgroundColor: 'transparent',
-        border: '1px solid #fff',
-        color: '#fff',
-        cursor: 'pointer',
-        borderRadius: '4px',
-      }}
-    >
+    <button onClick={handleLogin} style={BUTTON_STYLE}>
       Log In
     </button>
   )

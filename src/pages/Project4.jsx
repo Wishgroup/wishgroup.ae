@@ -8,14 +8,11 @@ function Project4() {
   useScrollAnimations()
 
   const projectImages = [
-    '/img/Project1/WishHoldings/image.webp',
-    '/img/Project1/WishHoldings/about.webp',
-    '/img/Project1/WishHoldings/skipjacktuna.webp',
-    '/img/Project1/WishHoldings/yellofin tuna.webp',
-    '/img/Project1/Prime Wish/prawns1.webp',
-    '/img/Project1/Prime Wish/prawns3.webp',
-    '/img/Project1/Prime Wish/primetune.webp',
-    '/img/Project1/Prime Wish/tea.webp',
+    '/img/Project4/Asset 1.png',
+    '/img/Project4/economic.jpeg',
+    '/img/Project4/iconic structure.jpeg',
+    '/img/Project4/last.jpeg',
+    '/img/Project4/sustainability.jpeg'
   ]
   
   const galleryImages = projectImages.slice(1)
@@ -122,10 +119,10 @@ function Project4() {
               <li>
                 <Link to="/portfolio-1">Portfolio</Link>
               </li>
-              <li>Wishes FulFilled</li> 
+              <li>Dreams On The Horizon</li> 
             </ul>
             <h1 className="mil-mb-60">
-             Wishes <span className="mil-thin">Fulfilled</span>
+             Dreams On The <span className="mil-thin">Horizon</span>
             </h1>
             <a 
               href="#achievements" 
@@ -216,14 +213,14 @@ function Project4() {
               letterSpacing: '4px',
               fontSize: '11px',
               opacity: 0.8
-            }}>COMPLETED PROJECTS</span>
-            <h2 className="mil-up mil-mb-60">Completed
+            }}>FUTURE PROJECTS</span>
+            <h2 className="mil-up mil-mb-60">Future
                <span className="mil-thin"> Projects</span>
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '40px', justifyContent: 'center' }}>
-            {/* WISH HOLDINGS Card */}
+          <div className="row" style={{ gap: '30px', justifyContent: 'center' }}>
+            {/* World Capital Centre (WCC) Card */}
             <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
               <div
                 className="mil-up"
@@ -233,13 +230,15 @@ function Project4() {
                   borderRadius: '24px',
                   overflow: 'hidden',
                   background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
                   border: '1px solid rgba(133, 150, 166, 0.2)',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   cursor: 'default',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block'
+                  display: 'block',
+                  willChange: 'transform',
+                  transform: 'translateZ(0)'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
@@ -260,13 +259,14 @@ function Project4() {
                 <div style={{
                   position: 'relative',
                   width: '100%',
-                  height: '300px',
+                  height: '550px',
                   overflow: 'hidden',
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project1/Ciprea/image.webp"
-                    alt="WISH HOLDINGS - Premium Tuna from the Maldives"
+                    src="/img/Project4/Asset 1.png"
+                    alt="World Capital Centre (WCC) - Twin-Tower Development in Colombo"
+                    loading="lazy"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -278,12 +278,6 @@ function Project4() {
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'scale(1)'
-                    }}
-                    onError={(e) => {
-                      // Fallback to about.webp if image.webp fails
-                      if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
-                        e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
-                      }
                     }}
                   />
                   <div 
@@ -323,7 +317,7 @@ function Project4() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        <span style={{ fontWeight: 300 }}>WISH HOLDINGS</span>
+                        World Capital <span style={{ fontWeight: 300 }}>Centre (WCC)</span>
                       </h3>
                       <div style={{
                         fontSize: '11px',
@@ -331,7 +325,7 @@ function Project4() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>PREMIUM TUNA • MALDIVES</div>
+                      }}>TWIN-TOWER DEVELOPMENT • COLOMBO</div>
                     </div>
                   </div>
                   
@@ -343,7 +337,7 @@ function Project4() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    WISH HOLDINGS's Fresh & Frozen Tuna Portfolio, located on Himmafushi Island, Kaafu Atoll, Maldives, represents our commitment to delivering exceptional seafood products globally. This state-of-the-art facility specializes in processing premium Yellowfin and Skipjack Tuna, processed with care in the pristine waters of the Maldives.
+                    World Capital Centre (WCC) is a groundbreaking $2.45 billion twin-tower development in Colombo, Sri Lanka, redefining global investments. This ambitious project represents a new era of architectural excellence and strategic investment opportunities, positioning Colombo as a premier destination for international business and luxury living. The development combines cutting-edge design with sustainable practices, creating an iconic landmark that will transform the city's skyline.
                   </p>
 
                   {/* Stats */}
@@ -360,14 +354,14 @@ function Project4() {
                         fontWeight: 600,
                         color: '#A6033F',
                         lineHeight: '1'
-                      }}>HACCP</div>
+                      }}>$2.45B</div>
                       <div style={{
                         fontSize: '12px',
                         color: '#8596A6',
                         marginTop: '6px',
                         letterSpacing: '1px',
                         textTransform: 'uppercase'
-                      }}>Certified</div>
+                      }}>Investment</div>
                     </div>
                     <div>
                       <div style={{
@@ -375,165 +369,14 @@ function Project4() {
                         fontWeight: 600,
                         color: '#A6033F',
                         lineHeight: '1'
-                      }}>ISO</div>
+                      }}>Twin</div>
                       <div style={{
                         fontSize: '12px',
                         color: '#8596A6',
                         marginTop: '6px',
                         letterSpacing: '1px',
                         textTransform: 'uppercase'
-                      }}>Certified</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Prime Wish Trading LLC Card */}
-            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '1'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '0'
-                }}
-              >
-                {/* Image Container */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '300px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
-                }}>
-                  <img
-                    src="/img/Project1/Prime Wish/prawns1.webp"
-                    alt="Prime Wish Trading LLC - Premium Seafood Products"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)'
-                    }}
-                    onError={(e) => {
-                      // Fallback to prawns3.webp if prawns1.webp fails
-                      if (e.currentTarget.src !== '/img/Project1/Prime Wish/prawns3.webp') {
-                        e.currentTarget.src = '/img/Project1/Prime Wish/prawns3.webp'
-                      }
-                    }}
-                  />
-                  <div 
-                    className="project-overlay"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
-                      opacity: 0,
-                      transition: 'opacity 0.4s ease'
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div style={{ padding: '40px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '20px'
-                  }}>
-                    <div style={{
-                      width: '4px',
-                      height: '40px',
-                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
-                      borderRadius: '2px'
-                    }} />
-                    <div>
-                      <h3 style={{
-                        fontSize: '24px',
-                        fontWeight: 600,
-                        color: '#3C4C59',
-                        margin: 0,
-                        lineHeight: '1.2'
-                      }}>
-                        Prime Wish <span style={{ fontWeight: 300 }}>Trading LLC</span>
-                      </h3>
-                      <div style={{
-                        fontSize: '11px',
-                        letterSpacing: '2px',
-                        color: '#8596A6',
-                        marginTop: '4px',
-                        textTransform: 'uppercase'
-                      }}>PREMIUM SEAFOOD • UAE</div>
-                    </div>
-                  </div>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify'
-                  }}>
-                    Prime Wish Trading LLC is a well-established UAE-based manufacturing and export-import company specializing in high-quality food products under the "PRIME WISH" brand. We proudly serve many reputed clients worldwide, offering premium products at competitive prices, connecting global markets with premium seafood products.
-                  </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Global</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Reach</div>
+                      }}>Towers</div>
                     </div>
                     <div>
                       <div style={{
@@ -541,180 +384,14 @@ function Project4() {
                         fontWeight: 600,
                         color: '#A6033F',
                         lineHeight: '1'
-                      }}>Premium</div>
+                      }}>Colombo</div>
                       <div style={{
                         fontSize: '12px',
                         color: '#8596A6',
                         marginTop: '6px',
                         letterSpacing: '1px',
                         textTransform: 'uppercase'
-                      }}>Quality</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CIPREA Card */}
-            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '1'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '0'
-                }}
-              >
-                {/* Image Container */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '300px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
-                }}>
-                  <img
-                    src="/img/Project1/Ciprea/image.webp"
-                    alt="CIPREA - Premium Seafood Products"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)'
-                    }}
-                    onError={(e) => {
-                      // Fallback to about.webp if image.webp fails
-                      if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
-                        e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
-                      }
-                    }}
-                  />
-                  <div 
-                    className="project-overlay"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
-                      opacity: 0,
-                      transition: 'opacity 0.4s ease'
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div style={{ padding: '40px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '20px'
-                  }}>
-                    <div style={{
-                      width: '4px',
-                      height: '40px',
-                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
-                      borderRadius: '2px'
-                    }} />
-                    <div>
-                      <h3 style={{
-                        fontSize: '24px',
-                        fontWeight: 600,
-                        color: '#3C4C59',
-                        margin: 0,
-                        lineHeight: '1.2'
-                      }}>
-                        <span style={{ fontWeight: 300 }}>CIPREA</span>
-                      </h3>
-                      <div style={{
-                        fontSize: '11px',
-                        letterSpacing: '2px',
-                        color: '#8596A6',
-                        marginTop: '4px',
-                        textTransform: 'uppercase'
-                      }}>PREMIUM SEAFOOD • EXPORT</div>
-                    </div>
-                  </div>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify'
-                  }}>
-                    CIPREA specializes in premium seafood products, focusing on high-quality Yellowfin and Skipjack Tuna. Our commitment to excellence ensures that we deliver the finest seafood products to markets worldwide, maintaining the highest standards of quality and freshness.
-                  </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Quality</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Assured</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Global</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Export</div>
+                      }}>Location</div>
                     </div>
                   </div>
                 </div>
@@ -782,10 +459,11 @@ function Project4() {
                   >
                     <img
                       src={image}
-                      alt={`Trade Centre ${index + 2}`}
+                      alt={`World Capital Centre (WCC) ${index + 2}`}
                       className="mil-scale"
                       data-value-1="1"
                       data-value-2="1.1"
+                      loading="lazy"
                       style={{
                         width: '100%',
                         height: '500px',
@@ -923,7 +601,7 @@ function Project4() {
               Interested in <span className="mil-thin">this project?</span>
             </h2>
             <p className="mil-text mil-up mil-mb-60" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
-              Contact us to learn more about Trade Centre and explore investment opportunities across our strategic locations.
+              Contact us to learn more about World Capital Centre (WCC) and explore investment opportunities in this groundbreaking $2.45 billion twin-tower development in Colombo.
             </p>
             <a 
               href="#get-in-touch" 
