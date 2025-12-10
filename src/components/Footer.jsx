@@ -1,4 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
+
+// Constants for clock styles
+const CLOCK_NUMBER_STYLE = {
+  color: '#ffffff',
+  fontSize: '24px',
+  fontWeight: 'bold',
+  fontFamily: 'monospace',
+  textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
+}
+
+const CLOCK_SEPARATOR_STYLE = {
+  color: '#ffffff',
+  fontSize: '20px',
+  textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
+}
 
 // Simple Countdown Clock Component
 function FlipperClock() {
@@ -12,14 +27,12 @@ function FlipperClock() {
     return () => clearInterval(timer)
   }, [])
 
-  const formatTime = (date) => {
-    const hours = date.getHours().toString().padStart(2, '0')
-    const minutes = date.getMinutes().toString().padStart(2, '0')
-    const seconds = date.getSeconds().toString().padStart(2, '0')
-    return { hours, minutes, seconds }
-  }
-
-  const { hours, minutes, seconds } = formatTime(time)
+  const { hours, minutes, seconds } = useMemo(() => {
+    const h = time.getHours().toString().padStart(2, '0')
+    const m = time.getMinutes().toString().padStart(2, '0')
+    const s = time.getSeconds().toString().padStart(2, '0')
+    return { hours: h, minutes: m, seconds: s }
+  }, [time])
 
   return (
     <div style={{
@@ -30,37 +43,11 @@ function FlipperClock() {
       height: '50px',
       transform: 'scaleX(1.02)'
     }}>
-      <span style={{
-        color: '#ffffff',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        fontFamily: 'monospace',
-        textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
-      }}>{hours}</span>
-      <span style={{
-        color: '#ffffff',
-        fontSize: '20px',
-        textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
-      }}>:</span>
-      <span style={{
-        color: '#ffffff',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        fontFamily: 'monospace',
-        textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
-      }}>{minutes}</span>
-      <span style={{
-        color: '#ffffff',
-        fontSize: '20px',
-        textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
-      }}>:</span>
-      <span style={{
-        color: '#ffffff',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        fontFamily: 'monospace',
-        textShadow: '0 0 10px rgba(255, 255, 255, 0.76), 0 0 20px rgba(255, 255, 255, 0.475)'
-      }}>{seconds}</span>
+      <span style={CLOCK_NUMBER_STYLE}>{hours}</span>
+      <span style={CLOCK_SEPARATOR_STYLE}>:</span>
+      <span style={CLOCK_NUMBER_STYLE}>{minutes}</span>
+      <span style={CLOCK_SEPARATOR_STYLE}>:</span>
+      <span style={CLOCK_NUMBER_STYLE}>{seconds}</span>
     </div>
   )
 }

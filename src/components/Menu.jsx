@@ -1,63 +1,148 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import AuthButton from './AuthButton'
+
+// Move static data outside component to prevent recreation on every render
+const MENU_ITEMS = [
+  {
+    title: 'Homepage',
+    children: [
+      { title: 'Landing page', path: '/' },
+      { title: 'Personal', path: '/home-2' },
+      { title: 'Portfolio slider', path: '/portfolio-3' },
+    ],
+  },
+  {
+    title: 'About Us',
+    path: '/about-us',
+    children: [
+      { title: 'About Us', path: '/about-us' },
+    ],
+  },
+  {
+    title: 'Businesses',
+    path: '/portfolio-1',
+    children: [
+      { title: 'Our Businesses', path: '/portfolio-1' },
+    ],
+  },
+  {
+    title: 'Projects',
+    children: [
+      { title: 'Blog List', path: '/blog' },
+      { title: 'Publication', path: '/publication' },
+    ],
+  },
+  {
+    title: 'Contact us',
+    children: [
+      { title: 'Team', path: '/team' },
+      { title: 'Contact', path: '/contact' },
+      { title: '404', path: '/404' },
+    ],
+  },
+  {
+    title: 'Attendance',
+    path: '/attendance',
+    children: [
+      { title: 'Staff Attendance', path: '/attendance' },
+    ],
+  },
+]
+
+const PROJECTS = [
+  { title: 'Wishes Fulfilled', path: '/project-1' },
+  { title: 'Seeds Taking Root', path: '/project-2' },
+  { title: 'Partnerships for Impact', path: '/project-3' },
+  { title: 'Dreams on the Horizon', path: '/project-4' },
+]
+
+// Extract inline styles to constants
+const LOGO_STYLE = { height: '56px', width: 'auto' }
+const HEADER_STYLE = { display: 'flex', alignItems: 'center', gap: '1rem' }
+const NOWRAP_STYLE = { whiteSpace: 'nowrap' }
+const USEFUL_LINKS_HEADER_STYLE = { width: 'fit-content', whiteSpace: 'nowrap' }
 
 function Menu() {
   const [isActive, setIsActive] = useState(false)
   const [isProjectsActive, setIsProjectsActive] = useState(false)
   const location = useLocation()
-  const navigate = useNavigate()
   const scrollTimeoutRef = useRef(null)
+  const menuBtnRef = useRef(null)
 
-  useEffect(() => {
-    const menuBtn = document.querySelectorAll('.mil-menu-btn')
-    const handleClick = () => {
-      setIsActive((prev) => !prev)
-    }
+  // Memoize handlers to prevent unnecessary re-renders
+  const handleMenuToggle = useCallback(() => {
+    setIsActive((prev) => !prev)
+  }, [])
 
-    menuBtn.forEach((btn) => {
-      btn?.addEventListener('click', handleClick)
-    })
+  const handleProjectsClick = useCallback((e) => {
+    e.preventDefault()
+    setIsProjectsActive((prev) => !prev)
+  }, [])
 
-    // Update menu button classes
-    menuBtn.forEach((btn) => {
-      if (isActive) {
-        btn.classList.add('mil-active')
-      } else {
-        btn.classList.remove('mil-active')
+  const handleHomepageClick = useCallback((e) => {
+    const savedScrollPosition = sessionStorage.getItem('homepage_scroll_position')
+    
+    if (location.pathname === '/') {
+      e.preventDefault()
+      if (savedScrollPosition) {
+        window.scrollTo({
+          top: parseInt(savedScrollPosition, 10),
+          behavior: 'smooth'
+        })
       }
-    })
-
-    return () => {
-      menuBtn.forEach((btn) => {
-        btn?.removeEventListener('click', handleClick)
-      })
     }
-  }, [isActive])
+  }, [location.pathname])
 
-  useEffect(() => {
-    setIsActive(false)
+  const handleProjectLinkClick = useCallback(() => {
     setIsProjectsActive(false)
-  }, [location])
+  }, [])
 
-  // Save scroll position when menu state changes
-  useEffect(() => {
+  // Optimized scroll position saving function
+  const saveScrollPosition = useCallback(() => {
     if (location.pathname === '/') {
       const scrollY = window.scrollY || window.pageYOffset
       sessionStorage.setItem('homepage_scroll_position', scrollY.toString())
     }
-  }, [isActive, location])
+  }, [location.pathname])
 
-  // Track scroll position and save to sessionStorage
+  // Combined menu button and scroll position effects
   useEffect(() => {
-    const saveScrollPosition = () => {
-      if (location.pathname === '/') {
-        const scrollY = window.scrollY || window.pageYOffset
-        sessionStorage.setItem('homepage_scroll_position', scrollY.toString())
+    // Menu button setup
+    const menuBtn = document.querySelector('.mil-menu-btn')
+    if (menuBtn) {
+      menuBtnRef.current = menuBtn
+      menuBtn.addEventListener('click', handleMenuToggle)
+      
+      // Update class based on state
+      if (isActive) {
+        menuBtn.classList.add('mil-active')
+      } else {
+        menuBtn.classList.remove('mil-active')
       }
     }
 
-    // Save scroll position on scroll (throttled)
+    return () => {
+      if (menuBtnRef.current) {
+        menuBtnRef.current.removeEventListener('click', handleMenuToggle)
+      }
+    }
+  }, [isActive, handleMenuToggle])
+
+  // Close menu on location change
+  useEffect(() => {
+    setIsActive(false)
+    setIsProjectsActive(false)
+  }, [location.pathname])
+
+  // Optimized scroll position tracking - combined and throttled
+  useEffect(() => {
+    // Save on menu state change
+    if (isActive) {
+      saveScrollPosition()
+    }
+
+    // Throttled scroll handler
     const handleScroll = () => {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
@@ -65,14 +150,17 @@ function Menu() {
       scrollTimeoutRef.current = setTimeout(saveScrollPosition, 100)
     }
 
-    // Save scroll position on user interactions
+    // Interaction handler
     const handleInteraction = () => {
       saveScrollPosition()
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('click', handleInteraction, { passive: true })
-    window.addEventListener('touchstart', handleInteraction, { passive: true })
+    // Only add listeners if on homepage
+    if (location.pathname === '/') {
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('click', handleInteraction, { passive: true })
+      window.addEventListener('touchstart', handleInteraction, { passive: true })
+    }
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -82,92 +170,25 @@ function Menu() {
         clearTimeout(scrollTimeoutRef.current)
       }
     }
-  }, [location])
+  }, [location.pathname, isActive, saveScrollPosition])
 
-  const handleProjectsClick = (e) => {
-    e.preventDefault()
-    setIsProjectsActive((prev) => !prev)
-  }
+  // Memoize menu items rendering
+  const menuItems = useMemo(() => MENU_ITEMS, [])
+  const projects = useMemo(() => PROJECTS, [])
 
-  const handleHomepageClick = (e) => {
-    const savedScrollPosition = sessionStorage.getItem('homepage_scroll_position')
-    
-    if (location.pathname === '/') {
-      // Already on homepage, prevent navigation and just restore scroll position
-      e.preventDefault()
-      if (savedScrollPosition) {
-        window.scrollTo({
-          top: parseInt(savedScrollPosition, 10),
-          behavior: 'smooth'
-        })
-      }
-    } else {
-      // Allow Link to navigate naturally, scroll will be restored by Home component
-      // No need to prevent default - let React Router handle navigation
-    }
-  }
-
-  const menuItems = [
-    {
-      title: 'Homepage',
-      children: [
-        { title: 'Landing page', path: '/' },
-        { title: 'Personal', path: '/home-2' },
-        { title: 'Portfolio slider', path: '/portfolio-3' },
-      ],
-    },
-    {
-      title: 'About Us',
-      path: '/about-us',
-      children: [
-        { title: 'About Us', path: '/about-us' },
-      ],
-    },
-    {
-      title: 'Businesses',
-      children: [
-        { title: 'Services List', path: '/services' },
-        { title: 'Single service', path: '/service' },
-      ],
-    },
-    {
-      title: 'Projects',
-      children: [
-        { title: 'Blog List', path: '/blog' },
-        { title: 'Publication', path: '/publication' },
-      ],
-    },
-    {
-      title: 'Contact us',
-      children: [
-        { title: 'Team', path: '/team' },
-        { title: 'Contact', path: '/contact' },
-        { title: '404', path: '/404' },
-      ],
-    },
-    {
-      title: 'Attendance',
-      path: '/attendance',
-      children: [
-        { title: 'Staff Attendance', path: '/attendance' },
-      ],
-    },
-  ]
-
-  const projects = [
-    { title: 'Wishes Fulfilled', path: '/project-1' },
-    { title: 'Seeds Taking Root', path: '/project-2' },
-    { title: 'Partnerships for Impact', path: '/project-3' },
-    { title: 'Dreams on the Horizon', path: '/project-4' },
-  ]
+  // Memoize active class name
+  const menuFrameClassName = useMemo(() => 
+    `mil-menu-frame ${isActive ? 'mil-active' : ''}`, 
+    [isActive]
+  )
 
   return (
-    <div className={`mil-menu-frame ${isActive ? 'mil-active' : ''}`}>
+    <div className={menuFrameClassName}>
       <div className="mil-frame-top">
         <Link to="/" className="mil-logo" onClick={handleHomepageClick}>
-          <img src="/logo.png" alt="Wish Group Logo" style={{ height: '56px', width: 'auto' }} />
+          <img src="/logo.png" alt="Wish Group Logo" style={LOGO_STYLE} />
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div style={HEADER_STYLE}>
           <AuthButton />
           <div className="mil-menu-btn">
             <span></span>
@@ -180,33 +201,36 @@ function Menu() {
             <div className="col-xl-5">
               <nav className="mil-main-menu">
                 <ul>
-                  {menuItems.map((item, index) => (
-                    <li 
-                      key={index} 
-                      className={`mil-has-children ${item.title === 'Projects' && isProjectsActive ? 'mil-active' : ''}`}
-                    >
-                      {item.title === 'Homepage' ? (
-                        <Link to="/" onClick={handleHomepageClick}>{item.title}</Link>
-                      ) : item.title === 'Projects' ? (
-                        <a href="#." onClick={handleProjectsClick}>{item.title}</a>
-                      ) : item.path ? (
-                        <Link to={item.path}>{item.title}</Link>
-                      ) : (
-                        <a href="#.">{item.title}</a>
-                      )}
-                      <ul>
-                        {item.children.map((child, childIndex) => (
-                          <li key={childIndex}>
-                            {child.path === '/' ? (
-                              <Link to={child.path} onClick={handleHomepageClick}>{child.title}</Link>
-                            ) : (
-                              <Link to={child.path}>{child.title}</Link>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
-                  ))}
+                  {menuItems.map((item) => {
+                    const isProjects = item.title === 'Projects'
+                    const isHomepage = item.title === 'Homepage'
+                    const itemClassName = `mil-has-children ${isProjects && isProjectsActive ? 'mil-active' : ''}`
+                    
+                    return (
+                      <li key={item.title} className={itemClassName}>
+                        {isHomepage ? (
+                          <Link to="/" onClick={handleHomepageClick}>{item.title}</Link>
+                        ) : isProjects ? (
+                          <a href="#." onClick={handleProjectsClick}>{item.title}</a>
+                        ) : item.path ? (
+                          <Link to={item.path}>{item.title}</Link>
+                        ) : (
+                          <a href="#.">{item.title}</a>
+                        )}
+                        <ul>
+                          {item.children.map((child) => (
+                            <li key={child.path || child.title}>
+                              {child.path === '/' ? (
+                                <Link to={child.path} onClick={handleHomepageClick}>{child.title}</Link>
+                              ) : (
+                                <Link to={child.path}>{child.title}</Link>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    )
+                  })}
                 </ul>
               </nav>
             </div>
@@ -223,7 +247,7 @@ function Menu() {
                       <ul className="mil-menu-list">
                         {projects.map((project, index) => (
                           <li 
-                            key={index}
+                            key={project.path}
                             className={`mil-project-item ${isProjectsActive ? 'mil-animate-in' : ''}`}
                             style={{ 
                               transitionDelay: isProjectsActive ? `${0.1 + index * 0.1}s` : '0s'
@@ -232,8 +256,8 @@ function Menu() {
                             <Link 
                               to={project.path} 
                               className="mil-light-soft"
-                              style={{ whiteSpace: 'nowrap' }}
-                              onClick={() => setIsProjectsActive(false)}
+                              style={NOWRAP_STYLE}
+                              onClick={handleProjectLinkClick}
                             >
                               {project.title}
                             </Link>
@@ -245,25 +269,25 @@ function Menu() {
                   <div className="mil-divider mil-mb-60"></div>
                   <div className="row justify-content-between">
                     <div className="col-lg-6 mil-mb-60">
-                      <h6 className="mil-muted mil-mb-30" style={{ width: 'fit-content' ,whiteSpace: 'nowrap' }}>Useful links</h6>
+                      <h6 className="mil-muted mil-mb-30" style={USEFUL_LINKS_HEADER_STYLE}>Useful links</h6>
                       <ul className="mil-menu-list">
                         <li>
-                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
+                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
                             Privacy Policy
                           </a>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
+                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
                             Terms and conditions
                           </a>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
+                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
                             Cookie Policy
                           </a>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft" style={{ whiteSpace: 'nowrap' }}>
+                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
                             Careers
                           </a>
                         </li>
