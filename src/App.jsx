@@ -1,22 +1,29 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
-// import { useAuth0 } from '@auth0/auth0-react' // AUTH0 DISABLED
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import ProtectedRoute from './components/ProtectedRoute'
-import Home from './pages/Home'
-import Home2 from './pages/Home2'
-import Portfolio1 from './pages/Portfolio1'
-import Portfolio2 from './pages/Portfolio2'
-import Portfolio3 from './pages/Portfolio3'
-import Services from './pages/Services'
-import Service from './pages/Service'
-import Blog from './pages/Blog'
-import Publication from './pages/Publication'
-import Team from './pages/Team'
-import Contact from './pages/Contact'
-import AboutUs from './pages/AboutUs'
-import Country from './pages/Country'
-import NotFound from './pages/NotFound'
+
+// Route-level code splitting to keep the initial bundle lean
+const Home = lazy(() => import('./pages/Home'))
+const Home2 = lazy(() => import('./pages/Home2'))
+const Portfolio1 = lazy(() => import('./pages/Portfolio1'))
+const Portfolio2 = lazy(() => import('./pages/Portfolio2'))
+const Portfolio3 = lazy(() => import('./pages/Portfolio3'))
+const Services = lazy(() => import('./pages/Services'))
+const Service = lazy(() => import('./pages/Service'))
+const Blog = lazy(() => import('./pages/Blog'))
+const Publication = lazy(() => import('./pages/Publication'))
+const Team = lazy(() => import('./pages/Team'))
+const Contact = lazy(() => import('./pages/Contact'))
+const AboutUs = lazy(() => import('./pages/AboutUs'))
+const Project1 = lazy(() => import('./pages/Project1'))
+const Project2 = lazy(() => import('./pages/Project2'))
+const Project3 = lazy(() => import('./pages/Project3'))
+const Project4 = lazy(() => import('./pages/Project4'))
+const Project5 = lazy(() => import('./pages/Project5'))
+const Project6 = lazy(() => import('./pages/Project6'))
+const Attendance = lazy(() => import('./pages/Attendance'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Lazy load project pages for code splitting
 const Project1 = lazy(() => import('./pages/Project1'))
@@ -69,7 +76,7 @@ function App() {
     <Router>
       {/* <AuthRedirectHandler /> AUTH0 DISABLED */}
       <Layout>
-        <Suspense fallback={<LoadingFallback />}>
+        <Suspense fallback={<div className="page-loading">Loading...</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home-2" element={<Home2 />} />
@@ -83,7 +90,6 @@ function App() {
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/country/:countryCode" element={<Country />} />
             <Route 
               path="/project-1" 
               element={

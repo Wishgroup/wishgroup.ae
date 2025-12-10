@@ -43,14 +43,14 @@ varying vec2 cloudUV;
 varying vec3 vColor;
 
 void main() {
-  float contrast = 1.8;
-  float brightness = 0.15;
+  float contrast = 1.4;
+  float brightness = 0.02;
   vec3 color = texture2D(textures[0], vUv).rgb * contrast;
   color = color + vec3(brightness, brightness, brightness);
-  // Enhance green channel for vibrant grass
-  color.g = min(color.g * 1.2, 1.0);
-  // Reduce cloud mixing for more vibrant grass
-  color = mix(color, texture2D(textures[1], cloudUV).rgb, 0.25);
+  // Subtle green boost while keeping tone darker
+  color.g = min(color.g * 1.05, 1.0);
+  // Lower cloud mixing so base grass stays richer and darker
+  color = mix(color, texture2D(textures[1], cloudUV).rgb, 0.15);
   gl_FragColor.rgb = color;
   gl_FragColor.a = 1.0;
 }

@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
 import { MountainScene } from '../terrain/MountainScene'
 import { OverlayUI } from '../terrain/OverlayUI'
+import AttendanceButton from '../AttendanceButton'
 
 function NewSection() {
   const [selectedPerson, setSelectedPerson] = useState(null)
   const [hoveredPerson, setHoveredPerson] = useState(null)
+  const [attendanceStatuses, setAttendanceStatuses] = useState({})
 
   const handleReset = () => {
     setSelectedPerson(null)
     if (typeof window !== 'undefined' && window.__resetTerrainCamera) {
       window.__resetTerrainCamera()
     }
+  }
+
+  const handleStatusUpdate = (userId, status) => {
+    setAttendanceStatuses(prev => ({
+      ...prev,
+      [userId]: status
+    }))
   }
 
   return (
@@ -24,6 +33,14 @@ function NewSection() {
         selectedPerson={selectedPerson}
         hoveredPerson={hoveredPerson}
       />
+      {/* Attendance button - shows for selected person or can be configured for specific user */}
+      {selectedPerson && (
+        <AttendanceButton 
+          userId={selectedPerson.id}
+          userName={selectedPerson.name}
+          onStatusUpdate={handleStatusUpdate}
+        />
+      )}
     </section>
   )
 }
