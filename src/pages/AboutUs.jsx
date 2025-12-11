@@ -184,7 +184,7 @@ function AboutUs() {
             style={{
               position: 'relative',
               padding: '20px 0',
-              maxWidth: '1200px',
+              maxWidth: '100%',
               margin: '0 auto'
             }}
           >
@@ -239,7 +239,9 @@ function AboutUs() {
                 zIndex: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '30px'
+                  gap: '30px',
+                  paddingLeft: '6%',
+                  paddingRight: '6%'
               }}
             >
               {[
@@ -289,15 +291,15 @@ function AboutUs() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: isLeft ? 'flex-end' : 'flex-start',
-                      paddingRight: isLeft ? '0' : '50%',
-                      paddingLeft: isLeft ? '50%' : '0'
+                      paddingRight: isLeft ? '0' : '46%',
+                      paddingLeft: isLeft ? '46%' : '0'
                     }}
                   >
 
                     {/* Card Container */}
                     <div
                       style={{
-                        width: 'calc(50% - 10px)',
+                        width: '100%',
                         maxWidth: '400px',
                         position: 'relative'
                       }}
@@ -309,7 +311,7 @@ function AboutUs() {
                         style={{
                           position: 'relative',
                           width: '100%',
-                          minHeight: '160px',
+                          minHeight: '180px',
                           borderRadius: '12px',
                           background: activeIndex === index ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
                           backdropFilter: 'blur(10px)',
