@@ -43,14 +43,45 @@ varying vec2 cloudUV;
 varying vec3 vColor;
 
 void main() {
-  float contrast = 1.4;
-  float brightness = 0.02;
-  vec3 color = texture2D(textures[0], vUv).rgb * contrast;
-  color = color + vec3(brightness, brightness, brightness);
-  // Subtle green boost while keeping tone darker
-  color.g = min(color.g * 1.05, 1.0);
-  // Lower cloud mixing so base grass stays richer and darker
-  color = mix(color, texture2D(textures[1], cloudUV).rgb, 0.15);
+  // New grass color palette (converted from hex to normalized RGB)
+  // #62430c, #986611, #342a0e, #dd9a28, #f8e69f
+  vec3 color1 = vec3(0.384, 0.263, 0.047);  // #62430c - dark brown
+  vec3 color2 = vec3(0.596, 0.4, 0.067);    // #986611 - golden brown
+  vec3 color3 = vec3(0.204, 0.165, 0.055);  // #342a0e - very dark brown
+  vec3 color4 = vec3(0.867, 0.604, 0.157);  // #dd9a28 - golden yellow
+  vec3 color5 = vec3(0.973, 0.902, 0.624);  // #f8e69f - light yellow/cream
+  
+  // Use vertex color (vColor) to determine blade position (0=base, 1=tip)
+  // vColor.x > 0.6 means tip, vColor.x > 0.0 means middle, else base
+  vec3 color;
+  
+  if (vColor.x > 0.6) {
+    // Tip of blade - use lighter colors (color4 to color5)
+    float t = (vColor.x - 0.6) / 0.4;
+    color = mix(color4, color5, t);
+  } else if (vColor.x > 0.0) {
+    // Middle of blade - use medium colors (color2 to color4)
+    float t = vColor.x / 0.6;
+    color = mix(color2, color4, t);
+  } else {
+    // Base of blade - use darker colors (color3 to color1)
+    float t = (vColor.x + 1.0) / 1.0;
+    color = mix(color3, color1, t);
+  }
+  
+  // Add variation based on UV position for natural variation
+  float variation = sin(vUv.x * 10.0 + vUv.y * 10.0) * 0.1;
+  color = mix(color, mix(color1, color2, 0.5), variation);
+  
+  // Add subtle texture detail from original texture (reduced influence)
+  vec3 textureColor = texture2D(textures[0], vUv).rgb;
+  color = mix(color, textureColor * 0.3, 0.2);
+  
+  // Subtle cloud shadow effect
+  vec3 cloudColor = texture2D(textures[1], cloudUV).rgb;
+  float cloudShadow = (1.0 - cloudColor.r) * 0.1;
+  color *= (1.0 - cloudShadow);
+  
   gl_FragColor.rgb = color;
   gl_FragColor.a = 1.0;
 }

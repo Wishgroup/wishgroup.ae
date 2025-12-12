@@ -249,37 +249,13 @@ function Footer() {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          <div className="row mil-mb-90 justify-content-center text-center">
-            <div className="col-lg-6 mil-mb-60" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div className="mil-muted mil-logo mil-up mil-mb-20" style={{ textAlign: 'center' }}>Wish Group.</div>
-              <p className="mil-light-soft mil-up mil-mb-20">Subscribe:</p>
-              <form 
-                className="mil-subscribe-form mil-up" 
-                style={{ 
-                  position: 'relative', 
-                  width: '70%', 
-                  maxWidth: '450px', 
-                  margin: '0 auto' 
-                }}
-              >
-                <input 
-                  type="text" 
-                  placeholder="Enter your email" 
-                  style={{ 
-                    width: '100%', 
-                    paddingRight: '48px' 
-                  }}
-                />
-                <button 
-                  type="submit" 
-                  className="mil-button mil-icon-button-sm mil-arrow-place" 
-                  style={{ 
-                    position: 'absolute', 
-                    top: '50%', 
-                    right: '6px', 
-                    transform: 'translateY(-50%)' 
-                  }}
-                ></button>
+          <div className="row mil-mb-90 mil-newsletter-row">
+            <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
+              <div className="mil-muted mil-logo mil-up mil-mb-30">Wish Group.</div>
+              <p className="mil-light-soft mil-up mil-mb-30">Subscribe our newsletter:</p>
+              <form className="mil-subscribe-form mil-up">
+                <input type="text" placeholder="Enter your email" />
+                <button type="submit" className="mil-button mil-icon-button-sm mil-arrow-place"></button>
               </form>
             </div>
           </div>

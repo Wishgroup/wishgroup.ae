@@ -14,3 +14,67 @@
   }
 }
 
+.world-globe-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.world-globe-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.welcome-title {
+  white-space: nowrap;
+}
+
+.world-outline {
+  fill: none;
+  stroke: rgba(60, 76, 89, 0.15);
+  stroke-width: 1px;
+}
+
+.back-country {
+  fill: #3C4C59;
+  stroke: rgba(60, 76, 89, 0.3);
+  stroke-width: 0;
+}
+
+.back-line {
+  fill: none;
+  stroke: rgba(60, 76, 89, 0.1);
+  stroke-width: 0.5px;
+}
+
+.country {
+  fill: #8596A6;
+  stroke: rgba(60, 76, 89, 0.2);
+  stroke-width: 0;
+}
+
+.line {
+  fill: none;
+  stroke: rgba(60, 76, 89, 0.2);
+  stroke-width: 0.5px;
+}
+
+.country-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  fill: #A6033F;
+  text-anchor: middle;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
