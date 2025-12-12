@@ -249,21 +249,45 @@ function Footer() {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          <div className="row mil-mb-90">
-            <div className="col-lg-6 mil-mb-60 text-center" style={{ margin: '0 auto' }}>
-              <div className="mil-muted mil-logo mil-up mil-mb-30">Wish Group.</div>
-              <p className="mil-light-soft mil-up mil-mb-30">Subscribe our newsletter:</p>
-              <form className="mil-subscribe-form mil-up">
-                <input type="text" placeholder="Enter your email" />
-                <button type="submit" className="mil-button mil-icon-button-sm mil-arrow-place"></button>
+          <div className="row mil-mb-90 justify-content-center text-center">
+            <div className="col-lg-6 mil-mb-60" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div className="mil-muted mil-logo mil-up mil-mb-20" style={{ textAlign: 'center' }}>Wish Group.</div>
+              <p className="mil-light-soft mil-up mil-mb-20">Subscribe:</p>
+              <form 
+                className="mil-subscribe-form mil-up" 
+                style={{ 
+                  position: 'relative', 
+                  width: '70%', 
+                  maxWidth: '450px', 
+                  margin: '0 auto' 
+                }}
+              >
+                <input 
+                  type="text" 
+                  placeholder="Enter your email" 
+                  style={{ 
+                    width: '100%', 
+                    paddingRight: '48px' 
+                  }}
+                />
+                <button 
+                  type="submit" 
+                  className="mil-button mil-icon-button-sm mil-arrow-place" 
+                  style={{ 
+                    position: 'absolute', 
+                    top: '50%', 
+                    right: '6px', 
+                    transform: 'translateY(-50%)' 
+                  }}
+                ></button>
               </form>
             </div>
           </div>
 
           {/* Middle Section: Address and Contact */}
-          <div className="row justify-content-between mil-mb-60">
-            <div className="col-md-6 col-lg-4 mil-mb-60">
-              <h6 className="mil-muted mil-up mil-mb-30">Dubai - U.A.E.</h6>
+          <div className="row justify-content-center text-center mil-mb-60" style={{ rowGap: '30px' }}>
+            <div className="col-md-4 mil-mb-40">
+              <h6 className="mil-muted mil-up mil-mb-20">Dubai - U.A.E.</h6>
               <p className="mil-light-soft mil-up">
                 4004/4005, 40th Floor, Citadel Tower,
                 <br />
@@ -274,8 +298,8 @@ function Footer() {
                 <span className="mil-no-wrap">P.O. BOX: 417425, Dubai UAE</span>
               </p>
             </div>
-            <div className="col-md-6 col-lg-4 mil-mb-60">
-              <h6 className="mil-muted mil-up mil-mb-30">Contact Us</h6>
+            <div className="col-md-4 mil-mb-40">
+              <h6 className="mil-muted mil-up mil-mb-20">Contact Us</h6>
               <p className="mil-light-soft mil-up">
                 <span className="mil-no-wrap">+971 4259 7167</span>
                 <br />
@@ -286,33 +310,31 @@ function Footer() {
                 <a href="mailto:info@wishgroup.world" className="mil-light-soft">info@wishgroup.world</a>
               </p>
             </div>
-            <div className="col-md-12 col-lg-4 mil-mb-60">
-              <div className="mil-vert-between" style={{ height: '100%' }}>
-                <div className="mil-mb-30">
-                  <h6 className="mil-muted mil-up mil-mb-30">Follow Us</h6>
-                  <ul className="mil-social-icons mil-up">
-                    <li>
-                      <a href="https://www.linkedin.com/company/wish-group" target="_blank" rel="noopener noreferrer" className="social-icon">
-                        <i className="fab fa-linkedin-in"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://www.facebook.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
-                        <i className="fab fa-facebook-f"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://twitter.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
-                        <i className="fab fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://www.instagram.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
-                        <i className="fab fa-instagram"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+            <div className="col-md-4 mil-mb-40" style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                <h6 className="mil-muted mil-up" style={{ margin: 0, textAlign: 'center', whiteSpace: 'nowrap' }}>Follow Us</h6>
+                <ul className="mil-social-icons mil-up" style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 0 }}>
+                  <li>
+                    <a href="https://www.linkedin.com/company/wish-group" target="_blank" rel="noopener noreferrer" className="social-icon">
+                      <i className="fab fa-linkedin-in"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.facebook.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                      <i className="fab fa-facebook-f"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://twitter.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                      <i className="fab fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.instagram.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                      <i className="fab fa-instagram"></i>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
