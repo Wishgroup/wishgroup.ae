@@ -2,6 +2,7 @@ import { Billboard, useTexture, Text } from "@react-three/drei";
 import { useState, useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { getAllUsersAttendanceStatus, initAttendanceService } from "../../utils/attendanceService";
 
 export const peopleData = [
   { 
@@ -96,7 +97,7 @@ export const peopleData = [
 
 // Plumbob component - Sims-style diamond indicator
 // Position should be the top center of the image head
-const Plumbob = ({ position, isOnline, isOccupied }) => {
+const Plumbob = ({ position, isOnline, isOccupied, attendanceStatus }) => {
   const plumbobRef = useRef(null);
   const glowRef = useRef(null);
   const groupRef = useRef(null);
@@ -104,9 +105,27 @@ const Plumbob = ({ position, isOnline, isOccupied }) => {
   // Convert 5px padding to 3D units (approximately 0.075 units)
   const padding = 0.075;
   
-  // Color based on online status
-  const color = isOnline ? new THREE.Color(0x00ff00) : new THREE.Color(0xff0000);
-  const glowColor = isOnline ? new THREE.Color(0x00ff88) : new THREE.Color(0xff4444);
+  // Color based on attendance status (priority) or online status
+  let color, glowColor;
+  if (attendanceStatus) {
+    if (attendanceStatus.checkedIn && !attendanceStatus.checkedOut) {
+      // Checked in (green)
+      color = new THREE.Color(0x00ff00);
+      glowColor = new THREE.Color(0x00ff88);
+    } else if (attendanceStatus.checkedIn && attendanceStatus.checkedOut) {
+      // Checked out (orange/yellow)
+      color = new THREE.Color(0xffaa00);
+      glowColor = new THREE.Color(0xffcc44);
+    } else {
+      // Not checked in (red)
+      color = new THREE.Color(0xff0000);
+      glowColor = new THREE.Color(0xff4444);
+    }
+  } else {
+    // Fallback to online status
+    color = isOnline ? new THREE.Color(0x00ff00) : new THREE.Color(0xff0000);
+    glowColor = isOnline ? new THREE.Color(0x00ff88) : new THREE.Color(0xff4444);
+  }
   
   useFrame((state) => {
     if (groupRef.current) {
@@ -260,6 +279,7 @@ const PersonBillboard = ({
         ]}
         isOnline={person.isOnline}
         isOccupied={person.isOccupied}
+        attendanceStatus={person.attendanceStatus}
       />
     </>
   );
@@ -267,6 +287,31 @@ const PersonBillboard = ({
 
 export const BusinessmanBillboards = ({ onPersonClick, onPersonHover }) => {
   const [people, setPeople] = useState(peopleData);
+  
+  // Initialize attendance service
+  useEffect(() => {
+    initAttendanceService();
+  }, []);
+  
+  // Load and update attendance status
+  useEffect(() => {
+    const loadAttendanceStatus = async () => {
+      const userIds = people.map(p => p.id);
+      const attendanceMap = await getAllUsersAttendanceStatus(userIds);
+      
+      setPeople(prev => prev.map(person => ({
+        ...person,
+        attendanceStatus: attendanceMap[person.id] || null
+      })));
+    };
+    
+    loadAttendanceStatus();
+    
+    // Refresh attendance status every minute
+    const interval = setInterval(loadAttendanceStatus, 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
   
   // Expose people data for plumbob overlay
   useEffect(() => {
