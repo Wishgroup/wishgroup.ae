@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 // AUTH0 DISABLED - Using mock hook
 // import { useAuth0 } from '@auth0/auth0-react'
@@ -6,6 +6,15 @@ import { useAuth0 } from '../../utils/mockAuth0'
 
 function Banner() {
   const { loginWithRedirect, isAuthenticated } = useAuth0()
+  const [shouldUseVideo, setShouldUseVideo] = useState(false)
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.innerWidth < 768
+
+    // Skip autoplay video on mobile or when reduced motion is preferred
+    setShouldUseVideo(!prefersReducedMotion && !isMobile)
+  }, [])
 
   const handleSignUp = () => {
     if (!isAuthenticated) {
@@ -18,25 +27,42 @@ function Banner() {
   return (
     <section className="mil-banner mil-dark-bg">
       <div className="mi-invert-fix" style={{ position: 'relative', width: '100%', height: '100%' }}>
-        {/* Video Background */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            zIndex: 0,
-            opacity: 0.3
-          }}
-        >
-          <source src="/video.mp4" type="video/mp4" />
-        </video>
+        {/* Video Background (deferred on mobile/reduced-motion users) */}
+        {shouldUseVideo ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/cloud.jpg"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              zIndex: 0,
+              opacity: 0.3
+            }}
+          >
+            <source src="/video.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/cloud.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              zIndex: 0,
+              opacity: 0.45
+            }}
+          />
+        )}
         
         <div className="mil-animation-frame">
           <div className="mil-animation mil-position-1 mil-scale" data-value-1="7" data-value-2="1.6"></div>
