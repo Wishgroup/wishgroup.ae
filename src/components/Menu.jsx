@@ -272,24 +272,34 @@ function Menu() {
                       <h6 className="mil-muted mil-mb-30" style={USEFUL_LINKS_HEADER_STYLE}>Useful links</h6>
                       <ul className="mil-menu-list">
                         <li>
-                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/privacy-policy" className="mil-light-soft" style={NOWRAP_STYLE}>
                             Privacy Policy
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/terms-and-conditions" className="mil-light-soft" style={NOWRAP_STYLE}>
                             Terms and conditions
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/cookie-policy" className="mil-light-soft" style={NOWRAP_STYLE}>
                             Cookie Policy
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#." className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/careers" className="mil-light-soft" style={NOWRAP_STYLE}>
                             Careers
-                          </a>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="col-lg-6 mil-mb-60">
+                      <h6 className="mil-muted mil-mb-30" style={USEFUL_LINKS_HEADER_STYLE}>News</h6>
+                      <ul className="mil-menu-list">
+                        <li>
+                          <Link to="/news" className="mil-light-soft" style={NOWRAP_STYLE}>
+                            News
+                          </Link>
                         </li>
                       </ul>
                     </div>

@@ -155,6 +155,152 @@ function Country() {
           </div>
         </div>
       </div>
+
+      {/* Companies Section */}
+      <section className="mil-p-120-120" style={{ 
+        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(60, 76, 89, 0.02) 50%, rgba(255, 255, 255, 0) 100%)',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div className="container" style={{ maxWidth: '1400px' }}>
+          <div className="mil-center mil-mb-90">
+            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
+              letterSpacing: '4px',
+              fontSize: '11px',
+              opacity: 0.8
+            }}>OUR COMPANIES</span>
+            <h2 className="mil-up mil-mb-60">
+              Companies in <span className="mil-thin">{country.name}</span>
+            </h2>
+            <p className="mil-text mil-up" style={{ maxWidth: '700px', fontSize: '16px', lineHeight: '1.8', opacity: 0.8, margin: '0 auto' }}>
+              We operate {country.companies.length} {country.companies.length === 1 ? 'company' : 'companies'} across various industries in {country.name}.
+            </p>
+          </div>
+
+          {/* Companies Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gap: '30px',
+            marginBottom: '80px'
+          }}>
+            {country.companies.map((company, index) => (
+              <div
+                key={index}
+                className="mil-up"
+                style={{
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  padding: '32px',
+                  cursor: 'default'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                }}
+              >
+                <div style={{
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: '#A6033F',
+                  letterSpacing: '1px',
+                  marginBottom: '16px',
+                  textTransform: 'uppercase'
+                }}>
+                  {company.type}
+                </div>
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#3C4C59',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.3'
+                }}>
+                  {company.name}
+                </h3>
+                <div style={{
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  color: '#8596A6',
+                  opacity: 0.9
+                }}>
+                  <strong style={{ color: '#3C4C59' }}>Focus:</strong> {company.focus}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Industries Section */}
+          {(() => {
+            const uniqueTypes = [...new Set(country.companies.map(c => c.type))]
+            return uniqueTypes.length > 0 && (
+              <div>
+                <div className="mil-center mil-mb-60">
+                  <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
+                    letterSpacing: '4px',
+                    fontSize: '11px',
+                    opacity: 0.8
+                  }}>INDUSTRIES</span>
+                  <h2 className="mil-up mil-mb-30">
+                    Industries We <span className="mil-thin">Operate In</span>
+                  </h2>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '16px',
+                  justifyContent: 'center'
+                }}>
+                  {uniqueTypes.map((type, index) => (
+                    <div
+                      key={index}
+                      className="mil-up"
+                      style={{
+                        padding: '12px 24px',
+                        borderRadius: '50px',
+                        background: 'rgba(166, 3, 63, 0.08)',
+                        border: '1px solid rgba(166, 3, 63, 0.2)',
+                        fontSize: '14px',
+                        color: '#3C4C59',
+                        fontWeight: 500,
+                        transition: 'all 0.3s ease',
+                        cursor: 'default'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(166, 3, 63, 0.15)'
+                        e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(166, 3, 63, 0.08)'
+                        e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.2)'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                    >
+                      {type}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })()}
+        </div>
+      </section>
+
       <Footer />
     </>
   )
