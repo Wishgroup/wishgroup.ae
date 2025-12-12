@@ -708,24 +708,16 @@ function AboutUs() {
               </div>
             </div>
             <div className="col-lg-6 mil-mb-60">
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)',
-                  minHeight: '400px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <div style={{
-                  fontSize: '120px',
-                  color: 'rgba(166, 3, 63, 0.1)',
-                  fontWeight: 300
-                }}>"</div>
+              <div className="mil-up" style={{ position: 'relative' }}>
+                <img 
+                  src="/Terrain/chairman.png" 
+                  alt="Chairman" 
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    borderRadius: '24px'
+                  }}
+                />
               </div>
             </div>
           </div>

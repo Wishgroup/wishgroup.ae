@@ -7,24 +7,19 @@ function Services() {
 
   const services = [
     {
-      title: 'Tea Leaves',
-      description: 'Premium quality tea leaves, carefully harvested and processed to deliver the finest quality tea with rich, complex flavors.',
+      title: 'Real Estate',
+      description: 'Comprehensive real estate solutions including property development, investment opportunities, and premium commercial and residential projects.',
       image: '/products/belimal.jpeg',
     },
     {
-      title: 'Dry fish sprats',
-      description: 'Fresh, high-grade Dry fish sprats sourced from pristine waters, perfect for culinary excellence and premium seafood experiences.',
+      title: 'Fishery',
+      description: 'Sustainable fishery operations with premium seafood products, including fresh catches and processed marine products for global markets.',
       image: '/products/dryfish.jpeg',
     },
     {
-      title: 'Prawns',
-      description: 'Premium prawns of exceptional quality, hand-selected and processed to maintain their natural sweetness and firm texture.',
+      title: 'Trading',
+      description: 'Global trading services connecting markets worldwide, specializing in premium products and commodities with excellence and reliability.',
       image: '/products/prawns.jpeg',
-    },
-    {
-      title: 'Yellowfin Tuna',
-      description: 'Premium quality yellowfin tuna, sustainably caught and carefully processed to preserve its rich flavor and nutritional value.',
-      image: '/products/yfin.jpg',
     },
   ]
 
@@ -78,8 +73,8 @@ function Services() {
             <div className="row">
               <div className="col-lg-10">
                 <span className="mil-suptitle mil-light-soft mil-suptitle-right mil-up">
-                  Premium quality products sourced from the finest
-                  <br /> origins, delivered with excellence and care.
+                  Diverse industries with expertise and innovation
+                  <br /> delivering excellence across multiple sectors.
                 </span>
               </div>
             </div>
@@ -89,7 +84,7 @@ function Services() {
                 <img src="/img/photo/2.jpg" alt="team" />
               </span>
               <h2 className="mil-h1 mil-muted mil-center">
-                Our Premium and Unique <span className="mil-thin">Products</span>
+                Industries we are <span className="mil-thin">in</span>
               </h2>
             </div>
           </div>
@@ -98,7 +93,7 @@ function Services() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="col-md-6 col-lg-3 mil-services-grid-item p-0"
+                className="col-md-6 col-lg-4 mil-services-grid-item p-0"
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
               >
