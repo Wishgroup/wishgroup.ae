@@ -1,11 +1,11 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
-import { Suspense, useRef, useState, useCallback } from "react";
+import { OrbitControls } from "@react-three/drei";
+import { Suspense, useRef, useState, useCallback, useMemo } from "react";
 import { TileTerrain } from "./TileTerrain";
 import { BusinessmanBillboards } from "./BusinessmanBillboards";
 import { ShaderGrassField } from "./ShaderGrassField";
 import { InteractiveDandelionField } from "./InteractiveDandelionField";
-import { Sky } from "./Sky";
+import { StaticSkyBackground } from "./StaticSkyBackground";
 import * as THREE from "three";
 
 const CameraController = ({
@@ -53,10 +53,37 @@ const CameraController = ({
   );
 };
 
-export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
+const resolvePerformanceProfile = (forcedProfile = "auto") => {
+  if (forcedProfile !== "auto") return forcedProfile;
+
+  if (typeof window === "undefined") return "high";
+
+  const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const isSmallScreen = window.innerWidth < 1024;
+  const lowCores = typeof navigator !== "undefined" && navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+
+  return (prefersReduced || isSmallScreen || lowCores) ? "low" : "high";
+};
+
+export const MountainScene = ({
+  onPersonSelect,
+  onPersonHover,
+  performanceProfile = "auto",
+}) => {
   const controlsRef = useRef(null);
   const [autoRotate, setAutoRotate] = useState(true);
   const [targetPosition, setTargetPosition] = useState(null);
+
+  const perfProfile = useMemo(() => resolvePerformanceProfile(performanceProfile), [performanceProfile]);
+  const perfSettings = useMemo(() => ({
+    terrainSegments: perfProfile === "low" ? 96 : 140,
+    grassCount: perfProfile === "low" ? 12000 : 32000,
+    dandelionCount: perfProfile === "low" ? 180 : 450,
+    dpr: perfProfile === "low" ? [1, 1.25] : [1, 1.5],
+    shadows: perfProfile !== "low",
+    antialias: perfProfile !== "low",
+    shadowMapSize: perfProfile === "low" ? 1024 : 2048,
+  }), [perfProfile]);
 
   const handlePersonClick = useCallback((person) => {
     setAutoRotate(false);
@@ -91,22 +118,23 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
           near: 0.1,
           far: 1000,
         }}
-        gl={{ antialias: true, alpha: false }}
-        shadows
+        dpr={perfSettings.dpr}
+        gl={{ antialias: perfSettings.antialias, alpha: false, powerPreference: 'high-performance' }}
+        shadows={perfSettings.shadows}
       >
-        <fog attach="fog" args={["#FFE4B5", 15, 40]} />
-        
         <Suspense fallback={null}>
-          <Sky radius={500} cloudOpacity={0.5} />
+          <StaticSkyBackground imagePath="/Terrain/bg_terrain.jpg" />
+          
+          <fog attach="fog" args={["#FFE4B5", 15, 40]} />
           
           <ambientLight intensity={0.6} color="#FFE4B5" />
           <directionalLight 
             position={[10, 20, 10]} 
             intensity={1.4} 
             color="#FFD700"
-            castShadow
-            shadow-mapSize-width={2048}
-            shadow-mapSize-height={2048}
+            castShadow={perfSettings.shadows}
+            shadow-mapSize-width={perfSettings.shadowMapSize}
+            shadow-mapSize-height={perfSettings.shadowMapSize}
             shadow-camera-far={50}
             shadow-camera-left={-20}
             shadow-camera-right={20}
@@ -119,8 +147,8 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
           <TileTerrain
             width={25}
             depth={25}
-            widthSegments={180}
-            depthSegments={180}
+            widthSegments={perfSettings.terrainSegments}
+            depthSegments={perfSettings.terrainSegments}
             heightScale={0.3}
             wireframe={false}
           />
@@ -129,7 +157,7 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
             width={25}
             depth={25}
             heightScale={0.3}
-            bladeCount={100000}
+            bladeCount={perfSettings.grassCount}
             bladeWidth={0.1}
             bladeHeight={0.8}
             bladeHeightVariation={0.6}
@@ -141,7 +169,7 @@ export const MountainScene = ({ onPersonSelect, onPersonHover }) => {
             width={25}
             depth={25}
             heightScale={0.3}
-            count={1000}
+            count={perfSettings.dandelionCount}
           />
           
           <BusinessmanBillboards 

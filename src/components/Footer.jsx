@@ -249,8 +249,8 @@ function Footer() {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          <div className="row mil-mb-90">
-            <div className="col-lg-6 mil-mb-60 text-center" style={{ margin: '0 auto' }}>
+          <div className="row mil-mb-90 mil-newsletter-row">
+            <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
               <div className="mil-muted mil-logo mil-up mil-mb-30">Wish Group.</div>
               <p className="mil-light-soft mil-up mil-mb-30">Subscribe our newsletter:</p>
               <form className="mil-subscribe-form mil-up">
