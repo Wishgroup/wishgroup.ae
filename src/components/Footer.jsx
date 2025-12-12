@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
+// API base URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
+
 // Constants for clock styles
 const CLOCK_NUMBER_STYLE = {
   color: '#ffffff',
@@ -184,6 +187,51 @@ function FlippingContainer() {
 }
 
 function Footer() {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [submitError, setSubmitError] = useState('');
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Reset messages
+    setSubmitMessage('');
+    setSubmitError('');
+
+    // Validate email
+    if (!email || !email.includes('@')) {
+      setSubmitError('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitMessage(data.message || 'Thank you for subscribing!');
+        setEmail(''); // Clear the input
+      } else {
+        setSubmitError(data.message || 'Failed to subscribe. Please try again.');
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setSubmitError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       {/* App Promotion Section */}
@@ -253,10 +301,41 @@ function Footer() {
             <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
               <div className="mil-muted mil-logo mil-up mil-mb-30">Wish Group.</div>
               <p className="mil-light-soft mil-up mil-mb-30">Subscribe our newsletter:</p>
-              <form className="mil-subscribe-form mil-up">
-                <input type="text" placeholder="Enter your email" />
-                <button type="submit" className="mil-button mil-icon-button-sm mil-arrow-place"></button>
+              <form className="mil-subscribe-form mil-up" onSubmit={handleNewsletterSubmit}>
+                <input 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
+                  required
+                />
+                <button 
+                  type="submit" 
+                  className="mil-button mil-icon-button-sm mil-arrow-place"
+                  disabled={isSubmitting}
+                ></button>
               </form>
+              {submitMessage && (
+                <p style={{ 
+                  color: '#4caf50', 
+                  marginTop: '10px', 
+                  fontSize: '14px',
+                  textAlign: 'center'
+                }}>
+                  {submitMessage}
+                </p>
+              )}
+              {submitError && (
+                <p style={{ 
+                  color: '#f44336', 
+                  marginTop: '10px', 
+                  fontSize: '14px',
+                  textAlign: 'center'
+                }}>
+                  {submitError}
+                </p>
+              )}
             </div>
           </div>
 

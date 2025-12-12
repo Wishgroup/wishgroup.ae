@@ -10,6 +10,52 @@ const WORLD_TOPO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110
 const THEME_PRIMARY = '#A6033F'
 const WORLD_NEUTRAL = '#dfe5eb'
 
+// Contact details per target country
+const COUNTRY_CONTACTS = {
+  'United Arab Emirates': {
+    office: 'Dubai',
+    address: 'Downtown Dubai, Business Bay, UAE',
+    phone: '+971 4 123 4567',
+    email: 'contact@wishgroup.ae'
+  },
+  'Sri Lanka': {
+    office: 'Colombo',
+    address: 'Colombo 01, Western Province, Sri Lanka',
+    phone: '+94 11 234 5678',
+    email: 'contact@wishgroup.lk'
+  },
+  'Maldives': {
+    office: 'Malé',
+    address: 'Boduthakurufaanu Magu, Malé, Maldives',
+    phone: '+960 330 1122',
+    email: 'contact@wishgroup.mv'
+  },
+  'Malaysia': {
+    office: 'Kuala Lumpur',
+    address: 'Kuala Lumpur City Centre, Malaysia',
+    phone: '+60 3 2788 0000',
+    email: 'contact@wishgroup.my'
+  },
+  'Ghana': {
+    office: 'Accra',
+    address: 'Airport City, Accra, Ghana',
+    phone: '+233 30 222 3344',
+    email: 'contact@wishgroup.gh'
+  },
+  'South Africa': {
+    office: 'Cape Town',
+    address: 'Foreshore, Cape Town, South Africa',
+    phone: '+27 21 123 4567',
+    email: 'contact@wishgroup.za'
+  },
+  'United Kingdom': {
+    office: 'London',
+    address: 'Canary Wharf, London, United Kingdom',
+    phone: '+44 20 7946 0000',
+    email: 'contact@wishgroup.uk'
+  }
+}
+
 // Target countries to display and rotate through
 const TARGET_COUNTRIES = [
   'United Arab Emirates', // UAE
@@ -37,6 +83,10 @@ function IntroSection() {
   const globeRef = useRef(null)
   const sectionRef = useRef(null)
   const [shouldRenderGlobe, setShouldRenderGlobe] = useState(false)
+  const [selectedCountry, setSelectedCountry] = useState({
+    name: 'United Arab Emirates',
+    ...COUNTRY_CONTACTS['United Arab Emirates'],
+  })
 
   useEffect(() => {
     // Animate text elements
@@ -175,6 +225,7 @@ function IntroSection() {
       
       // Get display name (use short name if available)
       const displayName = TARGET_COUNTRY_CODES[targetId] || targetName || 'Unknown'
+      const contactInfo = COUNTRY_CONTACTS[displayName] || null
       
       country.style('fill', (d) => {
         const countryName = d.properties?.NAME || d.properties?.name || d.properties?.NAME_LONG || ''
@@ -201,6 +252,9 @@ function IntroSection() {
         // Position will be updated in updatePaths()
         updatePaths()
       }
+
+      // Update contact panel
+      setSelectedCountry(contactInfo ? { name: displayName, ...contactInfo } : { name: displayName })
     }
 
     const spinTo = (index) => {
@@ -319,17 +373,17 @@ function IntroSection() {
         <div className="row justify-content-center" ref={textRef}>
           <div className="col-lg-8 col-xl-7 text-center mil-mb-60">
             <h2 className="mil-up mil-mb-30 welcome-title">Welcome to Our World</h2>
-            <p className="mil-up mil-mb-40 mil-text-lg">
+            <p className="mil-up mil-mb-40 mil-text-lg intro-centered">
               We create exceptional experiences that transform ideas into reality.
               Our passion for innovation drives everything we do.
             </p>
-            <p className="mil-up mil-text-sm">
+            <p className="mil-up mil-text-sm intro-centered">
               Explore the communities and partnerships we support across the globe.
             </p>
           </div>
         </div>
-        <div className="row justify-content-center">
-          <div className="col-lg-8 col-xl-7">
+        <div className="row justify-content-center align-items-start g-4">
+          <div className="col-lg-7 col-xl-6">
             <div ref={globeRef} className="world-globe-container" aria-hidden="true">
               {!shouldRenderGlobe && (
                 <div
@@ -352,6 +406,38 @@ function IntroSection() {
                   />
                 </div>
               )}
+            </div>
+          </div>
+          <div className="col-lg-5 col-xl-5">
+            <div className="country-contact-card">
+              <div className="country-contact-header">
+                <span className="country-contact-dot" />
+                <span className="country-contact-title">Country Contact</span>
+              </div>
+              <h4 className="country-contact-name">{selectedCountry?.name || 'Loading...'}</h4>
+              {selectedCountry?.office && (
+                <p className="country-contact-office">{selectedCountry.office}</p>
+              )}
+              <div className="country-contact-details">
+                {selectedCountry?.address && (
+                  <div className="country-contact-row">
+                    <span className="country-contact-label">Address</span>
+                    <span className="country-contact-value">{selectedCountry.address}</span>
+                  </div>
+                )}
+                {selectedCountry?.phone && (
+                  <div className="country-contact-row">
+                    <span className="country-contact-label">Phone</span>
+                    <a className="country-contact-value" href={`tel:${selectedCountry.phone}`}>{selectedCountry.phone}</a>
+                  </div>
+                )}
+                {selectedCountry?.email && (
+                  <div className="country-contact-row">
+                    <span className="country-contact-label">Email</span>
+                    <a className="country-contact-value" href={`mailto:${selectedCountry.email}`}>{selectedCountry.email}</a>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
