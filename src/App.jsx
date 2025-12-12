@@ -23,6 +23,9 @@ const Project4 = lazy(() => import('./pages/Project4'))
 const Project5 = lazy(() => import('./pages/Project5'))
 const Project6 = lazy(() => import('./pages/Project6'))
 const Attendance = lazy(() => import('./pages/Attendance'))
+const News = lazy(() => import('./pages/News'))
+const Careers = lazy(() => import('./pages/Careers'))
+const Country = lazy(() => import('./pages/Country'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Loading component
@@ -81,6 +84,9 @@ function App() {
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/country/:countryCode" element={<Country />} />
             <Route 
               path="/project-1" 
               element={
