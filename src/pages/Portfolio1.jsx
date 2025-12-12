@@ -34,7 +34,7 @@ function Portfolio1() {
             <h1 className="mil-mb-60">
               Our <span className="mil-thin">Businesses</span>
             </h1>
-            <p className="mil-text mil-up" style={{ maxWidth: '700px', fontSize: '16px', lineHeight: '1.8', opacity: 0.8 }}>
+            <p className="mil-text mil-up" style={{ maxWidth: '1200px', fontSize: '16px', lineHeight: '1.8', opacity: 0.8, textAlign: 'justify' }}>
               Explore our global presence across seven countries, each representing a unique opportunity for growth, innovation, and sustainable business development.
             </p>
           </div>
@@ -49,11 +49,7 @@ function Portfolio1() {
       }}>
         <div className="container" style={{ maxWidth: '1400px' }}>
           <div className="mil-center mil-mb-90">
-            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
-              letterSpacing: '4px',
-              fontSize: '11px',
-              opacity: 0.8
-            }}>GLOBAL PRESENCE</span>
+           
             <h2 className="mil-up mil-mb-60">
               Our <span className="mil-thin">Countries</span>
             </h2>
