@@ -1994,6 +1994,12 @@ footer
     }
 }
 
+.mil-newsletter-row {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}
+
 .mil-subscribe-form {
     position: relative;
     height: 70px;

@@ -25,15 +25,6 @@ const Project6 = lazy(() => import('./pages/Project6'))
 const Attendance = lazy(() => import('./pages/Attendance'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
-// Lazy load project pages for code splitting
-const Project1 = lazy(() => import('./pages/Project1'))
-const Project2 = lazy(() => import('./pages/Project2'))
-const Project3 = lazy(() => import('./pages/Project3'))
-const Project4 = lazy(() => import('./pages/Project4'))
-const Project5 = lazy(() => import('./pages/Project5'))
-const Project6 = lazy(() => import('./pages/Project6'))
-const Attendance = lazy(() => import('./pages/Attendance'))
-
 // Loading component
 const LoadingFallback = () => (
   <div style={{ 

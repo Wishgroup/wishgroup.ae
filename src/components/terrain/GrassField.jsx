@@ -10,7 +10,7 @@ const GrassShaderMaterial = {
     windStrength: { value: 0.3 },
     windSpeed: { value: 1.2 },
     windFrequency: { value: 0.5 },
-    grassColor: { value: new THREE.Color(0.2, 0.7, 0.12) }, // Very vibrant green
+    grassColor: { value: new THREE.Color(0x986611) }, // Golden brown base color
     grassColorVariation: { value: 0.15 },
     lightDirection: { value: new THREE.Vector3(0.5, 1.0, 0.3).normalize() },
     ambientLight: { value: 0.5 },
@@ -98,25 +98,40 @@ const GrassShaderMaterial = {
     varying vec3 vWorldPos;
     
     void main() {
-      // Base color variation based on world position and wind
-      float positionVariation = sin(vWorldPos.x * 8.0 + vWorldPos.z * 8.0) * grassColorVariation;
-      float windVariation = (vWind - 0.5) * grassColorVariation * 0.3;
+      // New grass color palette (converted from hex to normalized RGB)
+      // #62430c, #986611, #342a0e, #dd9a28, #f8e69f
+      vec3 color1 = vec3(0.384, 0.263, 0.047);  // #62430c - dark brown
+      vec3 color2 = vec3(0.596, 0.4, 0.067);    // #986611 - golden brown
+      vec3 color3 = vec3(0.204, 0.165, 0.055);  // #342a0e - very dark brown
+      vec3 color4 = vec3(0.867, 0.604, 0.157);  // #dd9a28 - golden yellow
+      vec3 color5 = vec3(0.973, 0.902, 0.624);  // #f8e69f - light yellow/cream
       
-      vec3 color = grassColor;
+      // Base color variation based on world position
+      float positionVariation = sin(vWorldPos.x * 8.0 + vWorldPos.z * 8.0) * 0.5 + 0.5;
       
-      // Add color variation (slightly greener/yellower variations)
-      color.r += positionVariation * 0.08 + windVariation * 0.04;
-      color.g += positionVariation * 0.2 + windVariation * 0.1; // More green variation
-      color.b += positionVariation * 0.08;
+      // Height-based color selection (darker at base, lighter at top)
+      vec3 color;
+      if (vHeight < 0.2) {
+        // Base - use darkest colors
+        float t = vHeight / 0.2;
+        color = mix(color3, color1, t);
+      } else if (vHeight < 0.6) {
+        // Middle - use medium colors
+        float t = (vHeight - 0.2) / 0.4;
+        color = mix(color1, color2, t);
+      } else if (vHeight < 0.85) {
+        // Upper middle - transition to golden
+        float t = (vHeight - 0.6) / 0.25;
+        color = mix(color2, color4, t);
+      } else {
+        // Tip - use lightest colors
+        float t = (vHeight - 0.85) / 0.15;
+        color = mix(color4, color5, t);
+      }
       
-      // Height-based color gradient (darker at base, lighter at top)
-      float heightGradient = mix(0.7, 1.2, pow(vHeight, 0.6));
-      color *= heightGradient;
-      
-      // Add slight yellow tint at the tips
-      float tipTint = smoothstep(0.7, 1.0, vHeight) * 0.1;
-      color.r += tipTint * 0.15;
-      color.g += tipTint * 0.1;
+      // Add position-based variation for natural look
+      float posVar = sin(vWorldPos.x * 6.0 + vWorldPos.z * 6.0) * 0.15;
+      color = mix(color, mix(color2, color4, 0.5), posVar);
       
       // Lighting calculation
       vec3 normal = normalize(vNormal);

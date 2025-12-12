@@ -6,22 +6,19 @@ function Services() {
 
   const industries = [
     {
-      title: 'Development',
-      description: 'Transforming visions into reality through innovative real estate and infrastructure projects. We specialize in mixed-use developments, sustainable communities, and landmark structures that create lasting value.',
-      image: '/img/photo/2.jpg',
-      link: '/portfolio-1',
+      title: 'Real Estate',
+      description: 'Comprehensive real estate solutions including property development, investment opportunities, and premium commercial and residential projects.',
+      image: '/products/belimal.jpeg',
     },
     {
-      title: 'Investment',
-      description: 'Strategic investment solutions that drive growth and create opportunities. We connect capital with promising ventures across diverse sectors, delivering sustainable returns and meaningful impact.',
-      image: '/img/photo/2.jpg',
-      link: '/portfolio-2',
+      title: 'Fishery',
+      description: 'Sustainable fishery operations with premium seafood products, including fresh catches and processed marine products for global markets.',
+      image: '/products/dryfish.jpeg',
     },
     {
       title: 'Trading',
-      description: 'Global trading operations connecting markets worldwide. We facilitate international commerce, sourcing premium products and delivering excellence across borders with integrity and reliability.',
-      image: '/img/photo/2.jpg',
-      link: '/portfolio-3',
+      description: 'Global trading services connecting markets worldwide, specializing in premium products and commodities with excellence and reliability.',
+      image: '/products/prawns.jpeg',
     },
   ]
 
@@ -36,11 +33,20 @@ function Services() {
             style={{ top: '300px', right: '-100px' }}
           ></div>
         </div>
-        <div style={{ width: '100%', paddingTop: '60px', paddingBottom: '120px', paddingLeft: '40px', paddingRight: '40px' }}>
-          <div className="mil-mb-60" style={{ marginTop: '0', maxWidth: '1200px', margin: '0 auto 60px auto' }}>
+        <div className="container mil-p-120-0">
+          <div className="mil-mb-120">
+            <div className="row">
+              <div className="col-lg-10">
+                <span className="mil-suptitle mil-light-soft mil-suptitle-right mil-up">
+                  Diverse industries with expertise and innovation
+                  <br /> delivering excellence across multiple sectors.
+                </span>
+              </div>
+            </div>
+
             <div className="mil-complex-text justify-content-center mil-up mil-mb-15">
               <h2 className="mil-h1 mil-muted mil-center">
-                Our <span className="mil-thin">Industries</span>
+                Industries we are <span className="mil-thin">in</span>
               </h2>
             </div>
           </div>
@@ -56,35 +62,9 @@ function Services() {
             {industries.map((industry, index) => (
               <div
                 key={index}
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  minHeight: '400px',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
-                  flex: '1 1 calc(33.333% - 14px)',
-                  minWidth: '300px',
-                  maxWidth: '450px',
-                }}
-                onMouseEnter={(e) => {
-                  setHoveredIndex(index)
-                  e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
-                  e.currentTarget.style.boxShadow = '0 14px 40px rgba(166, 3, 63, 0.15)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.35)'
-                }}
-                onMouseLeave={(e) => {
-                  setHoveredIndex(null)
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                }}
+                className="col-md-6 col-lg-4 mil-services-grid-item p-0"
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
               >
                 <Link 
                   to={industry.link} 
