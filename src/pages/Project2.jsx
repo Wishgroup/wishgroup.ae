@@ -132,10 +132,8 @@ function Project2() {
             <h1 className="mil-mb-60">
              Seeds <span className="mil-thin">Taking Root</span>
             </h1>
-            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '600px', marginLeft: 0, marginRight: 'auto',textAlign: 'justify' }}>
-            Seeds Taking Root showcases Wish Group's visionary projects that are transforming the landscape of luxury hospitality, entertainment, and global food excellence. 
-            From exclusive private island retreats to revolutionary theme parks, from crystal lagoon experiences to world-class manufacturing facilities, these initiatives represent our commitment to innovation, sustainability, and exceptional experiences.
-            Each project is a seed planted with care, growing into extraordinary destinations and enterprises that redefine industry standards and create lasting value for communities worldwide.
+            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '800px', fontSize: '15px', lineHeight: '1.8', opacity: 0.8, textAlign: 'justify' }}>
+              This is the phase of intense nurturing, where our strategic investments are actively taking root. These ongoing initiatives are currently receiving diligent oversight and dedicated resources to ensure they grow into successful, market-defining assets.
             </p>
             <a 
               href="#achievements" 
@@ -220,21 +218,23 @@ function Project2() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1400px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="mil-center mil-mb-90">
-            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
-              letterSpacing: '4px',
-              fontSize: '11px',
-              opacity: 0.8
-            }}>ONGOING PROJECTS</span>
-            <h2 className="mil-up mil-mb-60">Ongoing
-               <span className="mil-thin"> Projects</span>
+            <p className="mil-text mil-up mil-mb-30" style={{ 
+              fontSize: '14px',
+              opacity: 0.7,
+              fontStyle: 'italic',
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>Active projects currently in motion and growing.</p>
+            <h2 className="mil-up mil-mb-60">Seeds Taking
+               <span className="mil-thin"> Root</span>
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '30px', justifyContent: 'center' }}>
+          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
             {/* Beverley Air Card */}
-            <div className="col-12 col-lg-4" style={{ position: 'relative' }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{
@@ -344,7 +344,7 @@ function Project2() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>PRIVATE ISLAND • LUXURY RESORT</div>
+                      }}>EXCLUSIVE HOSPITALITY • PRIVATE ISLAND</div>
                     </div>
                   </div>
                   
@@ -403,7 +403,7 @@ function Project2() {
             </div>
 
             {/* The Bay Card */}
-            <div className="col-12 col-lg-4" style={{ position: 'relative' }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
               <div
                 className="mil-up"
                 style={{
@@ -512,7 +512,7 @@ function Project2() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>CRYSTAL LAGOON • MALDIVES</div>
+                      }}>LEISURE & TOURISM • LAGOON ACTIVITIES</div>
                     </div>
                   </div>
                   
@@ -524,54 +524,14 @@ function Project2() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    Unique floating activities in the heart of the Maldives. The Bay offers crystal lagoon experiences where the ocean meets luxury, featuring floating breakfasts, sea bathing canopies, floating yoga, underwater museums, floating event decks, and luxury floating and underwater villas.
+                    Creating integrated lagoon-based leisure and water activities designed to enhance the appeal of our resort properties and contribute to the local entertainment economy.
                   </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Floating</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Villas</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Lagoon</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Experiences</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
 
             {/* Dow Hotel & Resort Card */}
-            <div className="col-12 col-lg-4" style={{ position: 'relative' }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
               <div
                 className="mil-up"
                 style={{
@@ -680,7 +640,7 @@ function Project2() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>5-STAR LUXURY • MALDIVES</div>
+                      }}>HOSPITALITY & REAL ESTATE • HOTEL & RESORT</div>
                     </div>
                   </div>
                   
@@ -692,222 +652,15 @@ function Project2() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    Luxury redefined in the heart of the Maldives. Dow Hotel & Resort offers a 5-star experience with world-class amenities including a 600 sqm global dining area, 1km jogging track, 400 sqm work and play suites, and an exclusive 1350 sqm VIP spa & wellness center.
+                    Strategic development and management of a full-service hotel and resort, growing our operational capacity and establishing a strong presence in key global tourism markets.
                   </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>5-Star</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Experience</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>VIP Spa</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Wellness</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Wish World Card */}
-            <div className="col-12 col-lg-4" style={{ position: 'relative' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '1'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '0'
-                }}
-              >
-                {/* Image Container */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '300px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
-                }}>
-                  <img
-                    src="/img/Project2/image4.webp"
-                    alt="Wish World - Ultimate Entertainment Experience"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)'
-                    }}
-                    onError={(e) => {
-                      if (e.currentTarget.src !== '/img/Project2/image5.webp') {
-                        e.currentTarget.src = '/img/Project2/image5.webp'
-                      }
-                    }}
-                  />
-                  <div 
-                    className="project-overlay"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
-                      opacity: 0,
-                      transition: 'opacity 0.4s ease'
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div style={{ padding: '40px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '20px'
-                  }}>
-                    <div style={{
-                      width: '4px',
-                      height: '40px',
-                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
-                      borderRadius: '2px'
-                    }} />
-                    <div>
-                      <h3 style={{
-                        fontSize: '24px',
-                        fontWeight: 600,
-                        color: '#3C4C59',
-                        margin: 0,
-                        lineHeight: '1.2'
-                      }}>
-                        Wish <span style={{ fontWeight: 300 }}>World</span>
-                      </h3>
-                      <div style={{
-                        fontSize: '11px',
-                        letterSpacing: '2px',
-                        color: '#8596A6',
-                        marginTop: '4px',
-                        textTransform: 'uppercase'
-                      }}>THEME PARK • ENTERTAINMENT</div>
-                    </div>
-                  </div>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify'
-                  }}>
-                    A revolutionary theme park with immersive zones for all ages. Wish World features six uniquely themed zones blending entertainment, education, and adventure, including botanical gardens, horse riding, aquatic mindfulness, indoor recreational hub, boutique hotel, and mini Formula track.
-                  </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>6 Zones</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Themed Areas</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>200K</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Sqft Indoor</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* Wish Casa Card */}
-            <div className="col-12 col-lg-4" style={{ position: 'relative' }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
               <div
                 className="mil-up"
                 style={{
@@ -1016,7 +769,7 @@ function Project2() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>FOOD MANUFACTURING • GLOBAL</div>
+                      }}>MANUFACTURING • FOOD PRODUCTION (SRI LANKA)</div>
                     </div>
                   </div>
                   
@@ -1028,48 +781,8 @@ function Project2() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    Premium food manufacturing and trading across international markets. Wish Casa operates state-of-the-art facilities in Sri Lanka, producing biscuits, juices, beverages, and health-focused drinks. Operating across 6 countries with world-class standards in hygiene, automation, and environmental responsibility.
+                    Operating a state-of-the-art facility in Puttalam, Sri Lanka, focused on the ethical manufacturing and international distribution of high-quality biscuits and beverages.
                   </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>6</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Countries</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Global</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Excellence</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
