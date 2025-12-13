@@ -33,6 +33,12 @@
   white-space: nowrap;
 }
 
+.intro-centered {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .world-outline {
   fill: none;
   stroke: rgba(60, 76, 89, 0.15);
@@ -76,5 +82,83 @@
   @media (max-width: 768px) {
     font-size: 14px;
   }
+}
+
+.country-contact-card {
+  background: transparent;
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  box-shadow: none;
+}
+
+.country-contact-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(166, 3, 63, 0.08);
+  color: #A6033F;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.country-contact-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #A6033F;
+  box-shadow: 0 0 0 4px rgba(166, 3, 63, 0.15);
+}
+
+.country-contact-title {
+  font-size: 12px;
+}
+
+.country-contact-name {
+  margin: 14px 0 4px;
+  color: #1f2a35;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.country-contact-office {
+  margin: 0 0 14px;
+  color: #3C4C59;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.country-contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.country-contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.country-contact-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8596A6;
+  font-weight: 600;
+}
+
+.country-contact-value {
+  font-size: 15px;
+  color: #1f2a35;
+  text-decoration: none;
+}
+
+.country-contact-value:hover {
+  color: #A6033F;
 }
 

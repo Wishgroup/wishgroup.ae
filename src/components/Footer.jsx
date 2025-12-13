@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
+// API base URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
+
 // Constants for clock styles
 const CLOCK_NUMBER_STYLE = {
   color: '#ffffff',
@@ -184,6 +187,51 @@ function FlippingContainer() {
 }
 
 function Footer() {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [submitError, setSubmitError] = useState('');
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Reset messages
+    setSubmitMessage('');
+    setSubmitError('');
+
+    // Validate email
+    if (!email || !email.includes('@')) {
+      setSubmitError('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitMessage(data.message || 'Thank you for subscribing!');
+        setEmail(''); // Clear the input
+      } else {
+        setSubmitError(data.message || 'Failed to subscribe. Please try again.');
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setSubmitError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       {/* App Promotion Section */}
@@ -299,6 +347,26 @@ function Footer() {
                   }}
                 ></button>
               </form>
+              {submitMessage && (
+                <p style={{ 
+                  color: '#4caf50', 
+                  marginTop: '10px', 
+                  fontSize: '14px',
+                  textAlign: 'center'
+                }}>
+                  {submitMessage}
+                </p>
+              )}
+              {submitError && (
+                <p style={{ 
+                  color: '#f44336', 
+                  marginTop: '10px', 
+                  fontSize: '14px',
+                  textAlign: 'center'
+                }}>
+                  {submitError}
+                </p>
+              )}
             </div>
           </div>
 
