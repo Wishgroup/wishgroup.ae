@@ -297,23 +297,54 @@ function Footer() {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          <div className="row mil-mb-90 mil-newsletter-row">
+          <div className="row mil-mb-90 mil-newsletter-row justify-content-center">
             <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
-              <div className="mil-muted mil-logo mil-up mil-mb-30">Wish Group.</div>
-              <p className="mil-light-soft mil-up mil-mb-30">Subscribe our newsletter:</p>
-              <form className="mil-subscribe-form mil-up" onSubmit={handleNewsletterSubmit}>
+              <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Waves</div>
+              <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Subscribe for News and Information</p>
+              <form className="mil-subscribe-form mil-up" style={{
+                position: 'relative',
+                display: 'block',
+                width: '100%',
+                maxWidth: '500px',
+                margin: '0 auto',
+                alignItems: 'center',
+              }}>
                 <input 
-                  type="email" 
+                  type="text" 
                   placeholder="Enter your email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isSubmitting}
-                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 50px 12px 20px',
+                    borderRadius: '24px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: '#ffffff',
+                    fontSize: '16px',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+                  }}
                 />
                 <button 
                   type="submit" 
                   className="mil-button mil-icon-button-sm mil-arrow-place"
-                  disabled={isSubmitting}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                 ></button>
               </form>
               {submitMessage && (
