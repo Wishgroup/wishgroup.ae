@@ -124,6 +124,9 @@ function Project4() {
             <h1 className="mil-mb-60">
              Dreams On The <span className="mil-thin">Horizon</span>
             </h1>
+            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '800px', fontSize: '15px', lineHeight: '1.8', opacity: 0.8, textAlign: 'justify' }}>
+              These proposed projects represent the next cycle of planting. They are ambitious, high-impact seeds designed to expand our market leadership and deepen our commitment to equitable global prosperity.
+            </p>
             <a 
               href="#achievements" 
               onClick={handleScrollToAchievements}
@@ -207,21 +210,23 @@ function Project4() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1400px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="mil-center mil-mb-90">
-            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
-              letterSpacing: '4px',
-              fontSize: '11px',
-              opacity: 0.8
-            }}>FUTURE PROJECTS</span>
-            <h2 className="mil-up mil-mb-60">Future
-               <span className="mil-thin"> Projects</span>
+            <p className="mil-text mil-up mil-mb-30" style={{ 
+              fontSize: '14px',
+              opacity: 0.7,
+              fontStyle: 'italic',
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>The exciting ventures we are preparing to launch.</p>
+            <h2 className="mil-up mil-mb-60">Dreams on the
+               <span className="mil-thin"> Horizon</span>
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '30px', justifyContent: 'center' }}>
+          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
             {/* World Capital Centre (WCC) Card */}
-            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{
@@ -259,7 +264,7 @@ function Project4() {
                 <div style={{
                   position: 'relative',
                   width: '100%',
-                  height: '550px',
+                  height: '300px',
                   overflow: 'hidden',
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
@@ -325,7 +330,7 @@ function Project4() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>TWIN-TOWER DEVELOPMENT • COLOMBO</div>
+                      }}>GLOBAL COMMERCIAL INFRASTRUCTURE • TWIN-TOWER DEVELOPMENT</div>
                     </div>
                   </div>
                   
@@ -337,63 +342,365 @@ function Project4() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    World Capital Centre (WCC) is a groundbreaking $2.45 billion twin-tower development in Colombo, Sri Lanka, redefining global investments. This ambitious project represents a new era of architectural excellence and strategic investment opportunities, positioning Colombo as a premier destination for international business and luxury living. The development combines cutting-edge design with sustainable practices, creating an iconic landmark that will transform the city's skyline.
+                    Planning the launch of iconic, multi-billion-dollar twin-tower developments (e.g., in Colombo) to solidify our role in creating international business hubs that foster cross-border commerce and investment.
                   </p>
+                </div>
+              </div>
+            </div>
 
-                  {/* Stats */}
+            {/* Wish World Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block',
+                  willChange: 'transform',
+                  transform: 'translateZ(0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project4/Asset 1.png"
+                    alt="Wish World – Entertainment & Theme Park"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+                <div style={{ padding: '40px' }}>
                   <div style={{
                     display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
                   }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
                     <div>
-                      <div style={{
-                        fontSize: '28px',
+                      <h3 style={{
+                        fontSize: '24px',
                         fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>$2.45B</div>
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        Wish World <span style={{ fontWeight: 300 }}>– Entertainment & Theme Park</span>
+                      </h3>
                       <div style={{
-                        fontSize: '12px',
+                        fontSize: '11px',
+                        letterSpacing: '2px',
                         color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
+                        marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>Investment</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Twin</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Towers</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Colombo</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Location</div>
+                      }}>LEISURE & FAMILY TOURISM</div>
                     </div>
                   </div>
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Developing a large-scale entertainment and theme park destination, planting a leisure asset that creates thousands of jobs and provides cultural exchange and high-quality family experiences.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Global Resource Focus Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block',
+                  willChange: 'transform',
+                  transform: 'translateZ(0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project4/economic.jpeg"
+                    alt="Global Resource Focus"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        Global Resource <span style={{ fontWeight: 300 }}>Focus</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>TRADE • GHANA/SOUTH AFRICA</div>
+                    </div>
+                  </div>
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Preparing to plant capital in ethical resource trade, ensuring responsible sourcing and commerce that generates significant, sustained economic uplift for our African operational partners.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Sustainable Food Production Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block',
+                  willChange: 'transform',
+                  transform: 'translateZ(0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project4/sustainability.jpeg"
+                    alt="Sustainable Food Production"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        Sustainable Food <span style={{ fontWeight: 300 }}>Production</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>MANUFACTURING • PRAWN/TUNA/FISH & FMCG</div>
+                    </div>
+                  </div>
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Expanding into essential consumer markets, securing ethical aquaculture and food production to guarantee reliable, healthy, and accessible nutrition globally.
+                  </p>
                 </div>
               </div>
             </div>

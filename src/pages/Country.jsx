@@ -10,10 +10,34 @@ const countryData = {
     flag: '🇦🇪',
     flagImage: 'https://flagcdn.com/w320/ae.png',
     companies: [
-      { name: 'WISH GROUP L.L.C', type: 'Main investment company of group', focus: 'Project and trading' },
-      { name: 'PRIME WISH TRADING L.L.C', type: 'General trading company', focus: 'Prawn / tuna / sprats' },
-      { name: 'AL LINCAMO INTERNATIONAL FZC', type: 'General trading company', focus: 'Sugar / garments / foods' },
-      { name: 'WISH REAL ESTATE DEVELOPER LLC', type: 'Real estate and property development company', focus: 'Villas and apartments' }
+      { 
+        name: 'WISH Group L.L.C', 
+        type: 'Investment & Strategic Holdings', 
+        sector: 'Investment & Strategic Holdings',
+        focus: 'Principal investment arm overseeing global capital deployment, project development, and group-wide initiatives.',
+        description: 'Principal investment arm overseeing global capital deployment, project development, and group-wide initiatives.'
+      },
+      { 
+        name: 'Prime WISH Trading L.L.C', 
+        type: 'General Trading (Seafood)', 
+        sector: 'General Trading (Seafood)',
+        focus: 'Specializes in sourcing and exporting prawns, tuna, and sprats to global markets.',
+        description: 'Specializes in sourcing and exporting prawns, tuna, and sprats to global markets.'
+      },
+      { 
+        name: 'Al Lincamo International FZC', 
+        type: 'General Trading (Commodities & Consumer Goods)', 
+        sector: 'General Trading (Commodities & Consumer Goods)',
+        focus: 'Imports and exports sugar, garments, food items, and fast-moving consumer goods.',
+        description: 'Imports and exports sugar, garments, food items, and fast-moving consumer goods.'
+      },
+      { 
+        name: 'WISH Real Estate Developer L.L.C', 
+        type: 'Real Estate Development', 
+        sector: 'Real Estate Development',
+        focus: 'Develops villas, apartments, and mixed-use real estate properties in the UAE.',
+        description: 'Develops villas, apartments, and mixed-use real estate properties in the UAE.'
+      }
     ]
   },
   'sri-lanka': {
@@ -21,17 +45,83 @@ const countryData = {
     flag: '🇱🇰',
     flagImage: 'https://flagcdn.com/w320/lk.png',
     companies: [
-      { name: 'WORLD INVESTMENT SOURCES HOLDINGS LTD', type: 'Main investment company of group', focus: 'Project and trading' },
-      { name: 'PRIME WISH (PVT) LTD', type: 'Manufacturing and trading company', focus: 'Prawn / tuna / fish' },
-      { name: 'WISH CAPITAL (PVT) LTD', type: 'Investment and trading company', focus: 'Finance market and instruments' },
-      { name: 'WISH HOSPITALITY LTD', type: 'Hospitality and tourism company', focus: 'Hotel and tourism' },
-      { name: 'WISH BRANDS (PVT) LTD', type: 'Manufacturing and trading company', focus: 'Biscuit and juice' },
-      { name: 'WORLD CAPITAL CENTRE LTD', type: 'Real estate and property development company', focus: 'Mix development projects' },
-      { name: 'ARENA BLUE HOTEL AND RESORT LTD', type: 'Hospitality and resort company', focus: 'Hotel and resorts' },
-      { name: 'THE ONE APPARELS CORPORATION LTD', type: 'Manufacturing and trading company', focus: 'Apparel and textiles' },
-      { name: 'WISH HR & CONSULTANCY (PVT) LTD', type: 'Consultancy and professional services company', focus: 'Professional services' },
-      { name: 'WISH ROAMER PVT LTD', type: 'Travel and tourism company', focus: 'Travel and tourism' },
-      { name: 'WISH MEDIA CORPORATION LTD', type: 'Media and entertainment company', focus: 'Media and entertainment' }
+      { 
+        name: 'World Investment Sources Holdings Ltd', 
+        type: 'Investment & Strategic Holdings', 
+        sector: 'Investment & Strategic Holdings',
+        focus: 'Oversees multi-sector projects, capital deployment, and international trading activities.',
+        description: 'Oversees multi-sector projects, capital deployment, and international trading activities.'
+      },
+      { 
+        name: 'Prime WISH (Pvt) Ltd', 
+        type: 'Seafood Manufacturing & Trading', 
+        sector: 'Seafood Manufacturing & Trading',
+        focus: 'Processes and exports prawns, tuna, and fish to international markets.',
+        description: 'Processes and exports prawns, tuna, and fish to international markets.'
+      },
+      { 
+        name: 'WISH Capital (Pvt) Ltd', 
+        type: 'Financial Investments & Trading', 
+        sector: 'Financial Investments & Trading',
+        focus: 'Engages in financial instruments and capital market investments.',
+        description: 'Engages in financial instruments and capital market investments.'
+      },
+      { 
+        name: 'WISH Hospitality Ltd', 
+        type: 'Hospitality & Tourism', 
+        sector: 'Hospitality & Tourism',
+        focus: 'Manages hotel, resort, and tourism-driven ventures.',
+        description: 'Manages hotel, resort, and tourism-driven ventures.'
+      },
+      { 
+        name: 'WISH Brands (Pvt) Ltd', 
+        type: 'Food & Beverage Manufacturing', 
+        sector: 'Food & Beverage Manufacturing',
+        focus: 'Produces biscuits, juices, and FMCG goods for domestic and export markets.',
+        description: 'Produces biscuits, juices, and FMCG goods for domestic and export markets.'
+      },
+      { 
+        name: 'World Capital Centre Ltd', 
+        type: 'Real Estate & Mixed Development', 
+        sector: 'Real Estate & Mixed Development',
+        focus: 'Develops commercial, residential, and lifestyle-based mixed development projects.',
+        description: 'Develops commercial, residential, and lifestyle-based mixed development projects.'
+      },
+      { 
+        name: 'Arena Blue Hotel and Resort Ltd', 
+        type: 'Hospitality & Leisure', 
+        sector: 'Hospitality & Leisure',
+        focus: 'Operates resorts and luxury hospitality properties.',
+        description: 'Operates resorts and luxury hospitality properties.'
+      },
+      { 
+        name: 'The One Apparels Corporation Ltd', 
+        type: 'Apparel & Textile Manufacturing', 
+        sector: 'Apparel & Textile Manufacturing',
+        focus: 'Produces apparel and textile products for local and global distribution.',
+        description: 'Produces apparel and textile products for local and global distribution.'
+      },
+      { 
+        name: 'WISH HR & Consultancy (Pvt) Ltd', 
+        type: 'HR & Professional Services', 
+        sector: 'HR & Professional Services',
+        focus: 'Provides HR consulting, recruitment, and professional services.',
+        description: 'Provides HR consulting, recruitment, and professional services.'
+      },
+      { 
+        name: 'WISH Roamer Pvt Ltd', 
+        type: 'Travel & Tourism', 
+        sector: 'Travel & Tourism',
+        focus: 'Offers travel planning, tourism services, and destination management.',
+        description: 'Offers travel planning, tourism services, and destination management.'
+      },
+      { 
+        name: 'WISH Media Corporation Ltd', 
+        type: 'Media & Entertainment', 
+        sector: 'Media & Entertainment',
+        focus: 'Creates digital content, media productions, and entertainment projects.',
+        description: 'Creates digital content, media productions, and entertainment projects.'
+      }
     ]
   },
   'maldives': {
@@ -39,9 +129,27 @@ const countryData = {
     flag: '🇲🇻',
     flagImage: 'https://flagcdn.com/w320/mv.png',
     companies: [
-      { name: 'WORLD CAPITAL CENTRE PVT LTD', type: 'Hospitality and resort company', focus: 'Hotel and resorts' },
-      { name: 'WISH HOSPITALITY PVT LTD', type: 'Hospitality and tourism company', focus: 'Hotel and tourism' },
-      { name: 'WISH HOLDINGS PVT LTD', type: 'Manufacturing and trading company', focus: 'Prawn / tuna / fish' }
+      { 
+        name: 'World Capital Centre Pvt Ltd', 
+        type: 'Hospitality & Resort Development', 
+        sector: 'Hospitality & Resort Development',
+        focus: 'Manages resort properties and leisure development projects.',
+        description: 'Manages resort properties and leisure development projects.'
+      },
+      { 
+        name: 'WISH Hospitality Pvt Ltd', 
+        type: 'Hospitality & Tourism', 
+        sector: 'Hospitality & Tourism',
+        focus: 'Operates hotel and tourism ventures in the Maldives.',
+        description: 'Operates hotel and tourism ventures in the Maldives.'
+      },
+      { 
+        name: 'WISH Holdings Pvt Ltd', 
+        type: 'Seafood Manufacturing & Trading', 
+        sector: 'Seafood Manufacturing & Trading',
+        focus: 'Processes and exports prawns, tuna, and fish for international markets.',
+        description: 'Processes and exports prawns, tuna, and fish for international markets.'
+      }
     ]
   },
   'malaysia': {
@@ -49,7 +157,13 @@ const countryData = {
     flag: '🇲🇾',
     flagImage: 'https://flagcdn.com/w320/my.png',
     companies: [
-      { name: 'WORLD CAPITAL CENTRE SDN BHD', type: 'Real estate and property development company', focus: 'Mix development projects' }
+      { 
+        name: 'World Capital Centre Sdn Bhd', 
+        type: 'Real Estate & Mixed Development', 
+        sector: 'Real Estate & Mixed Development',
+        focus: 'Develops mixed-use real estate projects with commercial and residential components.',
+        description: 'Develops mixed-use real estate projects with commercial and residential components.'
+      }
     ]
   },
   'south-africa': {
@@ -57,7 +171,13 @@ const countryData = {
     flag: '🇿🇦',
     flagImage: 'https://flagcdn.com/w320/za.png',
     companies: [
-      { name: 'WISH CAPITAL (PTY) LTD', type: 'Manufacturing and trading company', focus: 'Fruit / spices / fertilizer' }
+      { 
+        name: 'WISH Capital (Pty) Ltd', 
+        type: 'Agricultural & Commodity Trading', 
+        sector: 'Agricultural & Commodity Trading',
+        focus: 'Trades fruit, spices, fertilizers, and supports agricultural supply chains.',
+        description: 'Trades fruit, spices, fertilizers, and supports agricultural supply chains.'
+      }
     ]
   },
   'ghana': {
@@ -65,7 +185,13 @@ const countryData = {
     flag: '🇬🇭',
     flagImage: 'https://flagcdn.com/w320/gh.png',
     companies: [
-      { name: 'WISH CAPITAL (PVT) LTD', type: 'Manufacturing and trading company', focus: 'Cashew / gold / energy' }
+      { 
+        name: 'WISH Capital (Pvt) Ltd', 
+        type: 'Commodities Trading & Manufacturing', 
+        sector: 'Commodities Trading & Manufacturing',
+        focus: 'Trades and processes cashews, gold, and energy-related commodities.',
+        description: 'Trades and processes cashews, gold, and energy-related commodities.'
+      }
     ]
   },
   'united-kingdom': {
@@ -73,7 +199,13 @@ const countryData = {
     flag: '🇬🇧',
     flagImage: 'https://flagcdn.com/w320/gb.png',
     companies: [
-      { name: 'WORLD CAPITAL CENTRE LTD', type: 'Real estate and property development company', focus: 'Mix development projects' }
+      { 
+        name: 'World Capital Centre Ltd', 
+        type: 'Real Estate & Mixed Development', 
+        sector: 'Real Estate & Mixed Development',
+        focus: 'Manages property investments and mixed development projects in the UK.',
+        description: 'Manages property investments and mixed development projects in the UK.'
+      }
     ]
   }
 }
@@ -189,11 +321,17 @@ function Country() {
 
           {/* Company Tiles - Matching Existing Design Tone */}
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '24px',
+            display: 'flex',
+            justifyContent: 'center',
             marginBottom: '80px'
           }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '30px',
+              width: '100%',
+              maxWidth: '1400px'
+            }}>
             {country.companies.map((company, index) => (
               <div
                 key={index}
@@ -204,13 +342,16 @@ function Country() {
                   WebkitBackdropFilter: 'blur(20px)',
                   border: '1px solid rgba(133, 150, 166, 0.2)',
                   borderRadius: '24px',
-                  padding: '28px',
+                  padding: '32px',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                   cursor: 'default',
                   display: 'flex',
                   flexDirection: 'column',
-                  minHeight: '200px'
+                  height: '220px',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  textAlign: 'center'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
@@ -230,44 +371,40 @@ function Country() {
                   fontSize: '18px',
                   fontWeight: 600,
                   color: '#3C4C59',
-                  margin: '0 0 12px 0',
+                  margin: 0,
                   lineHeight: '1.3',
-                  letterSpacing: '0.2px'
+                  letterSpacing: '0.2px',
+                  textAlign: 'center',
+                  width: '100%'
                 }}>
                   {company.name}
                 </h3>
 
-                {/* Activities/Focus */}
-                <div style={{
-                  fontSize: '13px',
-                  lineHeight: '1.6',
-                  color: '#8596A6',
-                  opacity: 0.9,
-                  marginTop: 'auto',
-                  paddingTop: '16px',
-                  borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                }}>
+                {/* Sector */}
+                {company.sector && (
                   <div style={{
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    color: '#3C4C59',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.8px',
-                    marginBottom: '6px',
-                    opacity: 0.7
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center'
                   }}>
-                    Activities
+                    <span style={{
+                      display: 'inline-block',
+                      padding: '6px 14px',
+                      background: 'rgba(166, 3, 63, 0.1)',
+                      color: '#A6033F',
+                      borderRadius: '12px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}>
+                      {company.sector}
+                    </span>
                   </div>
-                  <div style={{ 
-                    color: '#3C4C59',
-                    fontSize: '13px',
-                    lineHeight: '1.5'
-                  }}>
-                    {company.focus}
-                  </div>
-                </div>
+                )}
               </div>
             ))}
+            </div>
           </div>
         </div>
       </section>
