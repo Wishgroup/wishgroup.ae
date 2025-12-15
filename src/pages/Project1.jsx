@@ -136,6 +136,9 @@ function Project1() {
             <h1 className="mil-mb-60">
              Wishes <span className="mil-thin">Fulfilled</span>
             </h1>
+            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '800px', fontSize: '15px', lineHeight: '1.8', opacity: 0.8, textAlign: 'justify' }}>
+              These projects represent the successful completion of a growth cycle—the tangible harvest that proves the efficacy of our strategy. They stand as enduring proof of our ability to execute complex visions, manage international capital, and deliver enduring, high-quality value.
+            </p>
             <a 
               href="#achievements" 
               onClick={handleScrollToAchievements}
@@ -219,21 +222,283 @@ function Project1() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1400px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="mil-center mil-mb-90">
-            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
-              letterSpacing: '4px',
-              fontSize: '11px',
-              opacity: 0.8
-            }}>COMPLETED PROJECTS</span>
+            <p className="mil-text mil-up mil-mb-30" style={{ 
+              fontSize: '14px',
+              opacity: 0.7,
+              fontStyle: 'italic',
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>Our track record of successful, lasting developments.</p>
             <h2 className="mil-up mil-mb-60">Completed
                <span className="mil-thin"> Projects</span>
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '40px', justifyContent: 'center' }}>
-            {/* WISH HOLDINGS Card */}
-            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
+          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
+            {/* Wish Harbour – Ciprea Phase Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+              <Link to="/project/wish-harbour-ciprea" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project1/Ciprea/image.webp"
+                    alt="Wish Harbour – Ciprea Phase"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
+                        e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        Wish Harbour <span style={{ fontWeight: 300 }}>– Ciprea Phase</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>REAL ESTATE • RESIDENTIAL DEVELOPMENT</div>
+                    </div>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Successfully delivered a foundational phase of a mix-use community focused on quality, integrated living. This confirmed our capacity to transform raw land into high-value residential assets.
+                  </p>
+                </div>
+              </div>
+              </Link>
+            </div>
+
+            {/* Prime Wish Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+              <Link to="/project/prime-wish" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)'
+                    e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                    const overlay = e.currentTarget.querySelector('.project-overlay')
+                    if (overlay) overlay.style.opacity = '1'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                    const overlay = e.currentTarget.querySelector('.project-overlay')
+                    if (overlay) overlay.style.opacity = '0'
+                  }}
+                >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project1/Prime Wish/prawns1.webp"
+                    alt="Prime Wish"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      if (e.currentTarget.src !== '/img/Project1/Prime Wish/prawns3.webp') {
+                        e.currentTarget.src = '/img/Project1/Prime Wish/prawns3.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        Prime <span style={{ fontWeight: 300 }}>Wish</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>MIX-USE COMMERCIAL & LEISURE</div>
+                    </div>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,  
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Delivered a flagship project designed as a central destination for commerce and leisure. This venture now generates stable returns and serves as a major hub for business activity.
+                  </p>
+                </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* ARENA BLUE Hotel & Resort Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
               <div
                 className="mil-up"
                 style={{
@@ -277,7 +542,7 @@ function Project1() {
                 }}>
                   <img
                     src="/img/Project1/Ciprea/image.webp"
-                    alt="WISH HOLDINGS - Premium Tuna from the Maldives"
+                    alt="ARENA BLUE Hotel & Resort"
                     loading="lazy"
                     style={{
                       width: '100%',
@@ -292,7 +557,6 @@ function Project1() {
                       e.currentTarget.style.transform = 'scale(1)'
                     }}
                     onError={(e) => {
-                      // Fallback to about.webp if image.webp fails
                       if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
                         e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
                       }
@@ -335,7 +599,7 @@ function Project1() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        <span style={{ fontWeight: 300 }}>WISH HOLDINGS</span>
+                        ARENA BLUE <span style={{ fontWeight: 300 }}>Hotel & Resort</span>
                       </h3>
                       <div style={{
                         fontSize: '11px',
@@ -343,7 +607,7 @@ function Project1() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>PREMIUM TUNA • MALDIVES</div>
+                      }}>HOSPITALITY • SRI LANKA</div>
                     </div>
                   </div>
                   
@@ -355,217 +619,8 @@ function Project1() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    WISH HOLDINGS's Fresh & Frozen Tuna Portfolio, located on Himmafushi Island, Kaafu Atoll, Maldives, represents our commitment to delivering exceptional seafood products globally. This state-of-the-art facility specializes in processing premium Yellowfin and Skipjack Tuna, processed with care in the pristine waters of the Maldives.
+                    Successfully launched and now managing a key luxury resort property, cementing our expertise in high-end hospitality and contributing significantly to local tourism and employment.
                   </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>HACCP</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Certified</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>ISO</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Certified</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Prime Wish Trading LLC Card */}
-            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '1'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '0'
-                }}
-              >
-                {/* Image Container */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '300px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
-                }}>
-                  <img
-                    src="/img/Project1/Prime Wish/prawns1.webp"
-                    alt="Prime Wish Trading LLC - Premium Seafood Products"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)'
-                    }}
-                    onError={(e) => {
-                      // Fallback to prawns3.webp if prawns1.webp fails
-                      if (e.currentTarget.src !== '/img/Project1/Prime Wish/prawns3.webp') {
-                        e.currentTarget.src = '/img/Project1/Prime Wish/prawns3.webp'
-                      }
-                    }}
-                  />
-                  <div 
-                    className="project-overlay"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
-                      opacity: 0,
-                      transition: 'opacity 0.4s ease'
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div style={{ padding: '40px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '20px'
-                  }}>
-                    <div style={{
-                      width: '4px',
-                      height: '40px',
-                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
-                      borderRadius: '2px'
-                    }} />
-                    <div>
-                      <h3 style={{
-                        fontSize: '24px',
-                        fontWeight: 600,
-                        color: '#3C4C59',
-                        margin: 0,
-                        lineHeight: '1.2'
-                      }}>
-                        Prime Wish <span style={{ fontWeight: 300 }}>Trading LLC</span>
-                      </h3>
-                      <div style={{
-                        fontSize: '11px',
-                        letterSpacing: '2px',
-                        color: '#8596A6',
-                        marginTop: '4px',
-                        textTransform: 'uppercase'
-                      }}>PREMIUM SEAFOOD • UAE</div>
-                    </div>
-                  </div>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify'
-                  }}>
-                    Prime Wish Trading LLC is a well-established UAE-based manufacturing and export-import company specializing in high-quality food products under the "PRIME WISH" brand. We proudly serve many reputed clients worldwide, offering premium products at competitive prices, connecting global markets with premium seafood products.
-                  </p>
-
-                  {/* Stats */}
-                  <div style={{
-                    display: 'flex',
-                    gap: '30px',
-                    marginTop: '30px',
-                    paddingTop: '30px',
-                    borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                  }}>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Global</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Reach</div>
-                    </div>
-                    <div>
-                      <div style={{
-                        fontSize: '28px',
-                        fontWeight: 600,
-                        color: '#A6033F',
-                        lineHeight: '1'
-                      }}>Premium</div>
-                      <div style={{
-                        fontSize: '12px',
-                        color: '#8596A6',
-                        marginTop: '6px',
-                        letterSpacing: '1px',
-                        textTransform: 'uppercase'
-                      }}>Quality</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

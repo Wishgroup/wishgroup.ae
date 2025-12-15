@@ -132,6 +132,9 @@ function Project3() {
             <h1 className="mil-mb-60">
              Partnerships <span className="mil-thin">for Impact</span>
             </h1>
+            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '800px', fontSize: '15px', lineHeight: '1.8', opacity: 0.8, textAlign: 'justify' }}>
+              Successful cultivation requires enriching the soil. Our strategic investments and internal divisions provide the vital services, human capital, and robust compliance infrastructure that strengthen the Group's core and empower our partners globally.
+            </p>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
               <a 
                 href="#achievements" 
@@ -217,37 +220,40 @@ function Project3() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container">
+        <div className="container" style={{ maxWidth: '1400px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="mil-center mil-mb-90">
-            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
-              letterSpacing: '4px',
-              fontSize: '11px',
-              opacity: 0.8
-            }}>STRATEGIC INVESTMENTS AND COLLABARATION</span>
-            <h2 className="mil-up mil-mb-60">Strategic Ivestments
-               <span className="mil-thin"> And Collabaration</span>
+            <p className="mil-text mil-up mil-mb-30" style={{ 
+              fontSize: '14px',
+              opacity: 0.7,
+              fontStyle: 'italic',
+              maxWidth: '800px',
+              margin: '0 auto'
+            }}>Collaboration building shared, sustainable potential.</p>
+            <h2 className="mil-up mil-mb-60">Partnerships for
+               <span className="mil-thin"> Impact</span>
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '40px', justifyContent: 'center' }}>
-            {/* Prime Bond Investment Card */}
-            <div className="col-12 col-lg-5" style={{ position: 'relative' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block'
-                }}
+          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
+            {/* WISH FINANCE CORPORATION LTD (Prime Bond Investment) Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+              <Link to="/project/prime-bond" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block'
+                  }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -273,7 +279,8 @@ function Project3() {
                 }}>
                   <img
                     src="/img/Project3/investment1.webp"
-                    alt="Prime Bond Investment - Secure, high-yield opportunities"
+                    alt="WISH FINANCE CORPORATION LTD - Prime Bond Investment"
+                    loading="lazy"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -285,6 +292,11 @@ function Project3() {
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      if (e.currentTarget.src !== '/img/Project3/tunaprime.webp') {
+                        e.currentTarget.src = '/img/Project3/tunaprime.webp'
+                      }
                     }}
                   />
                   <div 
@@ -324,7 +336,7 @@ function Project3() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        Prime Bond <span style={{ fontWeight: 300 }}>Investment</span>
+                        WISH FINANCE <span style={{ fontWeight: 300 }}>CORPORATION LTD</span>
                       </h3>
                       <div style={{
                         fontSize: '11px',
@@ -332,7 +344,7 @@ function Project3() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>COMMODITY INVESTMENT • SECURE RETURNS</div>
+                      }}>FINANCIAL SERVICES • PRIME BOND INVESTMENT</div>
                     </div>
                   </div>
                   
@@ -342,22 +354,9 @@ function Project3() {
                     color: '#3C4C59',
                     margin: 0,
                     opacity: 0.8,
-                    textAlign: 'justify',
-                    marginBottom: '20px'
+                    textAlign: 'justify'
                   }}>
-                    PRIME WISH TRADING LLC proudly introduces the PRIME BOND INVESTMENT, a secure and rewarding investment opportunity backed by the strength and success of our global commodity trading operations.
-                  </p>
-
-                  <p style={{
-                    fontSize: '13px',
-                    lineHeight: '1.6',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.7,
-                    fontStyle: 'italic',
-                    marginBottom: '30px'
-                  }}>
-                    Secure, high-yield opportunities backed by commodity trading expertise
+                    Our financial arm continually manages strategic investments and tokenized financial instruments, ensuring capital liquidity and strengthening our ability to fund large-scale projects globally.
                   </p>
 
                   {/* Stats - 2x2 Grid */}
@@ -430,6 +429,261 @@ function Project3() {
                       }}>Established trading network</div>
                     </div>
                   </div>
+                </div>
+                </div>
+              </Link>
+            </div>
+
+            {/* WISH HR & CONSULTANCY Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project3/investment1.webp"
+                    alt="WISH HR & CONSULTANCY"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      if (e.currentTarget.src !== '/img/Project3/tunaprime.webp') {
+                        e.currentTarget.src = '/img/Project3/tunaprime.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        WISH HR & <span style={{ fontWeight: 300 }}>CONSULTANCY</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>HUMAN CAPITAL • HR & CONSULTANCY</div>
+                    </div>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Provides essential support by managing human capital, recruitment, and organizational policy, ensuring every project team is skilled, supported, and compliant across all jurisdictions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* WISH LEGAL & GOVERNANCE Card */}
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block',
+                  willChange: 'transform',
+                  transform: 'translateZ(0)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)'
+                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                  const overlay = e.currentTarget.querySelector('.project-overlay')
+                  if (overlay) overlay.style.opacity = '0'
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '300px',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                }}>
+                  <img
+                    src="/img/Project3/investment1.webp"
+                    alt="WISH LEGAL & GOVERNANCE"
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.1)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)'
+                    }}
+                    onError={(e) => {
+                      if (e.currentTarget.src !== '/img/Project3/tunaprime.webp') {
+                        e.currentTarget.src = '/img/Project3/tunaprime.webp'
+                      }
+                    }}
+                  />
+                  <div 
+                    className="project-overlay"
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
+                      opacity: 0,
+                      transition: 'opacity 0.4s ease'
+                    }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div style={{ padding: '40px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px'
+                  }}>
+                    <div style={{
+                      width: '4px',
+                      height: '40px',
+                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
+                      borderRadius: '2px'
+                    }} />
+                    <div>
+                      <h3 style={{
+                        fontSize: '24px',
+                        fontWeight: 600,
+                        color: '#3C4C59',
+                        margin: 0,
+                        lineHeight: '1.2'
+                      }}>
+                        WISH LEGAL & <span style={{ fontWeight: 300 }}>GOVERNANCE</span>
+                      </h3>
+                      <div style={{
+                        fontSize: '11px',
+                        letterSpacing: '2px',
+                        color: '#8596A6',
+                        marginTop: '4px',
+                        textTransform: 'uppercase'
+                      }}>LEGAL SERVICES • GOVERNANCE & COMPLIANCE</div>
+                    </div>
+                  </div>
+                  
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: 0,
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Ensures all international ventures are launched on a secure, compliant legal foundation, protecting our assets and upholding the integrity of the "One Capital World" vision.
+                  </p>
                 </div>
               </div>
             </div>
