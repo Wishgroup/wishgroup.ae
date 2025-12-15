@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 
+// API base URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
+
 // Constants for clock styles
 const CLOCK_NUMBER_STYLE = {
   color: '#ffffff',
@@ -183,7 +186,143 @@ function FlippingContainer() {
   )
 }
 
-function Footer() {
+function Footer({ minimal = false }) {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [submitError, setSubmitError] = useState('');
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Reset messages
+    setSubmitMessage('');
+    setSubmitError('');
+
+    // Validate email
+    if (!email || !email.includes('@')) {
+      setSubmitError('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmitMessage(data.message || 'Thank you for subscribing!');
+        setEmail(''); // Clear the input
+      } else {
+        setSubmitError(data.message || 'Failed to subscribe. Please try again.');
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setSubmitError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const NewsletterBlock = () => (
+    <div className="row mil-mb-90 mil-newsletter-row justify-content-center">
+      <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
+        <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Waves</div>
+        <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Subscribe for News and Information</p>
+        <form className="mil-subscribe-form mil-up" onSubmit={handleNewsletterSubmit} style={{
+          position: 'relative',
+          display: 'block',
+          width: '100%',
+          maxWidth: '500px',
+          margin: '0 auto',
+          alignItems: 'center',
+        }}>
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isSubmitting}
+            style={{
+              width: '100%',
+              padding: '12px 50px 12px 20px',
+              borderRadius: '24px',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: '#ffffff',
+              fontSize: '16px',
+              outline: 'none'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)'
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+            }}
+          />
+          <button 
+            type="submit" 
+            className="mil-button mil-icon-button-sm mil-arrow-place"
+            disabled={isSubmitting}
+            style={{
+              position: 'absolute',
+              right: '8px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          ></button>
+        </form>
+        {submitMessage && (
+          <p style={{ 
+            color: '#4caf50', 
+            marginTop: '10px', 
+            fontSize: '14px',
+            textAlign: 'center'
+          }}>
+            {submitMessage}
+          </p>
+        )}
+        {submitError && (
+          <p style={{ 
+            color: '#f44336', 
+            marginTop: '10px', 
+            fontSize: '14px',
+            textAlign: 'center'
+          }}>
+            {submitError}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+
+  if (minimal) {
+    return (
+      <footer className="mil-dark-bg">
+        <div className="mi-invert-fix">
+          <div className="container mil-p-120-60">
+            <NewsletterBlock />
+          </div>
+        </div>
+      </footer>
+    )
+  }
+
   return (
     <>
       {/* App Promotion Section */}
@@ -249,58 +388,7 @@ function Footer() {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          <div className="row mil-mb-90 mil-newsletter-row justify-content-center">
-            <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
-              <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Waves</div>
-              <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Subscribe for News and Information</p>
-              <form className="mil-subscribe-form mil-up" style={{
-                position: 'relative',
-                display: 'block',
-                width: '100%',
-                maxWidth: '500px',
-                margin: '0 auto',
-                alignItems: 'center',
-              }}>
-                <input 
-                  type="text" 
-                  placeholder="Enter your email" 
-                  style={{
-                    width: '100%',
-                    padding: '12px 50px 12px 20px',
-                    borderRadius: '24px',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    color: '#ffffff',
-                    fontSize: '16px',
-                    outline: 'none'
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)'
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)'
-                  }}
-                />
-                <button 
-                  type="submit" 
-                  className="mil-button mil-icon-button-sm mil-arrow-place"
-                  style={{
-                    position: 'absolute',
-                    right: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                ></button>
-              </form>
-            </div>
-          </div>
+          <NewsletterBlock />
 
           {/* Middle Section: Address and Contact */}
           <div className="row justify-content-center text-center mil-mb-60" style={{ rowGap: '30px' }}>

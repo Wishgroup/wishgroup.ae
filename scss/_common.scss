@@ -593,6 +593,55 @@ button
     }
 }
 
+.mil-button.mil-glass {
+    background: linear-gradient(120deg, $lt-20, $lt-5);
+    color: $dark;
+    border: 1px solid $lt-30;
+    box-shadow: 0 14px 30px rgba($dark, .14);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0 36px;
+
+    &:hover {
+        background: linear-gradient(120deg, $lt-30, $lt-10);
+        box-shadow: 0 18px 38px rgba($dark, .18);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 12px 24px rgba($dark, .16);
+    }
+}
+
+.mil-card.mil-card-glass {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid $lt-20;
+    box-shadow: 0 20px 60px rgba($dark, .08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.mil-glass-note {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid $lt-30;
+    color: $dark;
+    padding: 14px 16px;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba($dark, .12);
+}
+
+.mil-contact-page {
+    background: $light;
+    position: relative;
+}
+
+@media (max-width: 767px) {
+    .mil-button.mil-glass {
+        width: 100%;
+    }
+}
+
 /* -------------------------------------------
 
 form

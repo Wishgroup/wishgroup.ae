@@ -5,11 +5,11 @@
   "type": "module",
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts5": "^5.14.4",
+    "@amcharts/amcharts5-geodata": "^5.1.5",
     "@auth0/auth0-react": "^2.9.0",
     "@emailjs/browser": "^4.4.1",
     "@fancyapps/ui": "^5.0.0",
-    "@amcharts/amcharts5": "^5.14.4",
-    "@amcharts/amcharts5-geodata": "^5.1.5",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "d3": "^7.9.0",
@@ -23,6 +23,7 @@
     "react-router-dom": "^6.20.0",
     "simplex-noise": "^4.0.3",
     "swiper": "^11.0.5",
+    "terser": "^5.44.1",
     "three": "^0.181.2",
     "topojson-client": "^3.1.0"
   },

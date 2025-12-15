@@ -235,24 +235,25 @@ function Project2() {
           <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
             {/* Beverley Air Card */}
             <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
+              <Link to="/project/beverley-air" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -399,29 +400,31 @@ function Project2() {
                     </div>
                   </div>
                 </div>
-              </div>
+                </div>
+              </Link>
             </div>
 
             {/* The Bay Card */}
             <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
+              <Link to="/project/the-bay" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -527,29 +530,31 @@ function Project2() {
                     Creating integrated lagoon-based leisure and water activities designed to enhance the appeal of our resort properties and contribute to the local entertainment economy.
                   </p>
                 </div>
-              </div>
+                </div>
+              </Link>
             </div>
 
             {/* Dow Hotel & Resort Card */}
             <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
+              <Link to="/project/dow-hotel" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -655,30 +660,32 @@ function Project2() {
                     Strategic development and management of a full-service hotel and resort, growing our operational capacity and establishing a strong presence in key global tourism markets.
                   </p>
                 </div>
-              </div>
+                </div>
+              </Link>
             </div>
 
 
             {/* Wish Casa Card */}
             <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
+              <Link to="/project/wish-brands" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -784,7 +791,8 @@ function Project2() {
                     Operating a state-of-the-art facility in Puttalam, Sri Lanka, focused on the ethical manufacturing and international distribution of high-quality biscuits and beverages.
                   </p>
                 </div>
-              </div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

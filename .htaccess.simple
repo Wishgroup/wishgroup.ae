@@ -1,0 +1,10 @@
+# Simplified .htaccess for cPanel (use if main .htaccess causes 403 errors)
+# React Router Support
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
