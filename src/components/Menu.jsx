@@ -35,10 +35,10 @@ const MENU_ITEMS = [
   },
   {
     title: 'Contact us',
+    path: '/contact',
     children: [
+      { title: 'Get in touch', path: '/contact' },
       { title: 'Team', path: '/team' },
-      { title: 'Contact', path: '/contact' },
-      { title: '404', path: '/404' },
     ],
   },
   {
