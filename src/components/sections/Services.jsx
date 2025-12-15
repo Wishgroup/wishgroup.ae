@@ -4,21 +4,32 @@ import { Link } from 'react-router-dom'
 function Services() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
 
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index)
+  }
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null)
+  }
+
   const industries = [
     {
       title: 'Real Estate',
       description: 'Comprehensive real estate solutions including property development, investment opportunities, and premium commercial and residential projects.',
       image: '/products/belimal.jpeg',
+      link: '/services/real-estate',
     },
     {
       title: 'Fishery',
       description: 'Sustainable fishery operations with premium seafood products, including fresh catches and processed marine products for global markets.',
       image: '/products/dryfish.jpeg',
+      link: '/services/fishery',
     },
     {
       title: 'Trading',
       description: 'Global trading services connecting markets worldwide, specializing in premium products and commodities with excellence and reliability.',
       image: '/products/prawns.jpeg',
+      link: '/services/trading',
     },
   ]
 
@@ -51,18 +62,17 @@ function Services() {
             </div>
           </div>
 
-          <div style={{ 
-            display: 'flex', 
-            flexWrap: 'wrap', 
-            gap: '20px', 
+          <div className="row mil-services-grid" style={{ 
             maxWidth: '1400px', 
             margin: '0 auto',
-            justifyContent: 'center'
           }}>
             {industries.map((industry, index) => (
               <div
                 key={index}
-                className="col-md-6 col-lg-4 mil-services-grid-item p-0"
+                className="col-md-6 col-lg-4 mil-services-grid-item p-0 mil-up"
+                style={{
+                  animationDelay: `${index * 0.1}s`
+                }}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={() => handleMouseLeave(index)}
               >
@@ -79,11 +89,19 @@ function Services() {
                   <div style={{
                     position: 'relative',
                     width: '100%',
-                    height: '400px',
-                    overflow: 'hidden'
+                    height: '500px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    boxShadow: hoveredIndex === index 
+                      ? '0 20px 60px rgba(0, 0, 0, 0.4)' 
+                      : '0 10px 30px rgba(0, 0, 0, 0.2)',
+                    transition: 'box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: hoveredIndex === index ? 'translateY(-10px)' : 'translateY(0)',
                   }}>
                     {/* Background Image */}
                     <div
+                      className="mil-parallax"
                       style={{
                         position: 'absolute',
                         top: 0,
@@ -94,13 +112,8 @@ function Services() {
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
-                        transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.1)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)'
+                        transform: hoveredIndex === index ? 'scale(1.15)' : 'scale(1)',
+                        transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                       }}
                     />
                     
@@ -200,6 +213,13 @@ function Services() {
                       transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                       pointerEvents: 'none'
                     }}>
+                      <div style={{
+                        width: '4px',
+                        height: '60px',
+                        background: 'linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.5) 100%)',
+                        borderRadius: '2px',
+                        marginBottom: '20px'
+                      }} />
                       <h3 style={{
                         fontSize: '36px',
                         fontWeight: 600,

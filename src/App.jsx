@@ -14,18 +14,26 @@ const Service = lazy(() => import('./pages/Service'))
 const Blog = lazy(() => import('./pages/Blog'))
 const Publication = lazy(() => import('./pages/Publication'))
 const Team = lazy(() => import('./pages/Team'))
-const Contact = lazy(() => import('./pages/Contact'))
 const AboutUs = lazy(() => import('./pages/AboutUs'))
 const Project1 = lazy(() => import('./pages/Project1'))
 const Project2 = lazy(() => import('./pages/Project2'))
 const Project3 = lazy(() => import('./pages/Project3'))
 const Project4 = lazy(() => import('./pages/Project4'))
-const Project5 = lazy(() => import('./pages/Project5'))
+const Contacts = lazy(() => import('./pages/Project5'))
 const Project6 = lazy(() => import('./pages/Project6'))
 const Attendance = lazy(() => import('./pages/Attendance'))
 const News = lazy(() => import('./pages/News'))
 const Careers = lazy(() => import('./pages/Careers'))
 const Country = lazy(() => import('./pages/Country'))
+const WishHarbourCiprea = lazy(() => import('./pages/WishHarbourCiprea'))
+const PrimeWish = lazy(() => import('./pages/PrimeWish'))
+const BeverleyAir = lazy(() => import('./pages/BeverleyAir'))
+const TheBay = lazy(() => import('./pages/TheBay'))
+const DowHotel = lazy(() => import('./pages/DowHotel'))
+const WishWorld = lazy(() => import('./pages/WishWorld'))
+const WishBrands = lazy(() => import('./pages/WishBrands'))
+const PrimeBond = lazy(() => import('./pages/PrimeBond'))
+const WorldCapitalCentre = lazy(() => import('./pages/WorldCapitalCentre'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Loading component
@@ -82,7 +90,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/publication" element={<Publication />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<Contacts />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/news" element={<News />} />
             <Route path="/careers" element={<Careers />} />
@@ -121,11 +129,7 @@ function App() {
             />
             <Route 
               path="/project-5" 
-              element={
-                <ProtectedRoute>
-                  <Project5 />
-                </ProtectedRoute>
-              } 
+              element={<Contacts />} 
             />
             <Route 
               path="/project-6" 
@@ -143,6 +147,15 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+            <Route path="/project/wish-harbour-ciprea" element={<WishHarbourCiprea />} />
+            <Route path="/project/prime-wish" element={<PrimeWish />} />
+            <Route path="/project/beverley-air" element={<BeverleyAir />} />
+            <Route path="/project/the-bay" element={<TheBay />} />
+            <Route path="/project/dow-hotel" element={<DowHotel />} />
+            <Route path="/project/wish-world" element={<WishWorld />} />
+            <Route path="/project/wish-brands" element={<WishBrands />} />
+            <Route path="/project/prime-bond" element={<PrimeBond />} />
+            <Route path="/project/world-capital-centre" element={<WorldCapitalCentre />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

@@ -239,24 +239,25 @@ function Project1() {
           <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
             {/* Wish Harbour – Ciprea Phase Card */}
             <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
+              <Link to="/project/wish-harbour-ciprea" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -363,43 +364,45 @@ function Project1() {
                   </p>
                 </div>
               </div>
+              </Link>
             </div>
 
             {/* Prime Wish Card */}
             <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '1'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '0'
-                }}
-              >
+              <Link to="/project/prime-wish" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+                <div
+                  className="mil-up"
+                  style={{
+                    position: 'relative',
+                    height: '100%',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(133, 150, 166, 0.2)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                    display: 'block',
+                    willChange: 'transform',
+                    transform: 'translateZ(0)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)'
+                    e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
+                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
+                    const overlay = e.currentTarget.querySelector('.project-overlay')
+                    if (overlay) overlay.style.opacity = '1'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                    const overlay = e.currentTarget.querySelector('.project-overlay')
+                    if (overlay) overlay.style.opacity = '0'
+                  }}
+                >
                 {/* Image Container */}
                 <div style={{
                   position: 'relative',
@@ -483,14 +486,15 @@ function Project1() {
                     fontSize: '15px',
                     lineHeight: '1.8',
                     color: '#3C4C59',
-                    margin: 0,
+                    margin: 0,  
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
                     Delivered a flagship project designed as a central destination for commerce and leisure. This venture now generates stable returns and serves as a major hub for business activity.
                   </p>
                 </div>
-              </div>
+                </div>
+              </Link>
             </div>
 
             {/* ARENA BLUE Hotel & Resort Card */}

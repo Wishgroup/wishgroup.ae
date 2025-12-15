@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const ZKLib = require("node-zklib");
+const nodemailer = require("nodemailer");
 const connectDB = require('./config/database');
 const Attendance = require('./models/Attendance');
 
@@ -17,6 +18,26 @@ const DEVICE_IP = process.env.DEVICE_IP || "10.255.254.49";
 const DEVICE_PORT = parseInt(process.env.DEVICE_PORT || "80");
 const INOUT = parseInt(process.env.INOUT || "10000");
 const PING = parseInt(process.env.PING || "5000");
+
+// Email Configuration
+const createTransporter = () => {
+  // If SMTP credentials are provided, use them
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    return nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || "587"),
+      secure: process.env.SMTP_PORT === "465",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  }
+  // Otherwise, return null (email sending will be disabled)
+  return null;
+};
+
+const transporter = createTransporter();
 
 const zk = new ZKLib(DEVICE_IP, DEVICE_PORT, INOUT, PING);
 
@@ -244,6 +265,66 @@ app.get("/attendance/stats", async (req, res) => {
   }
 });
 
+// Newsletter subscription endpoint
+app.post("/newsletter/subscribe", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Validate email
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid email address is required"
+      });
+    }
+
+    // Check if email transporter is configured
+    if (!transporter) {
+      console.log("Email not configured. Newsletter subscription received:", email);
+      // Still return success to user, but log the email
+      return res.json({
+        success: true,
+        message: "Thank you for subscribing! (Email service not configured - subscription logged)"
+      });
+    }
+
+    // Email configuration
+    const emailTo = process.env.EMAIL_TO || "careers@wishgroup.ae";
+    const emailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@wishgroup.ae";
+
+    // Send email
+    const mailOptions = {
+      from: emailFrom,
+      to: emailTo,
+      subject: "New Newsletter Subscription from Website",
+      text: `This person with email ${email} has contacted you through website.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #126771;">New Newsletter Subscription</h2>
+          <p>This person with email <strong>${email}</strong> has contacted you through website.</p>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            Subscription Date: ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({
+      success: true,
+      message: "Thank you for subscribing to our newsletter!"
+    });
+  } catch (err) {
+    console.error("Error sending newsletter subscription email:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Failed to process subscription. Please try again later."
+    });
+  }
+});
+
 // Health check endpoint
 app.get("/health", async (req, res) => {
   const dbStatus = require('mongoose').connection.readyState === 1 ? 'connected' : 'disconnected';
@@ -268,4 +349,5 @@ app.listen(PORT, () => {
   console.log(`  GET /attendance - Get attendance logs from database`);
   console.log(`  POST /attendance/sync - Sync attendance from device to database`);
   console.log(`  GET /attendance/stats - Get attendance statistics`);
+  console.log(`  POST /newsletter/subscribe - Newsletter subscription`);
 });
