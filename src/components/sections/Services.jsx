@@ -267,8 +267,8 @@ function Services() {
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
 
