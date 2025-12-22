@@ -629,9 +629,23 @@ function Project1() {
       </section>
 
       {/* Image Gallery Section */}
-      <section className="mil-p-120-120 mil-soft-bg">
+      <section className="mil-p-120-120 mil-soft-bg project-gallery-section">
+        <style>{`
+          @media screen and (max-width: 992px) {
+            .project-gallery-section {
+              padding-top: 40px !important;
+              padding-bottom: 40px !important;
+            }
+            .project-gallery-header {
+              margin-bottom: 20px !important;
+            }
+            .project-carousel-container {
+              padding: 0 !important;
+            }
+          }
+        `}</style>
         <div className="container">
-          <div className="mil-center mil-mb-90">
+          <div className="mil-center mil-mb-90 project-gallery-header">
             <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up">Project Gallery</span>
             <h2 className="mil-up mil-mb-30">
               Visual <span className="mil-thin">Showcase</span>
@@ -639,6 +653,7 @@ function Project1() {
           </div>
           {/* Carousel Container */}
           <div 
+            className="project-carousel-container"
             style={{
               position: 'relative',
               width: '100%',

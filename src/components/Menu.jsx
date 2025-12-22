@@ -106,14 +106,11 @@ function Menu() {
     }
   }, [location.pathname])
 
-  // Combined menu button and scroll position effects
+  // Update menu button active class
   useEffect(() => {
-    // Menu button setup
     const menuBtn = document.querySelector('.mil-menu-btn')
     if (menuBtn) {
       menuBtnRef.current = menuBtn
-      menuBtn.addEventListener('click', handleMenuToggle)
-      
       // Update class based on state
       if (isActive) {
         menuBtn.classList.add('mil-active')
@@ -121,13 +118,7 @@ function Menu() {
         menuBtn.classList.remove('mil-active')
       }
     }
-
-    return () => {
-      if (menuBtnRef.current) {
-        menuBtnRef.current.removeEventListener('click', handleMenuToggle)
-      }
-    }
-  }, [isActive, handleMenuToggle])
+  }, [isActive])
 
   // Close menu on location change
   useEffect(() => {
@@ -190,7 +181,7 @@ function Menu() {
         </Link>
         <div style={HEADER_STYLE}>
           <AuthButton />
-          <div className="mil-menu-btn">
+          <div className="mil-menu-btn" onClick={handleMenuToggle}>
             <span></span>
           </div>
         </div>

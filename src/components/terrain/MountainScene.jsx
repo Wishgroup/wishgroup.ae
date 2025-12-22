@@ -4,7 +4,6 @@ import { Suspense, useRef, useState, useCallback, useMemo } from "react";
 import { TileTerrain } from "./TileTerrain";
 import { BusinessmanBillboards } from "./BusinessmanBillboards";
 import { ShaderGrassField } from "./ShaderGrassField";
-import { InteractiveDandelionField } from "./InteractiveDandelionField";
 import { StaticSkyBackground } from "./StaticSkyBackground";
 import * as THREE from "three";
 
@@ -78,7 +77,6 @@ export const MountainScene = ({
   const perfSettings = useMemo(() => ({
     terrainSegments: perfProfile === "low" ? 96 : 140,
     grassCount: perfProfile === "low" ? 12000 : 32000,
-    dandelionCount: perfProfile === "low" ? 180 : 450,
     dpr: perfProfile === "low" ? [1, 1.25] : [1, 1.5],
     shadows: perfProfile !== "low",
     antialias: perfProfile !== "low",
@@ -163,13 +161,6 @@ export const MountainScene = ({
             bladeHeightVariation={0.6}
             avoidSteepSlopes={true}
             maxSlope={0.3}
-          />
-          
-          <InteractiveDandelionField
-            width={25}
-            depth={25}
-            heightScale={0.3}
-            count={perfSettings.dandelionCount}
           />
           
           <BusinessmanBillboards 
