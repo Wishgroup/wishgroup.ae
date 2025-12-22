@@ -18,24 +18,48 @@ const CLOCK_SEPARATOR_STYLE = {
   textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
 }
 
-// Simple Countdown Clock Component
+// Countdown Clock Component - Counts down to March 1st
 function FlipperClock() {
-  const [time, setTime] = useState(new Date())
+  const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
+    const calculateTimeRemaining = () => {
+      const now = new Date()
+      const currentYear = now.getFullYear()
+      // Set target to March 1st of current year, or next year if we're past March 1st
+      let targetDate = new Date(currentYear, 2, 1) // Month is 0-indexed, so 2 = March
+      
+      // If we're past March 1st this year, target next year
+      if (now > targetDate) {
+        targetDate = new Date(currentYear + 1, 2, 1)
+      }
+
+      const difference = targetDate.getTime() - now.getTime()
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+        setTimeRemaining({ days, hours, minutes, seconds })
+      } else {
+        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+      }
+    }
+
+    // Calculate immediately
+    calculateTimeRemaining()
+
+    // Update every second
     const timer = setInterval(() => {
-      setTime(new Date())
+      calculateTimeRemaining()
     }, 1000)
 
     return () => clearInterval(timer)
   }, [])
 
-  const { hours, minutes, seconds } = useMemo(() => {
-    const h = time.getHours().toString().padStart(2, '0')
-    const m = time.getMinutes().toString().padStart(2, '0')
-    const s = time.getSeconds().toString().padStart(2, '0')
-    return { hours: h, minutes: m, seconds: s }
-  }, [time])
+  const { days, hours, minutes, seconds } = timeRemaining
 
   return (
     <div style={{
@@ -44,13 +68,20 @@ function FlipperClock() {
       justifyContent: 'center',
       gap: '8px',
       height: '50px',
-      transform: 'scaleX(1.02)'
+      transform: 'scaleX(1.02)',
+      flexWrap: 'wrap'
     }}>
-      <span style={CLOCK_NUMBER_STYLE}>{hours}</span>
+      {days > 0 && (
+        <>
+          <span style={CLOCK_NUMBER_STYLE}>{days.toString().padStart(2, '0')}</span>
+          <span style={CLOCK_SEPARATOR_STYLE}>:</span>
+        </>
+      )}
+      <span style={CLOCK_NUMBER_STYLE}>{hours.toString().padStart(2, '0')}</span>
       <span style={CLOCK_SEPARATOR_STYLE}>:</span>
-      <span style={CLOCK_NUMBER_STYLE}>{minutes}</span>
+      <span style={CLOCK_NUMBER_STYLE}>{minutes.toString().padStart(2, '0')}</span>
       <span style={CLOCK_SEPARATOR_STYLE}>:</span>
-      <span style={CLOCK_NUMBER_STYLE}>{seconds}</span>
+      <span style={CLOCK_NUMBER_STYLE}>{seconds.toString().padStart(2, '0')}</span>
     </div>
   )
 }

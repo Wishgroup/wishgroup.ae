@@ -34,7 +34,7 @@ function Services() {
   ]
 
   return (
-    <section id="services" className="mil-dark-bg">
+    <section id="services" className="mil-dark-bg" style={{ paddingTop: '10%' }}>
       <div className="mi-invert-fix">
         <div className="mil-animation-frame">
           <div

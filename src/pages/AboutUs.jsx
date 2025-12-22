@@ -127,13 +127,13 @@ function AboutUs() {
   return (
     <>
       {/* Banner Section */}
-      <div className="mil-inner-banner mil-p-0-120">
+      <div className="mil-inner-banner about-us-banner" style={{ paddingTop: 0, paddingBottom: 0 }}>
         <div className="mil-banner-content mil-up">
           <div className="mil-animation-frame">
             <div className="mil-animation mil-position-4 mil-dark mil-scale" data-value-1="6" data-value-2="1.4"></div>
           </div>
           <div className="container">
-            <ul className="mil-breadcrumbs mil-mb-60">
+            <ul className="mil-breadcrumbs mil-mb-60 about-us-breadcrumbs">
               <li>
                 <Link to="/">Homepage</Link>
               </li>
@@ -153,7 +153,8 @@ function AboutUs() {
       <section id="history" className="mil-p-120-120" style={{ 
         background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(60, 76, 89, 0.02) 50%, rgba(255, 255, 255, 0) 100%)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingTop: 0
       }}>
         <div className="container">
           <div className="mil-center mil-mb-90">
@@ -172,7 +173,8 @@ function AboutUs() {
               lineHeight: '1.8',
               color: '#3C4C59',
               opacity: 0.8,
-              fontStyle: 'italic'
+              fontStyle: 'italic',
+              textAlign: 'center'
             }}>
               The journey of Wish Group is not just a corporate timeline; it is a story of how a single aspiration was nurtured and allowed to flourish. It is the history of purposeful steps taken to ensure that capital is always connected with compassion.Our story began not with a ledger, but with a vision of possibility—a belief that global connections could be built on shared human values.
             </p>
@@ -188,7 +190,7 @@ function AboutUs() {
               margin: '0 auto'
             }}
           >
-            {/* Vertical Timeline Line - Center */}
+            {/* Vertical Timeline Line - Center on desktop, left on mobile */}
             <div style={{
               position: 'absolute',
               top: '0',
@@ -198,24 +200,29 @@ function AboutUs() {
               width: '5px',
               background: 'rgba(166, 3, 63, 0.25)',
               zIndex: 1
-            }} />
+            }}
+            className="timeline-line"
+            />
 
             {/* Animated Flower - Moves along timeline */}
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: `${flowerPosition}px`,
-              transform: 'translate(-50%, -50%)',
-              width: '120px',
-              height: '120px',
-              zIndex: 5,
-              transition: 'top 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-              pointerEvents: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              dropShadow: '0 4px 12px rgba(166, 3, 63, 0.4)'
-            }}>
+            <div 
+              className="timeline-flower"
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: `${flowerPosition}px`,
+                transform: 'translate(-50%, -50%)',
+                width: '120px',
+                height: '120px',
+                zIndex: 5,
+                transition: 'top 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                pointerEvents: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                dropShadow: '0 4px 12px rgba(166, 3, 63, 0.4)'
+              }}
+            >
               <img 
                 src="/img/flower/Dandelion.png" 
                 alt="Dandelion" 
@@ -234,6 +241,7 @@ function AboutUs() {
               ref={(el) => {
                 if (el) milestonesRef.current = Array.from(el.children)
               }}
+              className="timeline-items-container"
               style={{
                 position: 'relative',
                 zIndex: 2,
@@ -246,58 +254,99 @@ function AboutUs() {
             >
               {[
                 {
-                  year: '2012',
-                  title: 'The Founding Aspiration',
-                  description: 'The concept was first planted in Sri Lanka: an intent to create a new kind of global enterprise, rooted in long-term human impact.'
+                  year: '1975',
+                  title: 'The Beginning of a Legacy',
+                  description: 'A journey rooted in resilience began with the birth of Asaid Ahmed Moulana—destined to evolve from humble beginnings into a global architect of opportunity.'
                 },
                 {
-                  year: '2014',
-                  title: 'The First Seeds of Growth',
-                  description: 'The first trading operations began, establishing the foundational pathways for global resource exchange—always prioritizing ethical sourcing and reliable partnerships.'
+                  year: '1992',
+                  title: 'The First Spark of Industry',
+                  description: 'At 17, while awaiting his O/L results, he stepped into the apparel world as a Merchandise Production Assistant. This was the moment the foundation for a lifelong connection to manufacturing, people, and production excellence was planted.'
+                },
+                {
+                  year: '1994',
+                  title: 'The Ascent Begins',
+                  description: 'After completing his A/Ls, he became Factory Manager at Jecima Industries, sharpening his leadership instinct and operational discipline.'
+                },
+                {
+                  year: '1995',
+                  title: 'Gaining Momentum',
+                  description: 'His journey continued at Ace Apparel, where he deepened his understanding of supply chains and industry scale.'
+                },
+                {
+                  year: '1996',
+                  title: 'Transformation & Leadership Depth',
+                  description: 'Ace Apparel evolved into Winter World. In this pivotal chapter, he grew from Factory Manager to General Manager—and soon after, PA to the Chairman—experiencing firsthand what it meant to guide organizations through change.'
+                },
+                {
+                  year: '1998',
+                  title: 'The Entrepreneur Takes Flight',
+                  description: 'A new era began with the launch of his own ventures: Asia Designers (Nugegoda), Mods Apparel (Madirigiriya), and Asia Nature (Diyumpura). These marked the shift from leadership to legacy-building.'
+                },
+                {
+                  year: '2000',
+                  title: 'Expanding Enterprise Roots',
+                  description: 'He strengthened his presence in the apparel sector with the opening of Revlon, reinforcing his reputation for strategic vision and operational excellence.'
+                },
+                {
+                  year: '2012',
+                  title: 'The Founding Aspiration',
+                  description: 'A bold idea took shape in Sri Lanka—to build a new kind of global enterprise driven by long-term human impact and inclusive opportunity.'
+                },
+                {
+                  year: '2014–2020',
+                  title: 'The First Seeds of Global Growth',
+                  description: 'Through the Ala Mha Group, operations expanded into Sri Lanka, UAE, Maldives, UK, Malaysia, Ghana, and South Africa. This marked the beginning of cross-continental commerce and trusted trade partnerships.'
                 },
                 {
                   year: '2017',
                   title: 'A Home for the Vision',
-                  description: 'The vision found its global launchpad with the official registration and expansion into the United Arab Emirates. This marked our commitment to the Middle East as a central hub for cross-continental connection.'
+                  description: 'The UAE became the official global launchpad—a strategic hub connecting Asia, the Middle East, Africa, and Europe.'
                 },
                 {
                   year: '2019',
                   title: 'Building the Future, Sustainably',
-                  description: 'We began transforming our investment strategy into physical spaces, initiating mixed-use project development and major real estate ventures that focused on community and enduring value.'
+                  description: 'The vision moved from concept to construction, with mixed-use developments and major real estate projects that prioritized community, sustainability, and long-term value creation.'
+                },
+                {
+                  year: '2020',
+                  title: 'The Evolution Into Wish Group',
+                  description: 'A new chapter emerged with the formation of Wish Group—a unified ecosystem of companies, partnerships, and high-impact ventures built to serve a global audience.'
                 },
                 {
                   year: '2021',
                   title: 'Pioneering Innovation',
-                  description: 'Innovation took physical form with the launch of the Wish Island Project and the initiation of floating villa concepts—redefining aspirational living through sustainable engineering.'
+                  description: 'Innovation took form through the launch of the Wish Island Project and floating villa concepts—reimagining luxury living through sustainable engineering and visionary design.'
                 },
                 {
                   year: '2023',
                   title: 'Expanding the Human Network',
-                  description: 'The promise of opportunity was extended into Europe, while programs like the Wish I Club and Prime Bond were launched to solidify exclusive, trusted relationships with our growing global client base.'
+                  description: 'Wish Group extended its footprint into Europe and launched programs such as Wish I Club and Prime Bond. These initiatives fostered exclusive, trusted, and high-engagement relationships across the global community.'
                 },
                 {
                   year: 'Today',
                   title: 'Every Move Aligned',
-                  description: 'As we look toward 2025 and beyond, we stand as a unified global force—a family of 20+ registered companies built on cross-continental partnerships and a deep commitment to social responsibility (CSR projects). Every year, every endeavor, and every new territory we enter is driven by a single, unwavering purpose: to fulfill the wish for a unified, more equitable global future.'
+                  description: 'With more than 20 companies across continents, Wish Group stands as a unified global force—anchored in partnership, innovation, community upliftment, and a deep commitment to CSR. Every milestone, every expansion, and every initiative continues to serve one unwavering purpose: to create a more connected, equitable, and opportunity-driven global future.'
                 }
               ].map((milestone, index) => {
                 const isLeft = index % 2 === 0 // Alternate: even index = left, odd index = right
                 return (
                   <div
                     key={index}
-                    className="mil-up"
+                    className="mil-up timeline-item"
                     style={{
                       position: 'relative',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: isLeft ? 'flex-end' : 'flex-start',
-                      paddingRight: isLeft ? '0' : '46%',
-                      paddingLeft: isLeft ? '46%' : '0'
+                      paddingRight: isLeft ? '0' : '35%',
+                      paddingLeft: isLeft ? '35%' : '0'
                     }}
                   >
 
                     {/* Card Container */}
                     <div
+                      className="timeline-card-container"
                       style={{
                         width: '100%',
                         maxWidth: '400px',
@@ -372,7 +421,8 @@ function AboutUs() {
                           color: '#3C4C59',
                           margin: 0,
                           opacity: 0.75,
-                          flex: 1
+                          flex: 1,
+                          textAlign: 'justify'
                         }}>
                           {milestone.description}
                         </p>
@@ -396,6 +446,46 @@ function AboutUs() {
             }
             .floating-flower {
               animation: float 3s ease-in-out infinite;
+            }
+            
+            /* Mobile Responsive Styles */
+            @media (max-width: 768px) {
+              .about-us-banner {
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+              }
+              
+              .about-us-breadcrumbs {
+                display: none !important;
+              }
+              
+              .timeline-line {
+                left: 20px !important;
+                transform: translateX(0) !important;
+              }
+              
+              .timeline-flower {
+                left: 20px !important;
+                transform: translate(-50%, -50%) !important;
+                width: 80px !important;
+                height: 80px !important;
+              }
+              
+              .timeline-items-container {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                gap: 20px !important;
+              }
+              
+              .timeline-item {
+                padding-left: 60px !important;
+                padding-right: 20px !important;
+                justify-content: flex-start !important;
+              }
+              
+              .timeline-card-container {
+                max-width: 100% !important;
+              }
             }
           `}</style>
         </div>
@@ -618,7 +708,8 @@ function AboutUs() {
                     lineHeight: '1.7',
                     color: '#3C4C59',
                     margin: 0,
-                    opacity: 0.8
+                    opacity: 0.8,
+                    textAlign: 'justify'
                   }}>
                     {value.description}
                   </p>
@@ -676,18 +767,65 @@ function AboutUs() {
                   color: '#3C4C59',
                   opacity: 0.8,
                   fontStyle: 'italic',
-                  marginBottom: '20px'
+                  marginBottom: '20px',
+                  textAlign: 'justify'
                 }}>
-                  "At Wish Group, we believe that success is not just measured by financial achievements, but by the positive impact we create in the lives of our stakeholders and the communities we serve. Our journey has been built on a foundation of integrity, excellence, and unwavering commitment to delivering value."
+                  Welcome to Wish Group,
                 </p>
                 <p className="mil-text mil-up" style={{ 
                   fontSize: '15px',
                   lineHeight: '1.8',
                   color: '#3C4C59',
                   opacity: 0.8,
-                  fontStyle: 'italic'
+                  fontStyle: 'italic',
+                  marginBottom: '20px',
+                  textAlign: 'justify'
                 }}>
-                  "As we continue to expand our global footprint, we remain dedicated to maintaining the highest standards of quality and ethics. Our vision extends beyond business growth—we are committed to building a legacy of sustainable success that benefits generations to come."
+                  At Wish Group, we are guided by a clear vision to build a diversified, sustainable, and future-focused organization that creates lasting value for our stakeholders, partners, and communities. Since our inception, we have remained committed to excellence, integrity, and innovation across all our operations.
+                </p>
+                <p className="mil-text mil-up" style={{ 
+                  fontSize: '15px',
+                  lineHeight: '1.8',
+                  color: '#3C4C59',
+                  opacity: 0.8,
+                  fontStyle: 'italic',
+                  marginBottom: '20px',
+                  textAlign: 'justify'
+                }}>
+                  Our success is driven by strong leadership, dedicated teams, and trusted relationships. We believe our people are our greatest strength, and we continuously invest in talent, systems, and technology to support long-term growth and resilience in a rapidly evolving global environment.
+                </p>
+                <p className="mil-text mil-up" style={{ 
+                  fontSize: '15px',
+                  lineHeight: '1.8',
+                  color: '#3C4C59',
+                  opacity: 0.8,
+                  fontStyle: 'italic',
+                  marginBottom: '20px',
+                  textAlign: 'justify'
+                }}>
+                  As we expand across industries and markets, we remain focused on responsible business practices, customer satisfaction, and sustainable development. Beyond business growth, we are committed to making a positive and meaningful contribution to the communities in which we operate.
+                </p>
+                <p className="mil-text mil-up" style={{ 
+                  fontSize: '15px',
+                  lineHeight: '1.8',
+                  color: '#3C4C59',
+                  opacity: 0.8,
+                  fontStyle: 'italic',
+                  marginBottom: '20px',
+                  textAlign: 'justify'
+                }}>
+                  I extend my sincere gratitude to our employees, partners, and stakeholders for their continued trust and support. Together, we look forward to achieving new milestones and shaping a successful future.
+                </p>
+                <p className="mil-text mil-up" style={{ 
+                  fontSize: '15px',
+                  lineHeight: '1.8',
+                  color: '#3C4C59',
+                  opacity: 0.8,
+                  fontStyle: 'italic',
+                  marginBottom: '20px',
+                  textAlign: 'justify'
+                }}>
+                  Warm regards,
                 </p>
                 <div style={{
                   marginTop: '30px',
@@ -699,13 +837,13 @@ function AboutUs() {
                     fontWeight: 600,
                     color: '#A6033F',
                     marginBottom: '4px'
-                  }}>Chairman</div>
+                  }}>Asaid Ahamed Arabi Moulana</div>
                   <div style={{
                     fontSize: '12px',
                     color: '#8596A6',
                     letterSpacing: '1px',
                     textTransform: 'uppercase'
-                  }}>Wish Group</div>
+                  }}>Chairman</div>
                 </div>
               </div>
             </div>
@@ -720,107 +858,6 @@ function AboutUs() {
                     borderRadius: '24px'
                   }}
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* CEO Message Section */}
-      <section id="ceo-message" className="mil-p-120-120 mil-soft-bg">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-6 mil-mb-60 order-lg-2">
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  padding: '40px',
-                  minHeight: '400px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
-                }}
-              >
-                <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up" style={{ 
-                  letterSpacing: '4px',
-                  fontSize: '11px',
-                  opacity: 0.8
-                }}>CEO'S MESSAGE</span>
-                <div style={{
-                  width: '4px',
-                  height: '60px',
-                  background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
-                  borderRadius: '2px',
-                  marginBottom: '30px'
-                }} />
-                <h2 className="mil-up mil-mb-30" style={{ fontSize: '32px' }}>
-                  CEO's <span className="mil-thin">Message</span>
-                </h2>
-                <p className="mil-text mil-up" style={{ 
-                  fontSize: '15px',
-                  lineHeight: '1.8',
-                  color: '#3C4C59',
-                  opacity: 0.8,
-                  fontStyle: 'italic',
-                  marginBottom: '20px'
-                }}>
-                  "Innovation and adaptability are at the heart of our operations. In an ever-changing global landscape, we continuously evolve our strategies to meet the dynamic needs of our clients while maintaining our core values of quality and integrity."
-                </p>
-                <p className="mil-text mil-up" style={{ 
-                  fontSize: '15px',
-                  lineHeight: '1.8',
-                  color: '#3C4C59',
-                  opacity: 0.8,
-                  fontStyle: 'italic'
-                }}>
-                  "Our team's dedication and expertise drive our success. Together, we are building a future where Wish Group stands as a beacon of excellence in international trade, creating opportunities and delivering value that transcends borders."
-                </p>
-                <div style={{
-                  marginTop: '30px',
-                  paddingTop: '30px',
-                  borderTop: '1px solid rgba(133, 150, 166, 0.1)'
-                }}>
-                  <div style={{
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: '#A6033F',
-                    marginBottom: '4px'
-                  }}>Chief Executive Officer</div>
-                  <div style={{
-                    fontSize: '12px',
-                    color: '#8596A6',
-                    letterSpacing: '1px',
-                    textTransform: 'uppercase'
-                  }}>Wish Group</div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6 mil-mb-60 order-lg-1">
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)',
-                  minHeight: '400px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <div style={{
-                  fontSize: '120px',
-                  color: 'rgba(166, 3, 63, 0.1)',
-                  fontWeight: 300
-                }}>"</div>
               </div>
             </div>
           </div>
