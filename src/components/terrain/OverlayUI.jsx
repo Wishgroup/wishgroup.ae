@@ -173,7 +173,7 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
         </div>
       </div>
 
-      {/* Scroll down button - right middle */}
+      {/* Scroll down button - right middle - Floating Button */}
       <div
         style={{
           position: 'absolute',
@@ -183,11 +183,8 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
           transition: 'all 1s 0.7s',
           opacity: loaded ? 1 : 0,
           pointerEvents: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.5rem',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          zIndex: 20
         }}
         onClick={() => {
           const servicesSection = document.getElementById('services');
@@ -195,26 +192,58 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
             servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-50%) translateX(0) scale(1.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = `translateY(-50%) ${loaded ? 'translateX(0)' : 'translateX(1rem)'} scale(1)`;
+        }}
       >
-        <ChevronDown 
-          size={24} 
-          color="#666" 
-          style={{ 
-            animation: 'pulse 2s infinite',
-            transition: 'transform 0.3s'
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.75rem',
+            transition: 'all 0.3s ease'
           }}
-          onMouseEnter={(e) => e.target.style.transform = 'translateY(4px)'}
-          onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-        />
-        <span style={{ 
-          fontSize: '0.75rem', 
-          fontFamily: 'monospace', 
-          color: '#666',
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em'
-        }}>
-          Scroll down
-        </span>
+        >
+          <div
+            style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(12px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: '2px solid rgba(255, 255, 255, 0.8)',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <ChevronDown 
+              size={28} 
+              color="#1a1a1a" 
+              style={{ 
+                animation: 'pulse 2s infinite',
+                transition: 'transform 0.3s'
+              }}
+            />
+          </div>
+          <span style={{ 
+            fontSize: '0.75rem', 
+            fontFamily: 'monospace', 
+            color: '#ffffff',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.15em',
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+          }}>
+            Scroll down
+          </span>
+        </div>
       </div>
 
       {/* Center loading indicator */}

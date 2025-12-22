@@ -208,13 +208,27 @@ function News() {
       </div>
 
       {/* Latest News Carousel Section */}
-      <section className="mil-p-120-120" style={{ 
+      <section className="mil-p-120-120 news-carousel-section" style={{ 
         background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(60, 76, 89, 0.02) 50%, rgba(255, 255, 255, 0) 100%)',
         position: 'relative',
         overflow: 'hidden'
       }}>
+        <style>{`
+          @media screen and (max-width: 992px) {
+            .news-carousel-section {
+              padding-top: 40px !important;
+              padding-bottom: 40px !important;
+            }
+            .news-carousel-header {
+              margin-bottom: 20px !important;
+            }
+            .news-carousel-container {
+              padding: 0 !important;
+            }
+          }
+        `}</style>
         <div className="container" style={{ maxWidth: '1400px' }}>
-          <div className="mil-center mil-mb-90">
+          <div className="mil-center mil-mb-90 news-carousel-header">
             <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up">Latest Updates</span>
             <h2 className="mil-up mil-mb-30">
               Latest <span className="mil-thin">News</span>
@@ -223,6 +237,7 @@ function News() {
 
           {/* Carousel Container */}
           <div 
+            className="news-carousel-container"
             style={{
               position: 'relative',
               width: '100%',
