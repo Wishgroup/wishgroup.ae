@@ -9,12 +9,11 @@ const PROJECT_IMAGES = [
   '/img/Project1/WishHoldings/image.webp',
   '/img/Project1/WishHoldings/about.webp',
   '/img/Project1/WishHoldings/skipjacktuna.webp',
-  '/img/Project1/WishHoldings/yellofin tuna.webp',
+  '/img/works/tuna2.webp',
   '/img/Project1/Prime Wish/prawns1.webp',
   '/img/Project1/Prime Wish/prawns3.webp',
   '/img/Project1/Prime Wish/primetune.webp',
-  '/img/Project1/Prime Wish/tea.webp',
-]
+  ]
 
 // Constants
 const AUTO_PLAY_DELAY = 2500
@@ -495,134 +494,6 @@ function Project1() {
                 </div>
                 </div>
               </Link>
-            </div>
-
-            {/* ARENA BLUE Hotel & Resort Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
-              <div
-                className="mil-up"
-                style={{
-                  position: 'relative',
-                  height: '100%',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  WebkitBackdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(133, 150, 166, 0.2)',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                  display: 'block',
-                  willChange: 'transform',
-                  transform: 'translateZ(0)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
-                  e.currentTarget.style.boxShadow = '0 20px 60px rgba(166, 3, 63, 0.15)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '1'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                  const overlay = e.currentTarget.querySelector('.project-overlay')
-                  if (overlay) overlay.style.opacity = '0'
-                }}
-              >
-                {/* Image Container */}
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '300px',
-                  overflow: 'hidden',
-                  background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
-                }}>
-                  <img
-                    src="/img/Project1/Ciprea/image.webp"
-                    alt="ARENA BLUE Hotel & Resort"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)'
-                    }}
-                    onError={(e) => {
-                      if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
-                        e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
-                      }
-                    }}
-                  />
-                  <div 
-                    className="project-overlay"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(180deg, transparent 0%, rgba(166, 3, 63, 0.3) 100%)',
-                      opacity: 0,
-                      transition: 'opacity 0.4s ease'
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div style={{ padding: '40px' }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '20px'
-                  }}>
-                    <div style={{
-                      width: '4px',
-                      height: '40px',
-                      background: 'linear-gradient(180deg, #A6033F 0%, rgba(166, 3, 63, 0.5) 100%)',
-                      borderRadius: '2px'
-                    }} />
-                    <div>
-                      <h3 style={{
-                        fontSize: '24px',
-                        fontWeight: 600,
-                        color: '#3C4C59',
-                        margin: 0,
-                        lineHeight: '1.2'
-                      }}>
-                        ARENA BLUE <span style={{ fontWeight: 300 }}>Hotel & Resort</span>
-                      </h3>
-                      <div style={{
-                        fontSize: '11px',
-                        letterSpacing: '2px',
-                        color: '#8596A6',
-                        marginTop: '4px',
-                        textTransform: 'uppercase'
-                      }}>HOSPITALITY • SRI LANKA</div>
-                    </div>
-                  </div>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify'
-                  }}>
-                    Successfully launched and now managing a key luxury resort property, cementing our expertise in high-end hospitality and contributing significantly to local tourism and employment.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

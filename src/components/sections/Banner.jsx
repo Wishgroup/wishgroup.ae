@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 // AUTH0 DISABLED - Using mock hook
 // import { useAuth0 } from '@auth0/auth0-react'
 import { useAuth0 } from '../../utils/mockAuth0'
@@ -9,11 +8,48 @@ function Banner() {
   const [shouldUseVideo, setShouldUseVideo] = useState(false)
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const isMobile = window.innerWidth < 768
+    const updateVideoPreference = () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const isMobile = window.innerWidth < 768
 
-    // Skip autoplay video on mobile or when reduced motion is preferred
-    setShouldUseVideo(!prefersReducedMotion && !isMobile)
+      // Skip autoplay video on mobile or when reduced motion is preferred
+      setShouldUseVideo(!prefersReducedMotion && !isMobile)
+    }
+
+    // Initial check
+    updateVideoPreference()
+
+    // Listen for window resize
+    const handleResize = () => {
+      updateVideoPreference()
+    }
+
+    // Listen for reduced motion preference changes
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handleMediaChange = () => {
+      updateVideoPreference()
+    }
+
+    // Add event listeners
+    window.addEventListener('resize', handleResize)
+    
+    // Modern browsers support addEventListener on MediaQueryList
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleMediaChange)
+    } else {
+      // Fallback for older browsers
+      mediaQuery.addListener(handleMediaChange)
+    }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleMediaChange)
+      } else {
+        mediaQuery.removeListener(handleMediaChange)
+      }
+    }
   }, [])
 
   const handleSignUp = () => {
@@ -36,6 +72,12 @@ function Banner() {
             playsInline
             preload="metadata"
             poster="/cloud.jpg"
+            aria-label="Background video of clouds"
+            onError={(e) => {
+              // Fallback to static image if video fails to load
+              console.warn('Video failed to load, falling back to static image')
+              setShouldUseVideo(false)
+            }}
             style={{
               position: 'absolute',
               top: 0,
