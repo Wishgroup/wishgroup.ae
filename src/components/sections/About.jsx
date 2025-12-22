@@ -4,10 +4,27 @@ import RotatedCarousel from '../RotatedCarousel'
 function About() {
   return (
     <section id="about">
-      <div className="container mil-p-120-30">
+      <style>{`
+        @media screen and (max-width: 992px) {
+          .about-section-container {
+            padding-top: 40px !important;
+            padding-bottom: 20px !important;
+          }
+          .about-text-section {
+            margin-bottom: 20px !important;
+          }
+          .about-carousel-wrapper {
+            margin-bottom: 0 !important;
+          }
+          .about-carousel-inner {
+            min-height: 300px !important;
+          }
+        }
+      `}</style>
+      <div className="container mil-p-120-30 about-section-container">
         <div className="row justify-content-between align-items-center">
           <div className="col-lg-6 col-xl-5">
-            <div className="mil-mb-90">
+            <div className="mil-mb-90 about-text-section">
               <h2 className="mil-up mil-mb-60">
                 Discover <br />
                 Our <span className="mil-thin">Projects</span>
@@ -27,9 +44,9 @@ function About() {
             </div>
           </div>
           <div className="col-lg-5">
-            <div className="mil-about-photo mil-mb-90">
+            <div className="mil-about-photo mil-mb-90 about-carousel-wrapper">
               <div className="mil-lines-place"></div>
-              <div className="mil-up" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
+              <div className="mil-up about-carousel-inner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '400px' }}>
                 <RotatedCarousel />
               </div>
             </div>

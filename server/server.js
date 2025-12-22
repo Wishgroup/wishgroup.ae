@@ -265,7 +265,7 @@ app.get("/attendance/stats", async (req, res) => {
   }
 });
 
-// Newsletter subscription endpoint
+// Email inquiry endpoint (also handles newsletter subscriptions)
 app.post("/newsletter/subscribe", async (req, res) => {
   try {
     const { email } = req.body;
@@ -280,11 +280,11 @@ app.post("/newsletter/subscribe", async (req, res) => {
 
     // Check if email transporter is configured
     if (!transporter) {
-      console.log("Email not configured. Newsletter subscription received:", email);
+      console.log("Email not configured. Email inquiry received:", email);
       // Still return success to user, but log the email
       return res.json({
         success: true,
-        message: "Thank you for subscribing! (Email service not configured - subscription logged)"
+        message: "Thank you for your inquiry! (Email service not configured - inquiry logged)"
       });
     }
 
@@ -296,14 +296,17 @@ app.post("/newsletter/subscribe", async (req, res) => {
     const mailOptions = {
       from: emailFrom,
       to: emailTo,
-      subject: "New Newsletter Subscription from Website",
-      text: `This person with email ${email} has contacted you through website.`,
+      subject: "New Email Inquiry from Website",
+      text: `New email inquiry received from: ${email}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2 style="color: #126771;">New Newsletter Subscription</h2>
-          <p>This person with email <strong>${email}</strong> has contacted you through website.</p>
+          <h2 style="color: #126771;">New Email Inquiry</h2>
+          <p>A new email inquiry has been received from the website.</p>
+          <p style="margin-top: 15px;">
+            <strong>Email Address:</strong> <a href="mailto:${email}">${email}</a>
+          </p>
           <p style="margin-top: 20px; color: #666; font-size: 14px;">
-            Subscription Date: ${new Date().toLocaleString()}
+            Inquiry Date: ${new Date().toLocaleString()}
           </p>
         </div>
       `
@@ -313,14 +316,14 @@ app.post("/newsletter/subscribe", async (req, res) => {
 
     res.json({
       success: true,
-      message: "Thank you for subscribing to our newsletter!"
+      message: "Thank you for your inquiry! We will get back to you soon."
     });
   } catch (err) {
-    console.error("Error sending newsletter subscription email:", err);
+    console.error("Error sending email inquiry:", err);
     res.status(500).json({
       success: false,
       error: err.message,
-      message: "Failed to process subscription. Please try again later."
+      message: "Failed to send inquiry. Please try again later."
     });
   }
 });
@@ -349,5 +352,5 @@ app.listen(PORT, () => {
   console.log(`  GET /attendance - Get attendance logs from database`);
   console.log(`  POST /attendance/sync - Sync attendance from device to database`);
   console.log(`  GET /attendance/stats - Get attendance statistics`);
-  console.log(`  POST /newsletter/subscribe - Newsletter subscription`);
+  console.log(`  POST /newsletter/subscribe - Email inquiry / Newsletter subscription`);
 });

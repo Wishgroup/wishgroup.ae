@@ -11,6 +11,9 @@ const CARD_BORDER_RADIUS = 20;
 const SCROLL_THRESHOLD = 30;
 const SCROLL_DELAY = 600;
 
+// Mobile breakpoint
+const MOBILE_BREAKPOINT = 768;
+
 // Default items - cards with local images
 const defaultItems = [
   { 
@@ -53,11 +56,14 @@ const getPositionClass = (offset, totalCards) => {
   return "hidden";
 };
 
-const getCardStyle = (positionClass) => {
+const getCardStyle = (positionClass, isMobile = false) => {
+  const cardWidth = isMobile ? 280 : CARD_WIDTH;
+  const cardHeight = isMobile ? 158 : CARD_HEIGHT; // Maintain aspect ratio
+  
   const baseStyle = {
     position: "absolute",
-    width: `${CARD_WIDTH}px`,
-    height: `${CARD_HEIGHT}px`,
+    width: `${cardWidth}px`,
+    height: `${cardHeight}px`,
     background: "white",
     borderRadius: `${CARD_BORDER_RADIUS}px`,
     overflow: "hidden",
@@ -77,28 +83,36 @@ const getCardStyle = (positionClass) => {
       return {
         ...baseStyle,
         zIndex: 5,
-        transform: "translateY(-150px) scale(0.9) translateZ(-100px)",
+        transform: isMobile 
+          ? "translateY(-100px) scale(0.9) translateZ(-100px)"
+          : "translateY(-150px) scale(0.9) translateZ(-100px)",
         opacity: 0.9,
       };
     case "up-2":
       return {
         ...baseStyle,
         zIndex: 1,
-        transform: "translateY(-300px) scale(0.8) translateZ(-300px)",
+        transform: isMobile
+          ? "translateY(-200px) scale(0.8) translateZ(-300px)"
+          : "translateY(-300px) scale(0.8) translateZ(-300px)",
         opacity: 0.7,
       };
     case "down-1":
       return {
         ...baseStyle,
         zIndex: 5,
-        transform: "translateY(150px) scale(0.9) translateZ(-100px)",
+        transform: isMobile
+          ? "translateY(100px) scale(0.9) translateZ(-100px)"
+          : "translateY(150px) scale(0.9) translateZ(-100px)",
         opacity: 0.9,
       };
     case "down-2":
       return {
         ...baseStyle,
         zIndex: 1,
-        transform: "translateY(300px) scale(0.8) translateZ(-300px)",
+        transform: isMobile
+          ? "translateY(200px) scale(0.8) translateZ(-300px)"
+          : "translateY(300px) scale(0.8) translateZ(-300px)",
         opacity: 0.7,
       };
     case "hidden":
@@ -129,6 +143,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const scrollTimeoutRef = useRef(null);
   const isScrollingRef = useRef(false);
   const scrollAccumulatorRef = useRef(0);
@@ -137,6 +152,17 @@ export default function RotatedCarousel({ items = defaultItems }) {
   const touchEndY = useRef(0);
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const navigate = useNavigate();
+
+  // Check if mobile view
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const updateCarousel = useCallback((newIndex) => {
     if (isAnimating) return;
@@ -227,6 +253,9 @@ export default function RotatedCarousel({ items = defaultItems }) {
     };
   }, [handleWheel, handleTouchStart, handleTouchEnd]);
 
+  const cardWidth = isMobile ? 280 : CARD_WIDTH;
+  const cardHeight = isMobile ? 158 : CARD_HEIGHT;
+
   return (
     <div
       ref={containerRef}
@@ -238,26 +267,26 @@ export default function RotatedCarousel({ items = defaultItems }) {
         justifyContent: "center",
         perspective: "1000px",
         overflow: "visible",
-        padding: "0 20px",
+        padding: isMobile ? "0 30px" : "0 20px",
       }}
     >
       <div
         style={{
-          width: `${CARD_WIDTH + 120}px`,
-          height: "70vh",
+          width: isMobile ? `${cardWidth + 60}px` : `${CARD_WIDTH + 120}px`,
+          height: isMobile ? "60vh" : "70vh",
           position: "relative",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           transformStyle: "preserve-3d",
-          padding: "0 60px",
+          padding: isMobile ? "0 20px" : "0 60px",
         }}
       >
         {items.map((item, index) => {
           const offset = ((index - currentIndex + items.length) % items.length);
           const positionClass = getPositionClass(offset, items.length);
-          const cardStyle = getCardStyle(positionClass);
+          const cardStyle = getCardStyle(positionClass, isMobile);
 
           return (
             <div
@@ -342,7 +371,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
                         style={{
                           margin: 0,
                           marginBottom: "8px",
-                          fontSize: "24px",
+                          fontSize: isMobile ? "18px" : "24px",
                           fontWeight: "bold",
                           color: "#fff",
                           textShadow: "0 2px 8px rgba(0, 0, 0, 0.5)",
@@ -356,7 +385,7 @@ export default function RotatedCarousel({ items = defaultItems }) {
                         <p
                           style={{
                             margin: 0,
-                            fontSize: "14px",
+                            fontSize: isMobile ? "12px" : "14px",
                             color: "#fff",
                             textShadow: "0 2px 6px rgba(0, 0, 0, 0.5)",
                             lineHeight: "1.4",
@@ -401,12 +430,12 @@ export default function RotatedCarousel({ items = defaultItems }) {
                         }}
                         style={{
                           display: "inline-block",
-                          padding: "12px 28px",
+                          padding: isMobile ? "10px 20px" : "12px 28px",
                           backgroundColor: "transparent",
                           color: "#fff",
                           textDecoration: "none",
                           borderRadius: "8px",
-                          fontSize: "14px",
+                          fontSize: isMobile ? "12px" : "14px",
                           fontWeight: "bold",
                           textShadow: "0 2px 8px rgba(0, 0, 0, 0.8)",
                           transition: "all 0.3s ease",

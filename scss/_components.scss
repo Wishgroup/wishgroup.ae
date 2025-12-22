@@ -286,14 +286,20 @@ menu button
 .mil-menu-btn {
     pointer-events: all;
     height: 28px;
+    min-height: 44px;
+    min-width: 44px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: $t-md;
+    position: relative;
+    z-index: 10;
 
     @media screen and (max-width: 992px) {
         transform: scale(0.85);
+        min-height: 48px;
+        min-width: 48px;
     }
 
 

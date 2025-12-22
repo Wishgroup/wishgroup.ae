@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 // API base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
@@ -219,24 +220,24 @@ function Footer({ minimal = false }) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setSubmitMessage(data.message || 'Thank you for subscribing!');
+        setSubmitMessage(data.message || 'Thank you for your inquiry! We will get back to you soon.');
         setEmail(''); // Clear the input
       } else {
-        setSubmitError(data.message || 'Failed to subscribe. Please try again.');
+        setSubmitError(data.message || 'Failed to send inquiry. Please try again.');
       }
     } catch (error) {
-      console.error('Newsletter subscription error:', error);
+      console.error('Email inquiry error:', error);
       setSubmitError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const NewsletterBlock = () => (
+  const newsletterBlockJSX = (
     <div className="row mil-mb-90 mil-newsletter-row justify-content-center">
       <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
-        <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Waves</div>
-        <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Subscribe for News and Information</p>
+        <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Group</div>
+        <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Get in Touch with Us</p>
         <form className="mil-subscribe-form mil-up" onSubmit={handleNewsletterSubmit} style={{
           position: 'relative',
           display: 'block',
@@ -316,7 +317,7 @@ function Footer({ minimal = false }) {
       <footer className="mil-dark-bg">
         <div className="mi-invert-fix">
           <div className="container mil-p-120-60">
-            <NewsletterBlock />
+            {newsletterBlockJSX}
           </div>
         </div>
       </footer>
@@ -325,6 +326,46 @@ function Footer({ minimal = false }) {
 
   return (
     <>
+      <style>{`
+        @media (max-width: 767.98px) {
+          .app-promo-logo-col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          .app-promo-text-col {
+            text-align: center !important;
+            margin-bottom: 20px;
+          }
+          .app-promo-timer-col {
+            display: flex;
+            justify-content: center !important;
+            align-items: center;
+          }
+          .footer-mobile-center {
+            text-align: center !important;
+          }
+          .footer-mobile-center h6 {
+            text-align: center !important;
+          }
+          .footer-mobile-center p {
+            text-align: center !important;
+          }
+          .footer-mobile-center ul {
+            text-align: center !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          .footer-mobile-center li {
+            text-align: center !important;
+          }
+          .footer-mobile-center a {
+            text-align: center !important;
+          }
+        }
+      `}</style>
       {/* App Promotion Section */}
       <section 
         style={{ 
@@ -336,10 +377,10 @@ function Footer({ minimal = false }) {
         <div className="container">
           <div className="row align-items-center">
             {/* Left: Logo */}
-            <div className="col-md-3 col-lg-3">
+            <div className="col-md-3 col-lg-3 app-promo-logo-col">
               <img 
                 src="/wishwaveslogo.png" 
-                alt="Wish Waves Logo" 
+                alt="Wish Group Logo" 
                 style={{ 
                   maxHeight: '150px', 
                   width: 'auto',
@@ -349,7 +390,7 @@ function Footer({ minimal = false }) {
             </div>
             
             {/* Middle: Promotional Text */}
-            <div className="col-md-6 col-lg-6 text-center">
+            <div className="col-md-6 col-lg-6 text-center app-promo-text-col">
               <h3 style={{ 
                 color: '#ffffff', 
                 textTransform: 'uppercase',
@@ -373,7 +414,7 @@ function Footer({ minimal = false }) {
             </div>
             
             {/* Right: Flipper Clock Timer / App Store Icons */}
-            <div className="col-md-3 col-lg-3" style={{ 
+            <div className="col-md-3 col-lg-3 app-promo-timer-col" style={{ 
               display: 'flex', 
               justifyContent: 'flex-end',
               alignItems: 'center'
@@ -388,11 +429,11 @@ function Footer({ minimal = false }) {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          <NewsletterBlock />
+          {newsletterBlockJSX}
 
-          {/* Middle Section: Address and Contact */}
+          {/* Middle Section: Address, Contact, Useful Links, and Follow Us */}
           <div className="row justify-content-center text-center mil-mb-60" style={{ rowGap: '30px' }}>
-            <div className="col-md-4 mil-mb-40">
+            <div className="col-md-3 mil-mb-40 footer-mobile-center">
               <h6 className="mil-muted mil-up mil-mb-20">Dubai - U.A.E.</h6>
               <p className="mil-light-soft mil-up">
                 4004/4005, 40th Floor, Citadel Tower,
@@ -404,7 +445,7 @@ function Footer({ minimal = false }) {
                 <span className="mil-no-wrap">P.O. BOX: 417425, Dubai UAE</span>
               </p>
             </div>
-            <div className="col-md-4 mil-mb-40">
+            <div className="col-md-3 mil-mb-40 footer-mobile-center">
               <h6 className="mil-muted mil-up mil-mb-20">Contact Us</h6>
               <p className="mil-light-soft mil-up">
                 <span className="mil-no-wrap">+971 4259 7167</span>
@@ -416,7 +457,37 @@ function Footer({ minimal = false }) {
                 <a href="mailto:info@wishgroup.world" className="mil-light-soft">info@wishgroup.world</a>
               </p>
             </div>
-            <div className="col-md-4 mil-mb-40" style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="col-md-3 mil-mb-40 footer-mobile-center">
+              <h6 className="mil-muted mil-up mil-mb-20">Useful links</h6>
+              <ul className="mil-menu-list" style={{ listStyle: 'none', padding: 0 }}>
+                <li className="mil-mb-15">
+                  <Link to="/news" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    New & Gallery
+                  </Link>
+                </li>
+                <li className="mil-mb-15">
+                  <Link to="/careers" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Careers
+                  </Link>
+                </li>
+                <li className="mil-mb-15">
+                  <Link to="/privacy-policy" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li className="mil-mb-15">
+                  <Link to="/terms-and-conditions" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Terms and conditions
+                  </Link>
+                </li>
+                <li className="mil-mb-15">
+                  <Link to="/cookie-policy" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Cookie Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="col-md-3 mil-mb-40" style={{ display: 'flex', justifyContent: 'center' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                 <h6 className="mil-muted mil-up" style={{ margin: 0, textAlign: 'center', whiteSpace: 'nowrap' }}>Follow Us</h6>
                 <ul className="mil-social-icons mil-up" style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 0 }}>
