@@ -740,6 +740,11 @@ breadcrumbs
         }
     }
 
+    // Hide breadcrumbs on mobile
+    @media screen and (max-width: 768px) {
+        display: none !important;
+    }
+
     &.mil-light {
         &:before {
             background-color: $lt-10;
