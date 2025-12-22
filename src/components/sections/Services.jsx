@@ -34,128 +34,24 @@ function Services() {
   ]
 
   return (
-    <>
-      <style>{`
-        @media (max-width: 768px) {
-          .mil-services-grid-mobile {
-            display: flex !important;
-            flex-direction: row !important;
-            gap: 10px !important;
-            padding: 0 15px !important;
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch !important;
-            scrollbar-width: none !important;
-            -ms-overflow-style: none !important;
-            scroll-snap-type: x mandatory !important;
-          }
-          
-          .mil-services-grid-mobile::-webkit-scrollbar {
-            display: none !important;
-          }
-          
-          .mil-services-grid-item-mobile {
-            flex: 0 0 calc(33.333% - 7px) !important;
-            min-width: calc(33.333% - 7px) !important;
-            padding: 0 !important;
-            scroll-snap-align: start !important;
-          }
-          
-          .mil-services-card-mobile {
-            position: relative !important;
-            width: 100% !important;
-            aspect-ratio: 1 !important;
-            overflow: hidden !important;
-            border: 1px solid #ffffff !important;
-            border-radius: 12px !important;
-            cursor: pointer !important;
-            transition: none !important;
-            transform: none !important;
-          }
-          
-          .mil-services-image-mobile {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background-size: cover !important;
-            background-position: center !important;
-            background-repeat: no-repeat !important;
-            transform: none !important;
-            transition: none !important;
-          }
-          
-          .mil-services-overlay-mobile {
-            display: none !important;
-          }
-          
-          .mil-services-content-mobile {
-            display: none !important;
-          }
-          
-          .mil-services-title-mobile {
-            position: absolute !important;
-            bottom: 15px !important;
-            left: 15px !important;
-            z-index: 2 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
-            pointer-events: none !important;
-          }
-          
-          .mil-services-title-mobile span {
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            color: #ffffff !important;
-            line-height: 1 !important;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
-          }
-          
-          .mil-services-title-mobile h3 {
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            color: #ffffff !important;
-            margin: 0 !important;
-            line-height: 1.2 !important;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
-          }
-          
-          .mil-services-grid-desktop {
-            display: none !important;
-          }
-        }
-        
-        @media (min-width: 769px) {
-          .mil-services-grid-mobile {
-            display: none !important;
-          }
-          
-          .mil-services-grid-desktop {
-            display: flex !important;
-            flex-direction: row !important;
-          }
-        }
-      `}</style>
-      <section id="services" className="mil-dark-bg" style={{ paddingBottom: '60px' }}>
-        <div className="mi-invert-fix">
-          <div className="mil-animation-frame">
-            <div
-              className="mil-animation mil-position-1 mil-scale"
-              data-value-1="2.4"
-              data-value-2="1.4"
-              style={{ top: '300px', right: '-100px' }}
-            ></div>
-          </div>
-          <div className="container mil-p-120-0">
-            <div className="mil-mb-120">
-              <div className="mil-complex-text justify-content-center mil-up mil-mb-15">
-                <h2 className="mil-h1 mil-muted mil-center">
-                  Industries we are <span className="mil-thin">in</span>
-                </h2>
+    <section id="services" className="mil-dark-bg" style={{ paddingTop: '10%' }}>
+      <div className="mi-invert-fix">
+        <div className="mil-animation-frame">
+          <div
+            className="mil-animation mil-position-1 mil-scale"
+            data-value-1="2.4"
+            data-value-2="1.4"
+            style={{ top: '300px', right: '-100px' }}
+          ></div>
+        </div>
+        <div className="container mil-p-120-0">
+          <div className="mil-mb-120">
+            <div className="row">
+              <div className="col-lg-10">
+                <span className="mil-suptitle mil-light-soft mil-suptitle-right mil-up">
+                  Diverse industries with expertise and innovation
+                  <br /> delivering excellence across multiple sectors.
+                </span>
               </div>
             </div>
 
