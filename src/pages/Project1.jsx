@@ -6,9 +6,6 @@ import { useScrollAnimations } from '../hooks/useScrollAnimations'
 
 // Move static data outside component
 const PROJECT_IMAGES = [
-  '/img/Project1/WishHoldings/image.webp',
-  '/img/Project1/WishHoldings/about.webp',
-  '/img/Project1/WishHoldings/skipjacktuna.webp',
   '/img/works/tuna2.webp',
   '/img/Project1/Prime Wish/prawns1.webp',
   '/img/Project1/Prime Wish/prawns3.webp',
@@ -339,15 +336,8 @@ function Project1() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        Wish Harbour <span style={{ fontWeight: 300 }}>– Ciprea Phase</span>
+                        CIPREA — Where the Ocean Delivers Its Best
                       </h3>
-                      <div style={{
-                        fontSize: '11px',
-                        letterSpacing: '2px',
-                        color: '#8596A6',
-                        marginTop: '4px',
-                        textTransform: 'uppercase'
-                      }}>REAL ESTATE • RESIDENTIAL DEVELOPMENT</div>
                     </div>
                   </div>
                   
