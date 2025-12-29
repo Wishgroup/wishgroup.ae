@@ -328,6 +328,89 @@ app.post("/newsletter/subscribe", async (req, res) => {
   }
 });
 
+// Chatbot inquiry endpoint
+app.post("/chatbot/inquiry", async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, email, and message are required"
+      });
+    }
+
+    // Validate email
+    if (!email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid email address is required"
+      });
+    }
+
+    // Check if email transporter is configured
+    if (!transporter) {
+      console.log("Email not configured. Chatbot inquiry received:", { name, email, phone, message });
+      // Still return success to user, but log the inquiry
+      return res.json({
+        success: true,
+        message: "Thank you for your inquiry! (Email service not configured - inquiry logged)"
+      });
+    }
+
+    // Email configuration
+    const emailTo = process.env.EMAIL_TO || "info@wishgroup.ae";
+    const emailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@wishgroup.ae";
+
+    // Send email
+    const mailOptions = {
+      from: emailFrom,
+      to: emailTo,
+      subject: "New Customer Inquiry from Chatbot",
+      text: `New customer inquiry received from chatbot:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #126771;">New Customer Inquiry from Chatbot</h2>
+          <p>A new customer inquiry has been received through the website chatbot.</p>
+          <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <p style="margin: 8px 0;">
+              <strong>Name:</strong> ${name}
+            </p>
+            <p style="margin: 8px 0;">
+              <strong>Email:</strong> <a href="mailto:${email}">${email}</a>
+            </p>
+            ${phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> <a href="tel:${phone}">${phone}</a></p>` : ''}
+            <p style="margin: 8px 0;">
+              <strong>Message:</strong>
+            </p>
+            <div style="margin-top: 10px; padding: 12px; background: white; border-left: 3px solid #A6033F; border-radius: 4px;">
+              <p style="margin: 0; white-space: pre-wrap;">${message}</p>
+            </div>
+          </div>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            Inquiry Date: ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({
+      success: true,
+      message: "Thank you for your inquiry! We will get back to you soon."
+    });
+  } catch (err) {
+    console.error("Error sending chatbot inquiry:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Failed to send inquiry. Please try again later."
+    });
+  }
+});
+
 // Health check endpoint
 app.get("/health", async (req, res) => {
   const dbStatus = require('mongoose').connection.readyState === 1 ? 'connected' : 'disconnected';
@@ -353,4 +436,5 @@ app.listen(PORT, () => {
   console.log(`  POST /attendance/sync - Sync attendance from device to database`);
   console.log(`  GET /attendance/stats - Get attendance statistics`);
   console.log(`  POST /newsletter/subscribe - Email inquiry / Newsletter subscription`);
+  console.log(`  POST /chatbot/inquiry - Chatbot customer inquiry`);
 });
