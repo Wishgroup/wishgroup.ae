@@ -163,8 +163,8 @@ const featuredArticle = {
   title: 'Wish Group: Building a Sustainable Future Through Innovation',
   date: '2024-01-20',
   author: 'Wish Group Editorial Team',
-  image: '/img/news/featured.jpg',
-  excerpt: 'As we navigate the complexities of the modern business landscape, Wish Group remains committed to innovation, sustainability, and creating lasting value for our stakeholders. This comprehensive article explores our journey, vision, and the strategic initiatives that drive our continued growth.',
+  image: '/img/testimonials/business-people-.jpg',
+  excerpt: 'Looking Ahead - As global industries continue to evolve, Wish Group remains focused on expansion, innovation, and responsible growth. With ongoing investments in emerging technologies, digital media, and international partnerships, the Group is positioned to play a meaningful role in shaping the future of modern enterprise. Wish Group is not just building companies — it is building ecosystems designed for the future.',
   content: 'In an ever-evolving global economy, Wish Group has established itself as a leader in multiple sectors, spanning across seven countries and numerous business verticals. Our commitment to excellence, combined with a forward-thinking approach, has enabled us to build strong relationships with partners, clients, and communities worldwide. Through strategic investments, innovative solutions, and a focus on sustainable practices, we continue to create opportunities and drive positive change in the markets we serve.',
 }
 

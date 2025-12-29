@@ -8,26 +8,43 @@ import 'swiper/css/navigation'
 function Reviews() {
   const reviews = [
     {
-      name: 'Sarah Newman',
-      company: 'Envato market',
+      name: 'Abdikarim',
+      company: 'Wish Group',
+      image: '/img/testimonials/ABDIKARIM.png',
       text: 'This creative agency stands out with their exceptional talent and expertise. Their ability to think outside the box and bring unique ideas to life is truly impressive. With meticulous attention to detail, they consistently deliver visually stunning and impactful work.',
     },
     {
-      name: 'Emma Trueman',
-      company: 'Envato market',
+      name: 'Almirah',
+      company: 'Wish Group',
+      image: '/img/testimonials/ALMIRAH.png',
       text: 'I had the pleasure of working with this creative agency, and I must say, they truly impressed me. They consistently think outside the box, resulting in impressive and impactful work. I highly recommend this agency for their consistent delivery of exceptional creative solutions.',
+    },
+    {
+      name: 'Mohammed Sadiq Imaani',
+      company: 'Wish Group',
+      image: '/img/testimonials/MOHAMMED SADIQ IMAANI.png',
+      text: 'Working with Wish Group has been an exceptional experience. Their professionalism, attention to detail, and commitment to excellence is unmatched. They truly understand our vision and deliver beyond expectations.',
+    },
+    {
+      name: 'Moorthy Vivek',
+      company: 'Wish Group',
+      image: '/img/testimonials/MOORTHY VIVEK.png',
+      text: 'The team at Wish Group demonstrates outstanding expertise and dedication. Their innovative approach and seamless execution have significantly contributed to our success. Highly recommended for anyone seeking quality and reliability.',
+    },
+    {
+      name: 'Sedigheh Farokhi',
+      company: 'Wish Group',
+      image: '/img/testimonials/SEDIGHEH FAROKHI.png',
+      text: 'Wish Group has exceeded all our expectations with their exceptional service and results. Their team is professional, responsive, and truly committed to delivering excellence. A pleasure to work with.',
+    },
+    {
+      name: 'Sohail A',
+      company: 'Wish Group',
+      image: '/img/testimonials/SOHAIL A.png',
+      text: 'I am thoroughly impressed with Wish Group\'s commitment to quality and customer satisfaction. Their expertise and attention to detail make them stand out. They consistently deliver outstanding results that exceed expectations.',
     },
   ]
 
-  const menu = [
-    '<div class="mil-custom-dot mil-slide-1"></div>',
-    '<div class="mil-custom-dot mil-slide-2"></div>',
-    '<div class="mil-custom-dot mil-slide-3"></div>',
-    '<div class="mil-custom-dot mil-slide-4"></div>',
-    '<div class="mil-custom-dot mil-slide-5"></div>',
-    '<div class="mil-custom-dot mil-slide-6"></div>',
-    '<div class="mil-custom-dot mil-slide-7"></div>',
-  ]
 
   return (
     <section className="mil-soft-bg" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -91,7 +108,17 @@ function Reviews() {
                 el: '.mil-revi-pagination',
                 clickable: true,
                 renderBullet: function (index, className) {
-                  return '<span class="' + className + '">' + menu[index] + '</span>'
+                  const review = reviews[index]
+                  return `
+                    <span class="${className}">
+                      <div class="mil-custom-dot" style="
+                        background-image: url('${review.image}');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                      "></div>
+                    </span>
+                  `
                 },
               }}
               navigation={{
@@ -99,9 +126,26 @@ function Reviews() {
                 prevEl: '.mil-revi-prev',
               }}
             >
-              {[...reviews, ...reviews, ...reviews].map((review, index) => (
+              {reviews.map((review, index) => (
                 <SwiperSlide key={index}>
                   <div className="mil-review-frame mil-center" data-swiper-parallax="-200" data-swiper-parallax-opacity="0">
+                    {review.image && (
+                      <div className="mil-review-image mil-up mil-mb-30" style={{ marginBottom: '30px' }}>
+                        <img 
+                          src={review.image} 
+                          alt={review.name}
+                          style={{
+                            width: '120px',
+                            height: '120px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                            margin: '0 auto',
+                            display: 'block',
+                            border: '3px solid rgba(0,0,0,0.1)'
+                          }}
+                        />
+                      </div>
+                    )}
                     <h5 className="mil-up mil-mb-10">{review.name}</h5>
                     <p className="mil-mb-5 mil-upper mil-up mil-mb-30">{review.company}</p>
                     <p className="mil-text-xl mil-up">{review.text}</p>

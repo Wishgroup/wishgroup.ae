@@ -41,13 +41,6 @@ const MENU_ITEMS = [
       { title: 'Team', path: '/team' },
     ],
   },
-  {
-    title: 'Attendance',
-    path: '/attendance',
-    children: [
-      { title: 'Staff Attendance', path: '/attendance' },
-    ],
-  },
 ]
 
 const PROJECTS = [

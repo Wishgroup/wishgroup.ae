@@ -137,31 +137,9 @@ export const PlumbobOverlay = ({ positions = {} }) => {
         const pos = positions[person.id];
         if (!pos || !pos.visible) return null;
         
-        // Get attendance status from person data
-        const personData = people.find(p => p.id === person.id);
-        const attendanceStatus = personData?.attendanceStatus;
-        
-        // Color based on attendance status (priority) or online status
-        let color, glowColor;
-        if (attendanceStatus) {
-          if (attendanceStatus.checkedIn && !attendanceStatus.checkedOut) {
-            // Checked in (green)
-            color = '#00ff00';
-            glowColor = '#00ff88';
-          } else if (attendanceStatus.checkedIn && attendanceStatus.checkedOut) {
-            // Checked out (orange/yellow)
-            color = '#ffaa00';
-            glowColor = '#ffcc44';
-          } else {
-            // Not checked in (red)
-            color = '#ff0000';
-            glowColor = '#ff4444';
-          }
-        } else {
-          // Fallback to online status
-          color = pos.isOnline ? '#00ff00' : '#ff0000';
-          glowColor = pos.isOnline ? '#00ff88' : '#ff4444';
-        }
+        // Always use green color for all plumbobs
+        const color = '#00ff00';
+        const glowColor = '#00ff88';
         
         return (
           <div
