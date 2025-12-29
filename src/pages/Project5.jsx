@@ -221,18 +221,23 @@ function Contacts() {
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com" className="mil-dark-soft" target="_blank" rel="noreferrer">
+                    <a href="https://www.instagram.com/wishgroupuae" className="mil-dark-soft" target="_blank" rel="noreferrer">
                       <i className="fab fa-instagram mil-mr-10"></i> Instagram
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.facebook.com" className="mil-dark-soft" target="_blank" rel="noreferrer">
+                    <a href="https://www.facebook.com/wish.groupuae?rdid=23hxL2TwiooZgWXD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1B4SSya66E%2F#" className="mil-dark-soft" target="_blank" rel="noreferrer">
                       <i className="fab fa-facebook-f mil-mr-10"></i> Facebook
                     </a>
                   </li>
                   <li>
                     <a href="https://www.twitter.com" className="mil-dark-soft" target="_blank" rel="noreferrer">
                       <i className="fab fa-x-twitter mil-mr-10"></i> X (Twitter)
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.youtube.com/@wishgroup-d4y" className="mil-dark-soft" target="_blank" rel="noreferrer">
+                      <i className="fab fa-youtube mil-mr-10"></i> YouTube
                     </a>
                   </li>
                 </ul>

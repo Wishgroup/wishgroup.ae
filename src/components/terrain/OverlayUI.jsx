@@ -187,9 +187,49 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
           zIndex: 20
         }}
         onClick={() => {
-          const servicesSection = document.getElementById('services');
-          if (servicesSection) {
-            servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Find the terrain section (new-section)
+          const terrainSection = document.getElementById('new-section');
+          if (terrainSection) {
+            // Get the terrain section's position
+            const terrainRect = terrainSection.getBoundingClientRect();
+            const terrainBottom = window.scrollY + terrainRect.bottom;
+            
+            // Find the next element that comes after the terrain section
+            // Look for sections, divs, or other block elements
+            const allElements = Array.from(document.querySelectorAll('section, div[class*="mil-"], main, article'));
+            let nextElement = null;
+            
+            for (const element of allElements) {
+              const elementRect = element.getBoundingClientRect();
+              const elementTop = window.scrollY + elementRect.top;
+              
+              // Find the first element that starts after the terrain section ends
+              if (elementTop > terrainBottom + 50) { // 50px buffer
+                nextElement = element;
+                break;
+              }
+            }
+            
+            if (nextElement) {
+              nextElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+              // Fallback: scroll down by viewport height
+              window.scrollBy({ 
+                top: window.innerHeight, 
+                behavior: 'smooth' 
+              });
+            }
+          } else {
+            // Fallback: try to find services section or scroll down
+            const servicesSection = document.getElementById('services');
+            if (servicesSection) {
+              servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+              window.scrollBy({ 
+                top: window.innerHeight, 
+                behavior: 'smooth' 
+              });
+            }
           }
         }}
         onMouseEnter={(e) => {

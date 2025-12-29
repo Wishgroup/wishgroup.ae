@@ -528,7 +528,7 @@ function Footer({ minimal = false }) {
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.facebook.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://www.facebook.com/wish.groupuae?rdid=23hxL2TwiooZgWXD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1B4SSya66E%2F#" target="_blank" rel="noopener noreferrer" className="social-icon">
                       <i className="fab fa-facebook-f"></i>
                     </a>
                   </li>
@@ -538,8 +538,13 @@ function Footer({ minimal = false }) {
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://www.instagram.com/wishgroupuae" target="_blank" rel="noopener noreferrer" className="social-icon">
                       <i className="fab fa-instagram"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.youtube.com/@wishgroup-d4y" target="_blank" rel="noopener noreferrer" className="social-icon">
+                      <i className="fab fa-youtube"></i>
                     </a>
                   </li>
                 </ul>
