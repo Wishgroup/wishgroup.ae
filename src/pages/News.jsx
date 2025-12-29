@@ -7,31 +7,32 @@ import { useScrollAnimations } from '../hooks/useScrollAnimations'
 const latestNews = [
   {
     id: 1,
-    title: 'Wish Group Expands Operations to New Markets',
-    date: '2024-01-15',
-    image: '/img/news/news1.jpg',
-    excerpt: 'Wish Group announces strategic expansion into emerging markets, strengthening our global presence.',
+    title: 'Wish Waves Club Launch - Now Open for Registration',
+    date: '2025-12-25',
+    image: '/img/news/1.png',
+    excerpt: 'We are excited to announce the launch of Wish Waves Club and registration is now open! Join us in this exclusive community.',
+    embeddedLink: 'http://wishwavesclub.com/',
+    hasEmbeddedContent: true,
   },
   {
     id: 2,
-    title: 'Sustainability Initiative Launched Across All Divisions',
-    date: '2024-01-10',
-    image: '/img/news/news2.jpg',
-    excerpt: 'Comprehensive sustainability program introduced to reduce environmental impact and promote responsible business practices.',
+    title: 'Celebrated UAE National Day',
+    date: '2024-12-02',
+    image: '/img/news/2.png',
+    excerpt: 'Honoring 54 Years of Unity. Happy National Day UAE. #UAE #WishGroup',
+    linkedInPostUrl: 'https://www.linkedin.com/posts/wish-group_uae-wishgroup-activity-7401263736113664001-lfuO?utm_source=share&utm_medium=member_desktop&rcm=ACoAACnHc4oB19Yf5eu9Bos1lBeDt8mhle2LkHI',
+    linkedInEmbedUrl: 'https://www.linkedin.com/embed/feed/update/urn:li:activity:7401263736113664001',
+    hasVideo: true,
   },
   {
     id: 3,
-    title: 'Partnership with Leading International Organizations',
-    date: '2024-01-05',
-    image: '/img/news/news3.jpg',
-    excerpt: 'New strategic partnerships established to enhance service delivery and expand market reach.',
-  },
-  {
-    id: 4,
-    title: 'Annual Leadership Summit 2024',
-    date: '2023-12-20',
-    image: '/img/news/news4.jpg',
-    excerpt: 'Successful completion of annual leadership summit bringing together teams from across the globe.',
+    title: 'Celebrated Christmas with Wish Group',
+    date: '2024-12-25',
+    image: '/img/news/3.png',
+    excerpt: 'This Christmas, we reflect with gratitude and look ahead with purpose. Together, we continue Making Wishes a Reality across borders and beyond imagination.',
+    linkedInPostUrl: 'https://www.linkedin.com/posts/wish-group_wish-uae-activity-7409687089572847617-nUta?utm_source=share&utm_medium=member_desktop&rcm=ACoAACnHc4oB19Yf5eu9Bos1lBeDt8mhle2LkHI',
+    linkedInEmbedUrl: 'https://www.linkedin.com/embed/feed/update/urn:li:activity:7409687089572847617',
+    hasVideo: true,
   },
 ]
 
@@ -43,6 +44,7 @@ const newsAndEvents = [
     date: '2024-02-01',
     category: 'Event',
     description: 'Quarterly business review meeting with all regional managers and department heads.',
+    image: '/img/events/DSC02626 (1).jpg',
   },
   {
     id: 2,
@@ -57,6 +59,7 @@ const newsAndEvents = [
     date: '2024-01-18',
     category: 'Event',
     description: 'Launch of new CSR initiatives focusing on education and community development.',
+    image: '/img/events/DSC02626_1.jpg',
   },
   {
     id: 4,
@@ -71,6 +74,7 @@ const newsAndEvents = [
     date: '2024-01-08',
     category: 'Event',
     description: 'Annual employee recognition ceremony celebrating outstanding contributions and achievements.',
+    image: '/img/events/DSC02630.jpg',
   },
   {
     id: 6,
@@ -78,6 +82,78 @@ const newsAndEvents = [
     date: '2024-01-03',
     category: 'News',
     description: 'Strategic expansion into new geographic markets announced with detailed roadmap.',
+  },
+  {
+    id: 7,
+    title: 'Annual Corporate Gala',
+    date: '2024-01-15',
+    category: 'Event',
+    description: 'Elegant evening celebrating our achievements and honoring our partners and stakeholders.',
+    image: '/img/events/DSC02634.jpg',
+  },
+  {
+    id: 8,
+    title: 'Team Building Retreat',
+    date: '2024-01-20',
+    category: 'Event',
+    description: 'Annual team building retreat fostering collaboration and strengthening team bonds.',
+    image: '/img/events/DSC02639 (1).jpg',
+  },
+  {
+    id: 9,
+    title: 'Industry Conference Participation',
+    date: '2024-01-22',
+    category: 'Event',
+    description: 'Active participation in leading industry conference showcasing our innovations.',
+    image: '/img/events/DSC02654 (1).jpg',
+  },
+  {
+    id: 10,
+    title: 'Client Appreciation Event',
+    date: '2024-01-28',
+    category: 'Event',
+    description: 'Special event to thank our valued clients for their continued partnership and trust.',
+    image: '/img/events/DSC02658 (2).jpg',
+  },
+  {
+    id: 11,
+    title: 'Strategic Partnership Signing',
+    date: '2024-02-05',
+    category: 'Event',
+    description: 'Formal signing ceremony for new strategic partnerships expanding our global reach.',
+    image: '/img/events/DSC02682 (1).jpg',
+  },
+  {
+    id: 12,
+    title: 'Innovation Showcase',
+    date: '2024-02-10',
+    category: 'Event',
+    description: 'Showcasing our latest innovations and technological advancements to stakeholders.',
+    image: '/img/events/DSC02682_1 (1).jpg',
+  },
+  {
+    id: 13,
+    title: 'Community Outreach Program',
+    date: '2024-02-15',
+    category: 'Event',
+    description: 'Launching community outreach initiatives to support local communities and causes.',
+    image: '/img/events/DSC02690_1.jpg',
+  },
+  {
+    id: 14,
+    title: 'Leadership Summit',
+    date: '2024-02-20',
+    category: 'Event',
+    description: 'Gathering of leaders from across all divisions to discuss strategy and vision.',
+    image: '/img/events/DSC02691_1 (2).jpg',
+  },
+  {
+    id: 15,
+    title: 'Grand Opening Ceremony',
+    date: '2024-02-25',
+    category: 'Event',
+    description: 'Celebrating the grand opening of our new facility with distinguished guests.',
+    image: '/img/events/DSC02698_1 (3).jpg',
   },
 ]
 
@@ -94,14 +170,18 @@ const featuredArticle = {
 
 // Gallery images for events and special occasions
 const galleryImages = [
-  '/img/gallery/event1.jpg',
-  '/img/gallery/event2.jpg',
-  '/img/gallery/event3.jpg',
-  '/img/gallery/event4.jpg',
-  '/img/gallery/event5.jpg',
-  '/img/gallery/event6.jpg',
-  '/img/gallery/event7.jpg',
-  '/img/gallery/event8.jpg',
+  '/img/events/DSC02626 (1).jpg',
+  '/img/events/DSC02626_1.jpg',
+  '/img/events/DSC02630.jpg',
+  '/img/events/DSC02634.jpg',
+  '/img/events/DSC02639 (1).jpg',
+  '/img/events/DSC02654 (1).jpg',
+  '/img/events/DSC02658 (2).jpg',
+  '/img/events/DSC02682 (1).jpg',
+  '/img/events/DSC02682_1 (1).jpg',
+  '/img/events/DSC02690_1.jpg',
+  '/img/events/DSC02691_1 (2).jpg',
+  '/img/events/DSC02698_1 (3).jpg',
 ]
 
 // Constants
@@ -288,6 +368,8 @@ function News() {
                       e.currentTarget.style.boxShadow = 'none'
                     }}
                   >
+                    {/* Embedded Website Content - Same format as standard */}
+                    {news.hasEmbeddedContent && news.embeddedLink && (
                     <div style={{
                       width: '100%',
                       height: '400px',
@@ -332,7 +414,186 @@ function News() {
                           fontSize: '28px',
                           fontWeight: 600,
                           margin: '0 0 12px 0',
-                          lineHeight: '1.3'
+                            lineHeight: '1.3',
+                            color: '#d8d8d8'
+                          }}>
+                            {news.title}
+                          </h3>
+                          <p style={{
+                            fontSize: '16px',
+                            lineHeight: '1.6',
+                            opacity: 0.9,
+                            margin: '0 0 16px 0'
+                          }}>
+                            {news.excerpt}
+                          </p>
+                          <a
+                            href={news.embeddedLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'inline-block',
+                              padding: '12px 24px',
+                              background: '#A6033F',
+                              color: 'white',
+                              textDecoration: 'none',
+                              borderRadius: '8px',
+                              fontWeight: 600,
+                              transition: 'all 0.3s ease',
+                              fontSize: '14px'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = '#8B0235'
+                              e.currentTarget.style.transform = 'translateY(-2px)'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = '#A6033F'
+                              e.currentTarget.style.transform = 'translateY(0)'
+                            }}
+                          >
+                            Visit Wish Waves Club →
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* LinkedIn Video Post - Same format as standard */}
+                    {news.hasVideo && news.linkedInPostUrl && (
+                      <div style={{
+                        width: '100%',
+                        height: '400px',
+                        background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative'
+                      }}>
+                        <img
+                          src={news.image}
+                          alt={news.title}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0
+                          }}
+                          onError={(e) => {
+                            e.target.style.display = 'none'
+                          }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                          padding: '40px',
+                          color: 'white'
+                        }}>
+                          <div style={{
+                            fontSize: '14px',
+                            opacity: 0.9,
+                            marginBottom: '12px'
+                          }}>
+                            {formatDate(news.date)}
+                          </div>
+                          <h3 style={{
+                            fontSize: '28px',
+                            fontWeight: 600,
+                            margin: '0 0 12px 0',
+                            lineHeight: '1.3',
+                            color: '#d8d8d8'
+                          }}>
+                            {news.title}
+                          </h3>
+                          <p style={{
+                            fontSize: '16px',
+                            lineHeight: '1.6',
+                            opacity: 0.9,
+                            margin: '0 0 16px 0'
+                          }}>
+                            {news.excerpt}
+                          </p>
+                          <a
+                            href={news.linkedInPostUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: 'inline-block',
+                              padding: '12px 24px',
+                              background: '#0077b5',
+                              color: 'white',
+                              textDecoration: 'none',
+                              borderRadius: '8px',
+                              fontWeight: 600,
+                              transition: 'all 0.3s ease',
+                              fontSize: '14px'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = '#005885'
+                              e.currentTarget.style.transform = 'translateY(-2px)'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = '#0077b5'
+                              e.currentTarget.style.transform = 'translateY(0)'
+                            }}
+                          >
+                            Watch on LinkedIn →
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Standard Image Content */}
+                    {!news.hasEmbeddedContent && !news.hasVideo && (
+                      <div style={{
+                        width: '100%',
+                        height: '400px',
+                        background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative'
+                      }}>
+                        <img
+                          src={news.image}
+                          alt={news.title}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0
+                          }}
+                          onError={(e) => {
+                            e.target.style.display = 'none'
+                          }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                          padding: '40px',
+                          color: 'white'
+                        }}>
+                          <div style={{
+                            fontSize: '14px',
+                            opacity: 0.9,
+                            marginBottom: '12px'
+                          }}>
+                            {formatDate(news.date)}
+                          </div>
+                          <h3 style={{
+                            fontSize: '28px',
+                            fontWeight: 600,
+                            margin: '0 0 12px 0',
+                            lineHeight: '1.3',
+                            color: '#d8d8d8'
                         }}>
                           {news.title}
                         </h3>
@@ -346,6 +607,7 @@ function News() {
                         </p>
                       </div>
                     </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -452,6 +714,7 @@ function News() {
       </section>
 
       {/* News and Events Section */}
+      {false && (
       <section className="mil-p-120-120 mil-soft-bg">
         <div className="container" style={{ maxWidth: '1400px' }}>
           <div className="mil-center mil-mb-90">
@@ -492,6 +755,36 @@ function News() {
                   e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
                 }}
               >
+                {item.image && (
+                  <div style={{
+                    width: '100%',
+                    height: '200px',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    marginBottom: '20px',
+                    background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
+                  }}>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.4s ease'
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)'
+                      }}
+                    />
+                  </div>
+                )}
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -522,7 +815,7 @@ function News() {
                 <h3 style={{
                   fontSize: '20px',
                   fontWeight: 600,
-                  color: '#3C4C59',
+                  color: '#d8d8d8',
                   margin: '0 0 12px 0',
                   lineHeight: '1.3'
                 }}>
@@ -542,6 +835,7 @@ function News() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Featured Article Section */}
       <section className="mil-p-120-120" style={{ 
@@ -619,7 +913,7 @@ function News() {
               <h3 style={{
                 fontSize: '32px',
                 fontWeight: 600,
-                color: '#3C4C59',
+                color: '#d8d8d8',
                 margin: '0 0 20px 0',
                 lineHeight: '1.3'
               }}>
