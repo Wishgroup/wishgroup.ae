@@ -5,6 +5,7 @@ import Frame from './Frame'
 import Menu from './Menu'
 import Curtain from './Curtain'
 import HiddenElements from './HiddenElements'
+import Chatbot from './Chatbot'
 import { useArrowIcons } from '../hooks/useArrowIcons'
 
 function Layout({ children }) {
@@ -23,6 +24,7 @@ function Layout({ children }) {
         </div>
       </div>
       <HiddenElements />
+      <Chatbot />
     </div>
   )
 }
