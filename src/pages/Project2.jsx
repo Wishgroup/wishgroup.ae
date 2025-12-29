@@ -232,10 +232,50 @@ function Project2() {
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
+          <style>{`
+            .project-tiles-container {
+              display: flex;
+              flex-wrap: nowrap;
+              gap: 20px;
+              justify-content: center;
+              width: 100%;
+              margin: 0;
+            }
+            .project-tile-card {
+              flex: 1 1 0;
+              min-width: 280px;
+            }
+            @media (max-width: 992px) {
+              .project-tiles-container {
+                flex-wrap: wrap;
+              }
+              .project-tile-card {
+                flex: 1 1 calc(50% - 10px);
+                min-width: calc(50% - 10px);
+                max-width: calc(50% - 10px);
+              }
+            }
+            @media (max-width: 768px) {
+              .project-tiles-container {
+                flex-direction: column;
+                gap: 20px;
+              }
+              .project-tile-card {
+                flex: 1 1 100%;
+                min-width: 100%;
+                max-width: 100%;
+              }
+              #achievements .container {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+              }
+            }
+          `}</style>
+
+          <div className="row project-tiles-container">
             {/* Beverley Air Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
-              <Link to="/project/beverley-air" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+              <Link to="/project/beverl ey-air" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
                   style={{
@@ -405,7 +445,7 @@ function Project2() {
             </div>
 
             {/* The Bay Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px' }}>
               <Link to="/project/the-bay" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
@@ -449,7 +489,7 @@ function Project2() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project2/image2.webp"
+                    src="/img/Project2/Bay/lagoon2.jpeg"
                     alt="The Bay - Crystal Lagoon Experiences"
                     loading="lazy"
                     style={{
@@ -535,7 +575,7 @@ function Project2() {
             </div>
 
             {/* Dow Hotel & Resort Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px' }}>
               <Link to="/project/dow-hotel" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
@@ -579,7 +619,7 @@ function Project2() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project2/image3.webp"
+                    src="/img/Project2/Crystal Lagoon Experience/toddler-boy-on-beach-with-mother-2024-10-11-05-31-51-utc.jpg"
                     alt="Dow Hotel & Resort"
                     loading="lazy"
                     style={{
@@ -666,7 +706,7 @@ function Project2() {
 
 
             {/* Wish Casa Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px' }}>
               <Link to="/project/wish-brands" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
@@ -710,7 +750,7 @@ function Project2() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project2/image5.webp"
+                    src="/img/Project2/Wish World/Gemini_Generated_Image_9768dg9768dg9768.png"
                     alt="Wish Casa - Global Food Excellence"
                     loading="lazy"
                     style={{
