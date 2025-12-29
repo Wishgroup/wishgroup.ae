@@ -1,12 +1,10 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 const LazyMountainScene = React.lazy(() => import('../terrain/MountainScene').then(mod => ({ default: mod.MountainScene })))
 import { OverlayUI } from '../terrain/OverlayUI'
-import AttendanceButton from '../AttendanceButton'
 
 function NewSection() {
   const [selectedPerson, setSelectedPerson] = useState(null)
   const [hoveredPerson, setHoveredPerson] = useState(null)
-  const [attendanceStatuses, setAttendanceStatuses] = useState({})
   const [shouldRender3D, setShouldRender3D] = useState(false)
   const [isInView, setIsInView] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -66,13 +64,6 @@ function NewSection() {
     }
   }
 
-  const handleStatusUpdate = (userId, status) => {
-    setAttendanceStatuses(prev => ({
-      ...prev,
-      [userId]: status
-    }))
-  }
-
   return (
     <section
       ref={sectionRef}
@@ -114,14 +105,6 @@ function NewSection() {
               selectedPerson={selectedPerson}
               hoveredPerson={hoveredPerson}
             />
-            {/* Attendance button - shows for selected person or can be configured for specific user */}
-            {selectedPerson && (
-              <AttendanceButton 
-                userId={selectedPerson.id}
-                userName={selectedPerson.name}
-                onStatusUpdate={handleStatusUpdate}
-              />
-            )}
           </>
         ) : (
           <div

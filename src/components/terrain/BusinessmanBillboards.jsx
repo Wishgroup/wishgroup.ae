@@ -6,17 +6,6 @@ import { getAllUsersAttendanceStatus, initAttendanceService } from "../../utils/
 
 export const peopleData = [
   { 
-    id: 1,
-    name: "Mr. Gerard Algama",
-    role: "Brand Manager",
-    description: "Leading brand strategy and marketing initiatives.",
-    position: [-7, 0.5, 4], 
-    scale: 4,
-    image: "/Terrain/brandmanager.png",
-    isOnline: true,
-    isOccupied: true
-  },
-  { 
     id: 2,
     name: "Mr. Havindu Wickramarathne",
     role: "Project Manager",
@@ -50,17 +39,6 @@ export const peopleData = [
     isOccupied: false
   },
   { 
-    id: 5,
-    name: "Andrew Fernando",
-    role: "Events and Entertainment Manager",
-    description: "Managing events and entertainment operations.",
-    position: [-10, 0.5, -6], 
-    scale: 4,
-    image: "/Terrain/eventsandentertainmentmanager.png",
-    isOnline: false,
-    isOccupied: true
-  },
-  { 
     id: 6,
     name: "Arundathi Mahakumbura",
     role: "HR Manager",
@@ -70,17 +48,6 @@ export const peopleData = [
     image: "/Terrain/hrmanager.png",
     isOnline: true,
     isOccupied: true
-  },
-  { 
-    id: 7,
-    name: "Mr. Danushka Ambalangodage",
-    role: "Senior Accountant",
-    description: "Managing senior financial operations and accounting.",
-    position: [5, 0.5, 2.5], 
-    scale: 4,
-    image: "/Terrain/SeniorAccountant.png",
-    isOnline: false,
-    isOccupied: false
   },
   { 
     id: 8,
@@ -105,27 +72,9 @@ const Plumbob = ({ position, isOnline, isOccupied, attendanceStatus }) => {
   // Convert 5px padding to 3D units (approximately 0.075 units)
   const padding = 0.075;
   
-  // Color based on attendance status (priority) or online status
-  let color, glowColor;
-  if (attendanceStatus) {
-    if (attendanceStatus.checkedIn && !attendanceStatus.checkedOut) {
-      // Checked in (green)
-      color = new THREE.Color(0x00ff00);
-      glowColor = new THREE.Color(0x00ff88);
-    } else if (attendanceStatus.checkedIn && attendanceStatus.checkedOut) {
-      // Checked out (orange/yellow)
-      color = new THREE.Color(0xffaa00);
-      glowColor = new THREE.Color(0xffcc44);
-    } else {
-      // Not checked in (red)
-      color = new THREE.Color(0xff0000);
-      glowColor = new THREE.Color(0xff4444);
-    }
-  } else {
-    // Fallback to online status
-    color = isOnline ? new THREE.Color(0x00ff00) : new THREE.Color(0xff0000);
-    glowColor = isOnline ? new THREE.Color(0x00ff88) : new THREE.Color(0xff4444);
-  }
+  // Always use green color for all plumbobs
+  const color = new THREE.Color(0x00ff00);
+  const glowColor = new THREE.Color(0x00ff88);
   
   useFrame((state) => {
     if (groupRef.current) {
