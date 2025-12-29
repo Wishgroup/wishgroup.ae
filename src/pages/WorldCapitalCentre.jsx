@@ -351,58 +351,24 @@ function WorldCapitalCentre() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Call to Action Section */}
-      <section className="mil-p-120-120" style={{ 
-        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(60, 76, 89, 0.02) 50%, rgba(255, 255, 255, 0) 100%)',
-      }}>
-        <div className="container">
-          <div className="mil-center">
-            <h2 className="mil-up mil-mb-30" style={{ fontSize: '32px' }}>
-              Be a Part of Asia's Next <span className="mil-thin">Iconic Address</span>
-            </h2>
-            <p style={{
-              fontSize: '15px',
-              lineHeight: '1.8',
-              color: '#3C4C59',
-              opacity: 0.8,
-              maxWidth: '700px',
-              margin: '0 auto 40px',
-              textAlign: 'justify'
-            }}>
+          {/* Call to Action */}
+          <div className="mil-center" style={{ paddingTop: '50px' }}>
+            <h2 className="mil-up mil-mb-10">Be a Part of Asia's Next <span className="mil-thin">Iconic Address</span></h2>
+            <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '700px', margin: '0 auto', opacity: 0.9 }}>
               World Capital Centre stands as more than just a development — it is a symbol of global ambition, inclusivity, and connected opportunity.
             </p>
-            <div style={{
-              display: 'flex',
-              gap: '20px',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              marginBottom: '60px'
-            }}>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a
                 href="mailto:info@wishgroup.ae?subject=Learn About Investment Options - World Capital Centre"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '15px 30px',
+                  padding: '14px 24px',
                   borderRadius: '70px',
                   background: '#A6033F',
                   color: '#fff',
                   textDecoration: 'none',
-                  fontSize: '14px',
                   fontWeight: 600,
                   transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#8a0235'
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#A6033F'
-                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
                 Learn About Investment Options
@@ -410,28 +376,14 @@ function WorldCapitalCentre() {
               <a
                 href="mailto:info@wishgroup.ae?subject=Request Project Brochure - World Capital Centre"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '15px 30px',
+                  padding: '14px 24px',
                   borderRadius: '70px',
                   border: '1px solid #8596A6',
-                  background: 'rgba(255, 255, 255, 0.1)',
                   color: '#3C4C59',
                   textDecoration: 'none',
-                  fontSize: '14px',
                   fontWeight: 600,
+                  background: '#fff',
                   transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#A6033F'
-                  e.currentTarget.style.color = '#A6033F'
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#8596A6'
-                  e.currentTarget.style.color = '#3C4C59'
-                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
                 Request Project Brochure
@@ -439,64 +391,17 @@ function WorldCapitalCentre() {
               <a
                 href="mailto:info@wishgroup.ae?subject=Contact Our Team - World Capital Centre"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '15px 30px',
+                  padding: '14px 24px',
                   borderRadius: '70px',
                   background: '#A6033F',
                   color: '#fff',
                   textDecoration: 'none',
-                  fontSize: '14px',
                   fontWeight: 600,
                   transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#8a0235'
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#A6033F'
-                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
                 Contact Our Team
               </a>
-            </div>
-            <div style={{
-              paddingTop: '40px',
-              borderTop: '1px solid rgba(133, 150, 166, 0.1)',
-              textAlign: 'center'
-            }}>
-              <p style={{
-                fontSize: '14px',
-                color: '#8596A6',
-                marginBottom: '10px'
-              }}>Head Office</p>
-              <p style={{
-                fontSize: '14px',
-                color: '#3C4C59',
-                opacity: 0.8,
-                margin: 0
-              }}>
-                4004/4005, 40th Floor, Citadel Tower, Al Marasi Drive, Business Bay, Dubai, U.A.E.
-              </p>
-              <p style={{
-                fontSize: '14px',
-                color: '#3C4C59',
-                opacity: 0.8,
-                margin: '5px 0 0'
-              }}>
-                P.O. Box 417425, Dubai, UAE.
-              </p>
-              <p style={{
-                fontSize: '14px',
-                color: '#3C4C59',
-                opacity: 0.8,
-                margin: '5px 0 0'
-              }}>
-                Phone: +971 4 259 7167 • Email: info@wishgroup.ae
-              </p>
             </div>
           </div>
         </div>
