@@ -34,39 +34,37 @@ function Services() {
   ]
 
   return (
-    <section id="services" className="mil-dark-bg" style={{ paddingTop: '10%' }}>
+    <section id="services" className="mil-dark-bg" style={{ paddingTop: '10%', paddingBottom: '10%' }}>
       <div className="mi-invert-fix">
-        <div className="mil-animation-frame">
-          <div
-            className="mil-animation mil-position-1 mil-scale"
-            data-value-1="2.4"
-            data-value-2="1.4"
-            style={{ top: '300px', right: '-100px' }}
-          ></div>
-        </div>
         <div className="container mil-p-120-0">
-          <div className="mil-mb-120">
-            <div className="row">
-              <div className="col-lg-10">
-                <span className="mil-suptitle mil-light-soft mil-suptitle-right mil-up">
-                  Diverse industries with expertise and innovation
-                  <br /> delivering excellence across multiple sectors.
-                </span>
-              </div>
+          <div className="mil-mb-90">
+            {/* Section Title */}
+            <div className="mil-center mil-mb-60">
+              <h2 className="mil-up" style={{ 
+                fontSize: '48px', 
+                fontWeight: 600, 
+                color: '#ffffff',
+                marginBottom: '20px'
+              }}>
+                Our Services
+              </h2>
             </div>
 
-            {/* Desktop View - Original Design */}
-            <div className="mil-services-grid-desktop row mil-services-grid" style={{ 
-              maxWidth: '1400px', 
-              margin: '0 auto',
+            {/* Industries Grid - Responsive for Desktop and Mobile */}
+            <div className="row" style={{ 
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '30px',
+              justifyContent: 'center',
+              margin: 0
             }}>
               {industries.map((industry, index) => (
                 <div
                   key={index}
-                  className="col-md-6 col-lg-4 mil-services-grid-item mil-up"
+                  className="col-12 col-md-6 col-lg-4"
                   style={{
-                    animationDelay: `${index * 0.1}s`,
-                    padding: '15px'
+                    padding: '0 15px',
+                    marginBottom: '30px'
                   }}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={() => handleMouseLeave(index)}
@@ -93,7 +91,6 @@ function Services() {
                     }}>
                       {/* Background Image */}
                       <div
-                        className="mil-parallax"
                         style={{
                           position: 'absolute',
                           top: 0,
@@ -226,39 +223,6 @@ function Services() {
                         }}>
                           {industry.title}
                         </h3>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            {/* Mobile View - Simple Layout */}
-            <div className="mil-services-grid-mobile">
-              {industries.map((industry, index) => (
-                <div key={index} className="mil-services-grid-item-mobile">
-                  <Link 
-                    to={industry.link} 
-                    style={{ 
-                      textDecoration: 'none', 
-                      color: 'inherit',
-                      display: 'block',
-                      width: '100%',
-                      height: '100%'
-                    }}
-                  >
-                    <div className="mil-services-card-mobile">
-                      <div 
-                        className="mil-services-image-mobile"
-                        style={{
-                          backgroundImage: `url(${industry.image})`,
-                        }}
-                      />
-                      <div className="mil-services-overlay-mobile" />
-                      <div className="mil-services-content-mobile" />
-                      <div className="mil-services-title-mobile">
-                        <span>|</span>
-                        <h3>{industry.title}</h3>
                       </div>
                     </div>
                   </Link>
