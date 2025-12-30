@@ -23,14 +23,21 @@ const PING = parseInt(process.env.PING || "5000");
 const createTransporter = () => {
   // If SMTP credentials are provided, use them
   if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const port = parseInt(process.env.SMTP_PORT || "465");
+    const isSecure = port === 465;
+    
     return nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_PORT === "465",
+      port: port,
+      secure: isSecure, // true for 465, false for other ports
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      tls: {
+        // Do not fail on invalid certificates (useful for some cPanel configurations)
+        rejectUnauthorized: false
+      }
     });
   }
   // Otherwise, return null (email sending will be disabled)
@@ -535,11 +542,11 @@ app.post("/newsletter/subscribe", async (req, res) => {
     }
 
     // Email configuration
-    const emailTo = process.env.EMAIL_TO || "careers@wishgroup.ae";
+    const emailTo = process.env.EMAIL_TO || "info@wishgroup.ae";
     const emailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@wishgroup.ae";
 
-    // Send email to company
-    const companyMailOptions = {
+    // Send email to info@wishgroup.ae
+    const mailOptions = {
       from: emailFrom,
       to: emailTo,
       subject: "New Email Inquiry from Website",
@@ -558,44 +565,44 @@ app.post("/newsletter/subscribe", async (req, res) => {
       `
     };
 
-    // Send auto-reply to customer
-    const autoReplyOptions = {
+    // Send automated response to the user
+    const autoResponseOptions = {
       from: emailFrom,
       to: email,
-      subject: "Thank You for Contacting Wish Group",
+      subject: "Thank you for contacting Wish Group",
+      text: `Thank you for contacting Wish Group. You will be attended by our customer service team in short due.`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
           <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #A6033F; margin: 0;">Wish Group</h1>
+            <h1 style="color: #126771; margin: 0;">Wish Group</h1>
           </div>
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h2 style="color: #3C4C59; margin-top: 0;">Thank You for Your Interest</h2>
-            <p style="color: #3C4C59; line-height: 1.6;">
-              Thank you for reaching out to Wish Group. We have successfully received your inquiry and our team will review it carefully.
-            </p>
-            <p style="color: #3C4C59; line-height: 1.6;">
-              We aim to respond to all inquiries within 24-48 hours during business days. If you have any urgent questions, please contact us at <a href="mailto:info@wishgroup.ae" style="color: #A6033F;">info@wishgroup.ae</a> or <a href="tel:+97142597167" style="color: #A6033F;">+971 4 259 7167</a>.
-            </p>
-            <p style="color: #3C4C59; line-height: 1.6; margin-bottom: 0;">
-              We appreciate your interest and look forward to assisting you.
+          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px;">
+            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0;">
+              Thank you for contacting Wish Group. You will be attended by our customer service team in short due.
             </p>
           </div>
-          <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #8596A6; font-size: 12px;">
-            <p style="margin: 5px 0;">Wish Group</p>
-            <p style="margin: 5px 0;">4004/4005, 40th Floor, Citadel Tower, Al Marasi Drive, Business Bay, Dubai, U.A.E.</p>
-            <p style="margin: 5px 0;">Email: <a href="mailto:info@wishgroup.ae" style="color: #A6033F;">info@wishgroup.ae</a></p>
-          </div>
+          <p style="color: #666; font-size: 14px; margin-top: 30px; text-align: center;">
+            This is an automated response. Please do not reply to this email.
+          </p>
         </div>
       `
     };
 
-    // Send both emails
-    await transporter.sendMail(companyMailOptions);
-    await transporter.sendMail(autoReplyOptions);
+    // Send email to info@wishgroup.ae
+    await transporter.sendMail(mailOptions);
+    
+    // Send automated response to the user
+    // If auto-response fails, log it but don't fail the request
+    try {
+      await transporter.sendMail(autoResponseOptions);
+    } catch (autoResponseError) {
+      console.error("Error sending automated response email:", autoResponseError);
+      // Continue anyway - the main email was sent successfully
+    }
 
     res.json({
       success: true,
-      message: "Thank you for your inquiry! We will get back to you soon."
+      message: "Thank you for contacting Wish Group. You will be attended by our customer service team in short due."
     });
   } catch (err) {
     console.error("Error sending email inquiry:", err);
