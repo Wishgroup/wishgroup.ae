@@ -7,25 +7,28 @@ import Curtain from './Curtain'
 import HiddenElements from './HiddenElements'
 import Chatbot from './Chatbot'
 import { useArrowIcons } from '../hooks/useArrowIcons'
+import { MenuProvider } from '../contexts/MenuContext'
 
 function Layout({ children }) {
   useArrowIcons()
   
   return (
-    <div className="mil-wrapper" id="top">
-      <Cursor />
-      <ProgressBar />
-      <Menu />
-      <Curtain />
-      <Frame />
-      <div className="mil-content">
-        <div className="mil-main-transition">
-          {children}
+    <MenuProvider>
+      <div className="mil-wrapper" id="top">
+        <Cursor />
+        <ProgressBar />
+        <Menu />
+        <Curtain />
+        <Frame />
+        <div className="mil-content">
+          <div className="mil-main-transition">
+            {children}
+          </div>
         </div>
+        <HiddenElements />
+        <Chatbot />
       </div>
-      <HiddenElements />
-      <Chatbot />
-    </div>
+    </MenuProvider>
   )
 }
 
