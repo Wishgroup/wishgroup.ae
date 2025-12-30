@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 
 // API base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
@@ -19,48 +18,24 @@ const CLOCK_SEPARATOR_STYLE = {
   textShadow: '0 0 10px rgba(255, 255, 255, 0.76)'
 }
 
-// Countdown Clock Component - Counts down to March 1st
+// Simple Countdown Clock Component
 function FlipperClock() {
-  const [timeRemaining, setTimeRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [time, setTime] = useState(new Date())
 
   useEffect(() => {
-    const calculateTimeRemaining = () => {
-      const now = new Date()
-      const currentYear = now.getFullYear()
-      // Set target to March 1st of current year, or next year if we're past March 1st
-      let targetDate = new Date(currentYear, 2, 1) // Month is 0-indexed, so 2 = March
-      
-      // If we're past March 1st this year, target next year
-      if (now > targetDate) {
-        targetDate = new Date(currentYear + 1, 2, 1)
-      }
-
-      const difference = targetDate.getTime() - now.getTime()
-
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
-
-        setTimeRemaining({ days, hours, minutes, seconds })
-      } else {
-        setTimeRemaining({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-      }
-    }
-
-    // Calculate immediately
-    calculateTimeRemaining()
-
-    // Update every second
     const timer = setInterval(() => {
-      calculateTimeRemaining()
+      setTime(new Date())
     }, 1000)
 
     return () => clearInterval(timer)
   }, [])
 
-  const { days, hours, minutes, seconds } = timeRemaining
+  const { hours, minutes, seconds } = useMemo(() => {
+    const h = time.getHours().toString().padStart(2, '0')
+    const m = time.getMinutes().toString().padStart(2, '0')
+    const s = time.getSeconds().toString().padStart(2, '0')
+    return { hours: h, minutes: m, seconds: s }
+  }, [time])
 
   return (
     <div style={{
@@ -69,20 +44,13 @@ function FlipperClock() {
       justifyContent: 'center',
       gap: '8px',
       height: '50px',
-      transform: 'scaleX(1.02)',
-      flexWrap: 'wrap'
+      transform: 'scaleX(1.02)'
     }}>
-      {days > 0 && (
-        <>
-          <span style={CLOCK_NUMBER_STYLE}>{days.toString().padStart(2, '0')}</span>
-          <span style={CLOCK_SEPARATOR_STYLE}>:</span>
-        </>
-      )}
-      <span style={CLOCK_NUMBER_STYLE}>{hours.toString().padStart(2, '0')}</span>
+      <span style={CLOCK_NUMBER_STYLE}>{hours}</span>
       <span style={CLOCK_SEPARATOR_STYLE}>:</span>
-      <span style={CLOCK_NUMBER_STYLE}>{minutes.toString().padStart(2, '0')}</span>
+      <span style={CLOCK_NUMBER_STYLE}>{minutes}</span>
       <span style={CLOCK_SEPARATOR_STYLE}>:</span>
-      <span style={CLOCK_NUMBER_STYLE}>{seconds.toString().padStart(2, '0')}</span>
+      <span style={CLOCK_NUMBER_STYLE}>{seconds}</span>
     </div>
   )
 }
@@ -218,11 +186,14 @@ function FlippingContainer() {
   )
 }
 
-function Footer({ minimal = false }) {
+function Footer() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitError, setSubmitError] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [popupType, setPopupType] = useState('success'); // 'success' or 'error'
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
@@ -233,7 +204,12 @@ function Footer({ minimal = false }) {
 
     // Validate email
     if (!email || !email.includes('@')) {
-      setSubmitError('Please enter a valid email address');
+      setPopupMessage('Please enter a valid email address');
+      setPopupType('error');
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
       return;
     }
 
@@ -251,152 +227,136 @@ function Footer({ minimal = false }) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setSubmitMessage(data.message || 'Thank you for your inquiry! We will get back to you soon.');
+        setPopupMessage(data.message || 'Thank you for contacting Wish Group. You will be attended by our customer service team in short due.');
+        setPopupType('success');
+        setShowPopup(true);
         setEmail(''); // Clear the input
+        // Hide popup after 5 seconds
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 5000);
       } else {
-        setSubmitError(data.message || 'Failed to send inquiry. Please try again.');
+        setPopupMessage(data.message || 'Failed to subscribe. Please try again.');
+        setPopupType('error');
+        setShowPopup(true);
+        setTimeout(() => {
+          setShowPopup(false);
+        }, 5000);
       }
     } catch (error) {
-      console.error('Email inquiry error:', error);
-      setSubmitError('Network error. Please check your connection and try again.');
+      console.error('Newsletter subscription error:', error);
+      setPopupMessage('Network error. Please check your connection and try again.');
+      setPopupType('error');
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const newsletterBlockJSX = (
-    <div className="row mil-mb-90 mil-newsletter-row justify-content-center">
-      <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
-        <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Group</div>
-        <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Get in Touch with Us</p>
-        <form className="mil-subscribe-form mil-up" onSubmit={handleNewsletterSubmit} style={{
-          position: 'relative',
-          display: 'block',
-          width: '100%',
-          maxWidth: '500px',
-          margin: '0 auto',
-          alignItems: 'center',
-        }}>
-          <input 
-            type="email" 
-            placeholder="Enter your email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isSubmitting}
-            style={{
-              width: '100%',
-              padding: '12px 50px 12px 20px',
-              borderRadius: '24px',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.1)',
-              color: '#ffffff',
-              fontSize: '16px',
-              outline: 'none'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)'
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)'
-            }}
-          />
-          <button 
-            type="submit" 
-            className="mil-button mil-icon-button-sm mil-arrow-place"
-            disabled={isSubmitting}
-            style={{
-              position: 'absolute',
-              right: '8px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          ></button>
-        </form>
-        {submitMessage && (
-          <p style={{ 
-            color: '#4caf50', 
-            marginTop: '10px', 
-            fontSize: '14px',
-            textAlign: 'center'
-          }}>
-            {submitMessage}
-          </p>
-        )}
-        {submitError && (
-          <p style={{ 
-            color: '#f44336', 
-            marginTop: '10px', 
-            fontSize: '14px',
-            textAlign: 'center'
-          }}>
-            {submitError}
-          </p>
-        )}
-      </div>
-    </div>
-  )
-
-  if (minimal) {
-    return (
-      <footer className="mil-dark-bg">
-        <div className="mi-invert-fix">
-          <div className="container mil-p-120-60">
-            {newsletterBlockJSX}
-          </div>
-        </div>
-      </footer>
-    )
-  }
-
   return (
     <>
+      {/* Popup Modal */}
+      {showPopup && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10000,
+            animation: 'fadeIn 0.3s ease-in'
+          }}
+          onClick={() => setShowPopup(false)}
+        >
+          <div 
+            style={{
+              backgroundColor: '#ffffff',
+              padding: '30px 40px',
+              borderRadius: '12px',
+              maxWidth: '400px',
+              width: '90%',
+              textAlign: 'center',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+              animation: 'slideUp 0.3s ease-out',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowPopup(false)}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666',
+                width: '30px',
+                height: '30px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%',
+                transition: 'background 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              ×
+            </button>
+            <div style={{
+              fontSize: popupType === 'success' ? '48px' : '48px',
+              marginBottom: '15px'
+            }}>
+              {popupType === 'success' ? '✓' : '✕'}
+            </div>
+            <h3 style={{
+              margin: '0 0 15px 0',
+              color: popupType === 'success' ? '#4caf50' : '#f44336',
+              fontSize: '20px',
+              fontWeight: '600'
+            }}>
+              {popupType === 'success' ? 'Success!' : 'Error'}
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#333',
+              fontSize: '16px',
+              lineHeight: '1.5'
+            }}>
+              {popupMessage}
+            </p>
+          </div>
+        </div>
+      )}
+
       <style>{`
-        @media (max-width: 767.98px) {
-          .app-promo-logo-col {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { 
+            transform: translateY(20px);
+            opacity: 0;
           }
-          .app-promo-text-col {
-            text-align: center !important;
-            margin-bottom: 20px;
-          }
-          .app-promo-timer-col {
-            display: flex;
-            justify-content: center !important;
-            align-items: center;
-          }
-          .footer-mobile-center {
-            text-align: center !important;
-          }
-          .footer-mobile-center h6 {
-            text-align: center !important;
-          }
-          .footer-mobile-center p {
-            text-align: center !important;
-          }
-          .footer-mobile-center ul {
-            text-align: center !important;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
-          .footer-mobile-center li {
-            text-align: center !important;
-          }
-          .footer-mobile-center a {
-            text-align: center !important;
+          to { 
+            transform: translateY(0);
+            opacity: 1;
           }
         }
       `}</style>
+
       {/* App Promotion Section */}
       <section 
         style={{ 
@@ -408,10 +368,10 @@ function Footer({ minimal = false }) {
         <div className="container">
           <div className="row align-items-center">
             {/* Left: Logo */}
-            <div className="col-md-3 col-lg-3 app-promo-logo-col">
+            <div className="col-md-3 col-lg-3">
               <img 
                 src="/wishwaveslogo.png" 
-                alt="Wish Group Logo" 
+                alt="Wish Waves Logo" 
                 style={{ 
                   maxHeight: '150px', 
                   width: 'auto',
@@ -421,7 +381,7 @@ function Footer({ minimal = false }) {
             </div>
             
             {/* Middle: Promotional Text */}
-            <div className="col-md-6 col-lg-6 text-center app-promo-text-col">
+            <div className="col-md-6 col-lg-6 text-center">
               <h3 style={{ 
                 color: '#ffffff', 
                 textTransform: 'uppercase',
@@ -445,7 +405,7 @@ function Footer({ minimal = false }) {
             </div>
             
             {/* Right: Flipper Clock Timer / App Store Icons */}
-            <div className="col-md-3 col-lg-3 app-promo-timer-col" style={{ 
+            <div className="col-md-3 col-lg-3" style={{ 
               display: 'flex', 
               justifyContent: 'flex-end',
               alignItems: 'center'
@@ -460,11 +420,68 @@ function Footer({ minimal = false }) {
       <div className="mi-invert-fix">
         <div className="container mil-p-120-60">
           {/* Top Section: Logo and Newsletter */}
-          {newsletterBlockJSX}
+          <div className="row mil-mb-90 mil-newsletter-row justify-content-center">
+            <div className="col-lg-6 col-md-8 col-12 mil-mb-60 text-center">
+              <div className="mil-muted mil-logo mil-up mil-mb-30" style={{ textAlign: 'center' }}>Wish Waves</div>
+              <p className="mil-light-soft mil-up mil-mb-30" style={{ textAlign: 'center' }}>Subscribe for News and Information</p>
+              <form className="mil-subscribe-form mil-up" onSubmit={handleNewsletterSubmit} style={{
+                position: 'relative',
+                display: 'block',
+                width: '100%',
+                maxWidth: '500px',
+                margin: '0 auto',
+                alignItems: 'center',
+              }}>
+                <input 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
+                  style={{
+                    width: '100%',
+                    padding: '12px 50px 12px 20px',
+                    borderRadius: '24px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: '#ffffff',
+                    fontSize: '16px',
+                    outline: 'none',
+                    textTransform: 'none'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+                  }}
+                />
+                <button 
+                  type="submit" 
+                  className="mil-button mil-icon-button-sm mil-arrow-place"
+                  disabled={isSubmitting}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: isSubmitting ? 'wait' : 'pointer',
+                    padding: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: isSubmitting ? 0.6 : 1
+                  }}
+                ></button>
+              </form>
+            </div>
+          </div>
 
-          {/* Middle Section: Address, Contact, Useful Links, and Follow Us */}
+          {/* Middle Section: Address and Contact */}
           <div className="row justify-content-center text-center mil-mb-60" style={{ rowGap: '30px' }}>
-            <div className="col-md-3 mil-mb-40 footer-mobile-center">
+            <div className="col-md-4 mil-mb-40">
               <h6 className="mil-muted mil-up mil-mb-20">Dubai - U.A.E.</h6>
               <p className="mil-light-soft mil-up">
                 4004/4005, 40th Floor, Citadel Tower,
@@ -476,7 +493,7 @@ function Footer({ minimal = false }) {
                 <span className="mil-no-wrap">P.O. BOX: 417425, Dubai UAE</span>
               </p>
             </div>
-            <div className="col-md-3 mil-mb-40 footer-mobile-center">
+            <div className="col-md-4 mil-mb-40">
               <h6 className="mil-muted mil-up mil-mb-20">Contact Us</h6>
               <p className="mil-light-soft mil-up">
                 <span className="mil-no-wrap">+971 4259 7167</span>
@@ -488,37 +505,7 @@ function Footer({ minimal = false }) {
                 <a href="mailto:info@wishgroup.world" className="mil-light-soft">info@wishgroup.world</a>
               </p>
             </div>
-            <div className="col-md-3 mil-mb-40 footer-mobile-center">
-              <h6 className="mil-muted mil-up mil-mb-20">Useful links</h6>
-              <ul className="mil-menu-list" style={{ listStyle: 'none', padding: 0 }}>
-                <li className="mil-mb-15">
-                  <Link to="/news" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                    New & Gallery
-                  </Link>
-                </li>
-                <li className="mil-mb-15">
-                  <Link to="/careers" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                    Careers
-                  </Link>
-                </li>
-                <li className="mil-mb-15">
-                  <Link to="/privacy-policy" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li className="mil-mb-15">
-                  <Link to="/terms-and-conditions" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                    Terms and conditions
-                  </Link>
-                </li>
-                <li className="mil-mb-15">
-                  <Link to="/cookie-policy" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                    Cookie Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="col-md-3 mil-mb-40" style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="col-md-4 mil-mb-40" style={{ display: 'flex', justifyContent: 'center' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                 <h6 className="mil-muted mil-up" style={{ margin: 0, textAlign: 'center', whiteSpace: 'nowrap' }}>Follow Us</h6>
                 <ul className="mil-social-icons mil-up" style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 0 }}>
@@ -528,7 +515,7 @@ function Footer({ minimal = false }) {
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.facebook.com/wish.groupuae?rdid=23hxL2TwiooZgWXD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1B4SSya66E%2F#" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://www.facebook.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
                       <i className="fab fa-facebook-f"></i>
                     </a>
                   </li>
@@ -538,13 +525,8 @@ function Footer({ minimal = false }) {
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/wishgroupuae" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://www.instagram.com/wishgroup" target="_blank" rel="noopener noreferrer" className="social-icon">
                       <i className="fab fa-instagram"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.youtube.com/@wishgroup-d4y" target="_blank" rel="noopener noreferrer" className="social-icon">
-                      <i className="fab fa-youtube"></i>
                     </a>
                   </li>
                 </ul>
