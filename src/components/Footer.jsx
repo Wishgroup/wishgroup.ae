@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 // API base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
@@ -479,9 +480,9 @@ function Footer() {
             </div>
           </div>
 
-          {/* Middle Section: Address and Contact */}
+          {/* Middle Section: Address, Contact, Useful Links, and Follow Us */}
           <div className="row justify-content-center text-center mil-mb-60" style={{ rowGap: '30px' }}>
-            <div className="col-md-4 mil-mb-40">
+            <div className="col-md-3 mil-mb-40 footer-mobile-center">
               <h6 className="mil-muted mil-up mil-mb-20">Dubai - U.A.E.</h6>
               <p className="mil-light-soft mil-up">
                 4004/4005, 40th Floor, Citadel Tower,
@@ -493,7 +494,7 @@ function Footer() {
                 <span className="mil-no-wrap">P.O. BOX: 417425, Dubai UAE</span>
               </p>
             </div>
-            <div className="col-md-4 mil-mb-40">
+            <div className="col-md-3 mil-mb-40 footer-mobile-center">
               <h6 className="mil-muted mil-up mil-mb-20">Contact Us</h6>
               <p className="mil-light-soft mil-up">
                 <span className="mil-no-wrap">+971 4259 7167</span>
@@ -505,7 +506,37 @@ function Footer() {
                 <a href="mailto:info@wishgroup.world" className="mil-light-soft">info@wishgroup.world</a>
               </p>
             </div>
-            <div className="col-md-4 mil-mb-40" style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="col-md-3 mil-mb-40 footer-mobile-center">
+              <h6 className="mil-muted mil-up mil-mb-20">Useful links</h6>
+              <ul className="mil-menu-list" style={{ listStyle: 'none', padding: 0 }}>
+                <li style={{ marginBottom: '8px' }}>
+                  <Link to="/news" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    New & Gallery
+                  </Link>
+                </li>
+                <li style={{ marginBottom: '8px' }}>
+                  <Link to="/careers" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Careers
+                  </Link>
+                </li>
+                <li style={{ marginBottom: '8px' }}>
+                  <Link to="/privacy-policy" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li style={{ marginBottom: '8px' }}>
+                  <Link to="/terms-and-conditions" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Terms and conditions
+                  </Link>
+                </li>
+                <li style={{ marginBottom: '0' }}>
+                  <Link to="/cookie-policy" className="mil-light-soft" style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                    Cookie Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="col-md-3 mil-mb-40 footer-mobile-center" style={{ display: 'flex', justifyContent: 'center' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                 <h6 className="mil-muted mil-up" style={{ margin: 0, textAlign: 'center', whiteSpace: 'nowrap' }}>Follow Us</h6>
                 <ul className="mil-social-icons mil-up" style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 0 }}>

@@ -71,7 +71,7 @@ function TheBay() {
               <li>THE BAY</li>
             </ul>
             <h1 className="mil-mb-20">
-              THE BAY
+              THE BAY — <span className="mil-thin">Waterfront Luxury Living Redefined</span>
             </h1>
           </div>
         </div>
@@ -118,7 +118,7 @@ function TheBay() {
                   transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
               >
-                A Life Inspired by the Water
+                Experience Coastal Luxury at The Bay
               </div>
               <p 
                 ref={tagline2Ref}
@@ -151,7 +151,7 @@ function TheBay() {
                   margin: 0,
                   marginBottom: '18px'
                 }}>
-                  The Bay is more than a collection of residences — it's a lifestyle destination where architecture, nature, and community converge. Designed for those who appreciate refinement and balance, this waterfront enclave brings premium living to life with a mindful blend of comfort, design, and exclusivity.
+                  An exclusive waterfront destination offering premium residences, curated amenities, and an elevated lifestyle — all in harmony with the rhythm of the sea.
                 </p>
                 <p style={{
                   fontSize: '16px',
@@ -162,7 +162,7 @@ function TheBay() {
                   margin: 0,
                   marginBottom: '18px'
                 }}>
-                  An exclusive waterfront destination offering premium residences, curated amenities, and an elevated lifestyle — all in harmony with the rhythm of the sea.
+                  A Life Inspired by the Water — The Bay is more than a collection of residences — it's a lifestyle destination where architecture, nature, and community converge. Designed for those who appreciate refinement and balance, this waterfront enclave brings premium living to life with a mindful blend of comfort, design, and exclusivity.
                 </p>
                 <p style={{
                   fontSize: '16px',
@@ -172,7 +172,7 @@ function TheBay() {
                   textAlign: 'justify',
                   margin: 0
                 }}>
-                  About The Bay — Each residence is crafted with purpose, embracing natural light, open spaces, and panoramic water views. Thoughtful design and premium finishes create spaces where every moment feels intentional.
+                  Defined by Design — Timeless Elegance Meets Modern Living. At The Bay, each residence is crafted with purpose — embracing natural light, open spaces, and panoramic water views. Thoughtful design and premium finishes create spaces where every moment feels intentional.
                 </p>
               </div>
             </div>
@@ -234,7 +234,7 @@ function TheBay() {
                   margin: '0 0 8px 0',
                   lineHeight: '1.3'
                 }}>
-                  Premium Residences
+                  Spacious Floor Plans
                 </h3>
                 <p style={{
                   fontSize: '14px',
@@ -243,7 +243,7 @@ function TheBay() {
                   lineHeight: '1.5',
                   fontStyle: 'italic'
                 }}>
-                  Spacious floor plans with floor-to-ceiling windows.
+                  Thoughtful design for modern living.
                 </p>
                 <p style={{
                   fontSize: '14px',
@@ -252,7 +252,7 @@ function TheBay() {
                   lineHeight: '1.6',
                   opacity: 0.8
                 }}>
-                  Private balconies with bay views and premium interior finishes.
+                  Generous spaces designed for comfort and elegance.
                 </p>
               </div>
             </div>
@@ -302,7 +302,7 @@ function TheBay() {
                   margin: '0 0 8px 0',
                   lineHeight: '1.3'
                 }}>
-                  Infinity Pool & Sun Deck
+                  Floor-to-Ceiling Windows
                 </h3>
                 <p style={{
                   fontSize: '14px',
@@ -311,7 +311,7 @@ function TheBay() {
                   lineHeight: '1.5',
                   fontStyle: 'italic'
                 }}>
-                  Relax with uninterrupted water views.
+                  Panoramic water views from every room.
                 </p>
                 <p style={{
                   fontSize: '14px',
@@ -320,7 +320,7 @@ function TheBay() {
                   lineHeight: '1.6',
                   opacity: 0.8
                 }}>
-                  A stunning infinity pool overlooking the bay with premium sun deck facilities.
+                  Natural light floods each space, connecting you to the waterfront.
                 </p>
               </div>
             </div>
@@ -370,7 +370,7 @@ function TheBay() {
                   margin: '0 0 8px 0',
                   lineHeight: '1.3'
                 }}>
-                  Private Marina Access
+                  Private Balconies with Bay Views
                 </h3>
                 <p style={{
                   fontSize: '14px',
@@ -379,7 +379,7 @@ function TheBay() {
                   lineHeight: '1.5',
                   fontStyle: 'italic'
                 }}>
-                  Seamless connection between life and sea.
+                  Your personal waterfront retreat.
                 </p>
                 <p style={{
                   fontSize: '14px',
@@ -388,7 +388,7 @@ function TheBay() {
                   lineHeight: '1.6',
                   opacity: 0.8
                 }}>
-                  Direct access to private marina facilities for waterfront living enthusiasts.
+                  Premium interior finishes and private outdoor spaces.
                 </p>
               </div>
             </div>
@@ -453,7 +453,7 @@ function TheBay() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        Design & <span style={{ fontWeight: 300 }}>Quality</span>
+                        Defined by <span style={{ fontWeight: 300 }}>Design</span>
                       </h3>
                       <p style={{
                         fontSize: '14px',
@@ -466,6 +466,27 @@ function TheBay() {
                     </div>
                   </div>
                   
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: '0 0 16px 0',
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    At The Bay, each residence is crafted with purpose — embracing natural light, open spaces, and panoramic water views. Thoughtful design and premium finishes create spaces where every moment feels intentional.
+                  </p>
+                  
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#3C4C59',
+                    margin: '0 0 12px 0',
+                    opacity: 0.9
+                  }}>
+                    Highlights:
+                  </p>
+                  
                   <ul style={{
                     listStyle: 'none',
                     padding: 0,
@@ -474,23 +495,11 @@ function TheBay() {
                     color: '#3C4C59',
                     opacity: 0.9
                   }}>
-                    <li style={{ marginBottom: '12px' }}>✓ Spacious floor plans</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Floor-to-ceiling windows</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Private balconies with bay views</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Premium interior finishes</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Spacious floor plans</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Floor-to-ceiling windows</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Private balconies with bay views</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Premium interior finishes</li>
                   </ul>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify',
-                    fontStyle: 'italic'
-                  }}>
-                    Every residence is crafted with purpose, embracing natural light and panoramic water views.
-                  </p>
                 </div>
               </div>
             </div>
@@ -547,7 +556,7 @@ function TheBay() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        The Bay <span style={{ fontWeight: 300 }}>Advantage</span>
+                        Curated <span style={{ fontWeight: 300 }}>Amenities</span>
                       </h3>
                       <p style={{
                         fontSize: '14px',
@@ -555,24 +564,63 @@ function TheBay() {
                         margin: '8px 0 0 0',
                         opacity: 0.8
                       }}>
-                        Why Residents Choose Us
+                        Everyday Luxury, Every Day
                       </p>
                     </div>
                   </div>
                   
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: '0 0 16px 0',
+                    opacity: 0.8
+                  }}>
+                    Life at The Bay is elevated by exceptional amenities designed to nurture well-being, connection, and leisure:
+                  </p>
+                  
                   <div style={{ marginBottom: '20px' }}>
                     {[
-                      { title: 'Waterfront Living', desc: 'Spectacular bay vistas and serene, low-density community.' },
-                      { title: 'Curated Amenities', desc: 'Infinity pool, private marina, fitness pavilion, and exclusive lounges.' },
-                      { title: 'Strategic Location', desc: 'Minutes from business hubs, premium dining, and major transportation.' },
-                      { title: 'Thoughtful Design', desc: 'Tailored privacy and comfort in thoughtfully designed public spaces.' },
+                      { title: 'Infinity Pool & Sun Deck', desc: 'Relax with uninterrupted water views.' },
+                      { title: 'Private Marina Access', desc: 'Seamless connection between life and sea.' },
+                      { title: 'Fitness & Wellness Pavilion', desc: 'Workout, unwind, and rejuvenate.' },
+                      { title: 'Lush Landscaped Walkways', desc: 'Serene paths for morning walks or evening reflection.' },
+                      { title: 'Exclusive Lounge Spaces', desc: 'Curated areas to gather, socialize, or simply be.' },
                     ].map((item, idx) => (
-                      <div key={idx} style={{ marginBottom: '16px' }}>
-                        <p style={{ margin: '0 0 4px 0', fontWeight: 600, color: '#3C4C59', fontSize: '15px' }}>✔ {item.title}</p>
+                      <div key={idx} style={{ marginBottom: '12px' }}>
+                        <p style={{ margin: '0 0 4px 0', fontWeight: 600, color: '#3C4C59', fontSize: '15px' }}>• {item.title}</p>
                         <p style={{ margin: 0, color: '#8596A6', fontSize: '13px', lineHeight: '1.5' }}>{item.desc}</p>
                       </div>
                     ))}
                   </div>
+                  
+                  <a
+                    href="mailto:info@wishgroup.ae?subject=Explore Amenities - The Bay"
+                    style={{
+                      display: 'inline-block',
+                      padding: '10px 20px',
+                      borderRadius: '70px',
+                      border: '1px solid #A6033F',
+                      color: '#A6033F',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      marginTop: '8px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#A6033F'
+                      e.currentTarget.style.color = '#fff'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#A6033F'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    Explore Amenities
+                  </a>
                 </div>
               </div>
             </div>
@@ -629,7 +677,7 @@ function TheBay() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        Lifestyle & <span style={{ fontWeight: 300 }}>Amenities</span>
+                        Location & <span style={{ fontWeight: 300 }}>Lifestyle</span>
                       </h3>
                       <p style={{
                         fontSize: '14px',
@@ -637,7 +685,7 @@ function TheBay() {
                         margin: '8px 0 0 0',
                         opacity: 0.8
                       }}>
-                        Everyday Luxury, Every Day
+                        Live Where Life Feels Better
                       </p>
                     </div>
                   </div>
@@ -649,7 +697,7 @@ function TheBay() {
                     margin: '0 0 16px 0',
                     opacity: 0.8
                   }}>
-                    Life at The Bay is elevated by exceptional amenities:
+                    Strategically positioned to offer the best of both worlds — the peaceful embrace of waterfront living and the convenience of urban access.
                   </p>
                   
                   <ul style={{
@@ -660,24 +708,61 @@ function TheBay() {
                     color: '#3C4C59',
                     opacity: 0.9
                   }}>
-                    <li style={{ marginBottom: '8px' }}>• Infinity Pool & Sun Deck</li>
-                    <li style={{ marginBottom: '8px' }}>• Private Marina Access</li>
-                    <li style={{ marginBottom: '8px' }}>• Fitness & Wellness Pavilion</li>
-                    <li style={{ marginBottom: '8px' }}>• Lush Landscaped Walkways</li>
-                    <li style={{ marginBottom: '8px' }}>• Exclusive Lounge Spaces</li>
+                    <li style={{ marginBottom: '8px' }}>• Minutes from business and cultural hubs</li>
+                    <li style={{ marginBottom: '8px' }}>• Close to premium dining and leisure</li>
+                    <li style={{ marginBottom: '8px' }}>• Easy access to major transportation</li>
                   </ul>
                   
                   <p style={{
                     fontSize: '15px',
                     lineHeight: '1.8',
                     color: '#3C4C59',
-                    margin: 0,
+                    margin: '0 0 16px 0',
                     opacity: 0.8,
                     textAlign: 'justify',
                     fontStyle: 'italic'
                   }}>
-                    Your sanctuary by the sea — where each residence is a private escape.
+                    Waterfront Living, Perfected — Your Sanctuary by the Sea. Wake up to soft ocean breezes. End your day with golden waterfront sunsets. The Bay brings harmony to your everyday — where each residence is a private escape and every view is a promise of calm.
                   </p>
+                  
+                  <p style={{
+                    fontSize: '14px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: '0 0 16px 0',
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Key Living Benefits: Spectacular bay vistas • Serene, low-density community • Thoughtfully designed public spaces • Tailored privacy and comfort
+                  </p>
+                  
+                  <a
+                    href="mailto:info@wishgroup.ae?subject=Get Directions - The Bay"
+                    style={{
+                      display: 'inline-block',
+                      padding: '10px 20px',
+                      borderRadius: '70px',
+                      border: '1px solid #A6033F',
+                      color: '#A6033F',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      marginTop: '8px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#A6033F'
+                      e.currentTarget.style.color = '#fff'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#A6033F'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    Get Directions
+                  </a>
                 </div>
               </div>
             </div>
@@ -701,6 +786,14 @@ function TheBay() {
                   fontWeight: 600,
                   transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#8a0233'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#A6033F'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
               >
                 Download Brochure
               </a>
@@ -716,6 +809,16 @@ function TheBay() {
                   background: '#fff',
                   transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#A6033F'
+                  e.currentTarget.style.color = '#A6033F'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#8596A6'
+                  e.currentTarget.style.color = '#3C4C59'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
               >
                 Request Pricing
               </a>
@@ -729,6 +832,14 @@ function TheBay() {
                   textDecoration: 'none',
                   fontWeight: 600,
                   transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#8a0233'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#A6033F'
+                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
                 Book a Viewing
