@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 // AUTH0 DISABLED - Using mock hook
 // import { useAuth0 } from '@auth0/auth0-react'
 import { useAuth0 } from '../../utils/mockAuth0'
+import { useMenu } from '../../contexts/MenuContext'
 
 function Banner() {
   const { loginWithRedirect, isAuthenticated } = useAuth0()
+  const { isMenuActive } = useMenu()
   const [shouldUseVideo, setShouldUseVideo] = useState(false)
 
   useEffect(() => {
@@ -142,7 +144,7 @@ function Banner() {
               <span>Sign up</span>
             </a>
 
-            <div className="mil-circle-text">
+            <div className={`mil-circle-text ${isMenuActive ? 'menu-active' : ''}`} style={isMenuActive ? { opacity: 0, visibility: 'hidden', pointerEvents: 'none', transition: 'opacity 0.3s ease, visibility 0.3s ease' } : { opacity: 1, visibility: 'visible', transition: 'opacity 0.3s ease, visibility 0.3s ease' }}>
               <svg
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
