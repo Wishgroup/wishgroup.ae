@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { RotateCcw, X, ChevronDown } from "lucide-react";
+import { useMenu } from "../../contexts/MenuContext";
 
 export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
+  const { isMenuActive } = useMenu();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -181,8 +183,9 @@ export const OverlayUI = ({ onReset, selectedPerson, hoveredPerson }) => {
           top: '50%',
           transform: `translateY(-50%) ${loaded ? 'translateX(0)' : 'translateX(1rem)'}`,
           transition: 'all 1s 0.7s',
-          opacity: loaded ? 1 : 0,
-          pointerEvents: 'auto',
+          opacity: loaded && !isMenuActive ? 1 : 0,
+          visibility: loaded && !isMenuActive ? 'visible' : 'hidden',
+          pointerEvents: loaded && !isMenuActive ? 'auto' : 'none',
           cursor: 'pointer',
           zIndex: 20
         }}

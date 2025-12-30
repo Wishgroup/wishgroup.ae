@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { useScrollAnimations } from '../hooks/useScrollAnimations'
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
 
 // Sample vacant positions - can be replaced with API data
 const vacantPositions = [
@@ -49,6 +51,72 @@ const vacantPositions = [
 
 function Careers() {
   useScrollAnimations()
+  const [selectedPosition, setSelectedPosition] = useState(null)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    position: '',
+    coverLetter: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
+
+  const handlePositionClick = (position) => {
+    setSelectedPosition(position)
+    setFormData(prev => ({ ...prev, position: position.title }))
+    // Scroll to form
+    setTimeout(() => {
+      document.getElementById('application-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    if (!formData.name || !formData.email || !formData.position) {
+      setSubmitStatus({ type: 'error', message: 'Please fill in all required fields.' })
+      return
+    }
+
+    if (!formData.email.includes('@')) {
+      setSubmitStatus({ type: 'error', message: 'Please enter a valid email address.' })
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/careers/apply`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setSubmitStatus({ type: 'success', message: data.message || 'Thank you for your application! We have received it and will review it shortly.' })
+        setFormData({ name: '', email: '', phone: '', position: '', coverLetter: '' })
+        setSelectedPosition(null)
+      } else {
+        setSubmitStatus({ type: 'error', message: data.message || 'Failed to submit application. Please try again.' })
+      }
+    } catch (error) {
+      console.error('Application submission error:', error)
+      setSubmitStatus({ type: 'error', message: 'Network error. Please check your connection and try again.' })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -199,8 +267,8 @@ function Careers() {
                   {position.description}
                 </p>
 
-                <a
-                  href={`mailto:careers@wishgroup.ae?subject=Application for ${position.title}`}
+                <button
+                  onClick={() => handlePositionClick(position)}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -209,7 +277,11 @@ function Careers() {
                     fontSize: '14px',
                     fontWeight: 600,
                     textDecoration: 'none',
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.3s ease',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.gap = '12px'
@@ -223,15 +295,276 @@ function Careers() {
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
-                </a>
+                </button>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Application Form Section */}
+      <section id="application-form" className="mil-p-120-120 mil-soft-bg">
+        <div className="container" style={{ maxWidth: '900px' }}>
+          <div className="mil-center mil-mb-60">
+            <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up">Apply Now</span>
+            <h2 className="mil-up mil-mb-30">
+              Job <span className="mil-thin">Application</span>
+            </h2>
+            <p className="mil-text mil-up" style={{ opacity: 0.8 }}>
+              {selectedPosition 
+                ? `Apply for the position of ${selectedPosition.title}`
+                : 'Fill out the form below to apply for a position. You can also click "Apply Now" on any position above to pre-fill the position field.'}
+            </p>
+          </div>
+
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: '1px solid rgba(133, 150, 166, 0.2)',
+            borderRadius: '24px',
+            padding: '60px 40px',
+            transition: 'all 0.4s ease'
+          }}>
+            {submitStatus && (
+              <div style={{
+                padding: '16px 20px',
+                marginBottom: '30px',
+                borderRadius: '12px',
+                background: submitStatus.type === 'success' 
+                  ? 'rgba(76, 175, 80, 0.1)' 
+                  : 'rgba(244, 67, 54, 0.1)',
+                border: `1px solid ${submitStatus.type === 'success' ? 'rgba(76, 175, 80, 0.3)' : 'rgba(244, 67, 54, 0.3)'}`,
+                color: submitStatus.type === 'success' ? '#4CAF50' : '#F44336',
+                fontSize: '14px',
+                lineHeight: '1.6'
+              }}>
+                {submitStatus.message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit}>
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '8px',
+                  color: '#3C4C59',
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}>
+                  Full Name <span style={{ color: '#A6033F' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(133, 150, 166, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: '14px',
+                    color: '#3C4C59',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#A6033F'
+                    e.currentTarget.style.outline = 'none'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.3)'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+                <div>
+                  <label style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    color: '#3C4C59',
+                    fontSize: '14px',
+                    fontWeight: 500
+                  }}>
+                    Email Address <span style={{ color: '#A6033F' }}>*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(133, 150, 166, 0.3)',
+                      background: 'rgba(255, 255, 255, 0.8)',
+                      fontSize: '14px',
+                      color: '#3C4C59',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = '#A6033F'
+                      e.currentTarget.style.outline = 'none'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.3)'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    color: '#3C4C59',
+                    fontSize: '14px',
+                    fontWeight: 500
+                  }}>
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(133, 150, 166, 0.3)',
+                      background: 'rgba(255, 255, 255, 0.8)',
+                      fontSize: '14px',
+                      color: '#3C4C59',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = '#A6033F'
+                      e.currentTarget.style.outline = 'none'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.3)'
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '8px',
+                  color: '#3C4C59',
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}>
+                  Position Applied For <span style={{ color: '#A6033F' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  name="position"
+                  value={formData.position}
+                  onChange={handleChange}
+                  required
+                  placeholder="e.g., Senior Graphics Designer"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(133, 150, 166, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: '14px',
+                    color: '#3C4C59',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#A6033F'
+                    e.currentTarget.style.outline = 'none'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.3)'
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '30px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '8px',
+                  color: '#3C4C59',
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}>
+                  Cover Letter
+                </label>
+                <textarea
+                  name="coverLetter"
+                  value={formData.coverLetter}
+                  onChange={handleChange}
+                  rows="6"
+                  placeholder="Tell us why you're interested in this position and what makes you a great fit..."
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(133, 150, 166, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: '14px',
+                    color: '#3C4C59',
+                    fontFamily: 'inherit',
+                    resize: 'vertical',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#A6033F'
+                    e.currentTarget.style.outline = 'none'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.3)'
+                  }}
+                />
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{
+                    padding: '14px 40px',
+                    borderRadius: '30px',
+                    background: isSubmitting ? '#8596A6' : '#A6033F',
+                    color: 'white',
+                    border: 'none',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s ease',
+                    opacity: isSubmitting ? 0.7 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitting) {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(166, 3, 63, 0.3)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
-      <section className="mil-p-120-120 mil-soft-bg">
+      <section className="mil-p-120-120 mil-soft-bg" style={{ background: 'transparent' }}>
         <div className="container" style={{ maxWidth: '800px' }}>
           <div className="mil-center mil-mb-60">
             <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up">Get in Touch</span>
@@ -239,7 +572,7 @@ function Careers() {
               Recruitment <span className="mil-thin">Contact</span>
             </h2>
             <p className="mil-text mil-up" style={{ opacity: 0.8 }}>
-              For general inquiries about career opportunities or to submit your application, please contact our recruitment team.
+              For general inquiries about career opportunities, please contact our recruitment team.
             </p>
           </div>
 
