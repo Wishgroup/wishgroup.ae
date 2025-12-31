@@ -272,6 +272,252 @@ app.get("/attendance/stats", async (req, res) => {
   }
 });
 
+// Careers application endpoint
+app.post("/careers/apply", async (req, res) => {
+  try {
+    const { name, email, phone, position, coverLetter, resume } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !position) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, email, and position are required"
+      });
+    }
+
+    // Validate email
+    if (!email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid email address is required"
+      });
+    }
+
+    // Check if email transporter is configured
+    if (!transporter) {
+      console.log("Email not configured. Career application received:", { name, email, phone, position });
+      return res.json({
+        success: true,
+        message: "Thank you for your application! (Email service not configured - application logged)"
+      });
+    }
+
+    // Email configuration
+    const emailTo = process.env.CAREERS_EMAIL || process.env.EMAIL_TO || "careers@wishgroup.ae";
+    const emailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@wishgroup.ae";
+
+    // Send email to company
+    const companyMailOptions = {
+      from: emailFrom,
+      to: emailTo,
+      subject: `New Career Application: ${position}`,
+      text: `New career application received:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nPosition: ${position}\n\nCover Letter:\n${coverLetter || 'Not provided'}\n\nResume: ${resume ? 'Attached' : 'Not provided'}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #A6033F;">New Career Application</h2>
+          <p>A new career application has been received through the website.</p>
+          <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <p style="margin: 8px 0;">
+              <strong>Name:</strong> ${name}
+            </p>
+            <p style="margin: 8px 0;">
+              <strong>Email:</strong> <a href="mailto:${email}">${email}</a>
+            </p>
+            ${phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> <a href="tel:${phone}">${phone}</a></p>` : ''}
+            <p style="margin: 8px 0;">
+              <strong>Position:</strong> ${position}
+            </p>
+            ${coverLetter ? `
+              <p style="margin: 8px 0;">
+                <strong>Cover Letter:</strong>
+              </p>
+              <div style="margin-top: 10px; padding: 12px; background: white; border-left: 3px solid #A6033F; border-radius: 4px;">
+                <p style="margin: 0; white-space: pre-wrap;">${coverLetter}</p>
+              </div>
+            ` : ''}
+            ${resume ? `<p style="margin: 8px 0;"><strong>Resume:</strong> Attached</p>` : ''}
+          </div>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            Application Date: ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    // Send auto-reply to applicant
+    const autoReplyOptions = {
+      from: emailFrom,
+      to: email,
+      subject: "Thank You for Your Application - Wish Group",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #A6033F; margin: 0;">Wish Group</h1>
+          </div>
+          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h2 style="color: #3C4C59; margin-top: 0;">Thank You for Your Application</h2>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              Dear ${name},
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              Thank you for your interest in joining Wish Group and for applying for the position of <strong>${position}</strong>.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              We have successfully received your application and our recruitment team will review it carefully. We appreciate the time and effort you took to apply.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              If your qualifications match our requirements, we will contact you within the next 2-3 business days to schedule an interview. In the meantime, if you have any questions, please feel free to reach out to us at <a href="mailto:careers@wishgroup.ae" style="color: #A6033F;">careers@wishgroup.ae</a>.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6; margin-bottom: 0;">
+              We wish you the best of luck in your career journey!
+            </p>
+          </div>
+          <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #8596A6; font-size: 12px;">
+            <p style="margin: 5px 0;">Wish Group</p>
+            <p style="margin: 5px 0;">4004/4005, 40th Floor, Citadel Tower, Al Marasi Drive, Business Bay, Dubai, U.A.E.</p>
+            <p style="margin: 5px 0;">Email: <a href="mailto:careers@wishgroup.ae" style="color: #A6033F;">careers@wishgroup.ae</a></p>
+          </div>
+        </div>
+      `
+    };
+
+    // Send both emails
+    await transporter.sendMail(companyMailOptions);
+    await transporter.sendMail(autoReplyOptions);
+
+    res.json({
+      success: true,
+      message: "Thank you for your application! We have received it and will review it shortly. You should receive a confirmation email shortly."
+    });
+  } catch (err) {
+    console.error("Error sending career application:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Failed to submit application. Please try again later."
+    });
+  }
+});
+
+// Contact inquiry endpoint
+app.post("/contact/inquiry", async (req, res) => {
+  try {
+    const { fullName, email, phone, company, message } = req.body;
+
+    // Validate required fields
+    if (!fullName || !email || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "Full name, email, and message are required"
+      });
+    }
+
+    // Validate email
+    if (!email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid email address is required"
+      });
+    }
+
+    // Check if email transporter is configured
+    if (!transporter) {
+      console.log("Email not configured. Contact inquiry received:", { fullName, email, phone, company, message });
+      return res.json({
+        success: true,
+        message: "Thank you for your inquiry! (Email service not configured - inquiry logged)"
+      });
+    }
+
+    // Email configuration
+    const emailTo = process.env.CONTACT_EMAIL || process.env.EMAIL_TO || "info@wishgroup.ae";
+    const emailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@wishgroup.ae";
+
+    // Send email to company
+    const companyMailOptions = {
+      from: emailFrom,
+      to: emailTo,
+      subject: "New Contact Inquiry from Website",
+      text: `New contact inquiry received:\n\nName: ${fullName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nCompany: ${company || 'Not provided'}\n\nMessage:\n${message}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #126771;">New Contact Inquiry</h2>
+          <p>A new contact inquiry has been received through the website contact form.</p>
+          <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <p style="margin: 8px 0;">
+              <strong>Name:</strong> ${fullName}
+            </p>
+            <p style="margin: 8px 0;">
+              <strong>Email:</strong> <a href="mailto:${email}">${email}</a>
+            </p>
+            ${phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> <a href="tel:${phone}">${phone}</a></p>` : ''}
+            ${company ? `<p style="margin: 8px 0;"><strong>Company:</strong> ${company}</p>` : ''}
+            <p style="margin: 8px 0;">
+              <strong>Message:</strong>
+            </p>
+            <div style="margin-top: 10px; padding: 12px; background: white; border-left: 3px solid #A6033F; border-radius: 4px;">
+              <p style="margin: 0; white-space: pre-wrap;">${message}</p>
+            </div>
+          </div>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            Inquiry Date: ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    // Send auto-reply to customer
+    const autoReplyOptions = {
+      from: emailFrom,
+      to: email,
+      subject: "Thank You for Contacting Wish Group",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #A6033F; margin: 0;">Wish Group</h1>
+          </div>
+          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h2 style="color: #3C4C59; margin-top: 0;">Thank You for Your Inquiry</h2>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              Dear ${fullName},
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              Thank you for reaching out to Wish Group. We have successfully received your inquiry and our team will review it carefully.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              We aim to respond to all inquiries within 24-48 hours during business days (Sunday-Thursday, 9:00 AM - 6:00 PM UAE Time). If your inquiry is urgent, please feel free to contact us directly at <a href="tel:+97142597167" style="color: #A6033F;">+971 4 259 7167</a>.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6; margin-bottom: 0;">
+              We appreciate your interest in Wish Group and look forward to assisting you.
+            </p>
+          </div>
+          <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #8596A6; font-size: 12px;">
+            <p style="margin: 5px 0;">Wish Group</p>
+            <p style="margin: 5px 0;">4004/4005, 40th Floor, Citadel Tower, Al Marasi Drive, Business Bay, Dubai, U.A.E.</p>
+            <p style="margin: 5px 0;">Phone: <a href="tel:+97142597167" style="color: #A6033F;">+971 4 259 7167</a> | Email: <a href="mailto:info@wishgroup.ae" style="color: #A6033F;">info@wishgroup.ae</a></p>
+          </div>
+        </div>
+      `
+    };
+
+    // Send both emails
+    await transporter.sendMail(companyMailOptions);
+    await transporter.sendMail(autoReplyOptions);
+
+    res.json({
+      success: true,
+      message: "Thank you for your inquiry! We have received it and will get back to you within 24-48 hours. You should receive a confirmation email shortly."
+    });
+  } catch (err) {
+    console.error("Error sending contact inquiry:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      message: "Failed to send inquiry. Please try again later."
+    });
+  }
+});
+
 // Email inquiry endpoint (also handles newsletter subscriptions)
 app.post("/newsletter/subscribe", async (req, res) => {
   try {
@@ -403,8 +649,8 @@ app.post("/chatbot/inquiry", async (req, res) => {
     const emailTo = process.env.EMAIL_TO || "info@wishgroup.ae";
     const emailFrom = process.env.EMAIL_FROM || process.env.SMTP_USER || "noreply@wishgroup.ae";
 
-    // Send email
-    const mailOptions = {
+    // Send email to company
+    const companyMailOptions = {
       from: emailFrom,
       to: emailTo,
       subject: "New Customer Inquiry from Chatbot",
@@ -435,7 +681,43 @@ app.post("/chatbot/inquiry", async (req, res) => {
       `
     };
 
-    await transporter.sendMail(mailOptions);
+    // Send auto-reply to customer
+    const autoReplyOptions = {
+      from: emailFrom,
+      to: email,
+      subject: "Thank You for Contacting Wish Group",
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #A6033F; margin: 0;">Wish Group</h1>
+          </div>
+          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h2 style="color: #3C4C59; margin-top: 0;">Thank You for Your Inquiry</h2>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              Dear ${name},
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              Thank you for reaching out to Wish Group through our website. We have successfully received your inquiry and our team will review it carefully.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6;">
+              We aim to respond to all inquiries within 24-48 hours during business days (Sunday-Thursday, 9:00 AM - 6:00 PM UAE Time). If your inquiry is urgent, please feel free to contact us directly at <a href="tel:+97142597167" style="color: #A6033F;">+971 4 259 7167</a> or <a href="mailto:info@wishgroup.ae" style="color: #A6033F;">info@wishgroup.ae</a>.
+            </p>
+            <p style="color: #3C4C59; line-height: 1.6; margin-bottom: 0;">
+              We appreciate your interest in Wish Group and look forward to assisting you.
+            </p>
+          </div>
+          <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #8596A6; font-size: 12px;">
+            <p style="margin: 5px 0;">Wish Group</p>
+            <p style="margin: 5px 0;">4004/4005, 40th Floor, Citadel Tower, Al Marasi Drive, Business Bay, Dubai, U.A.E.</p>
+            <p style="margin: 5px 0;">Phone: <a href="tel:+97142597167" style="color: #A6033F;">+971 4 259 7167</a> | Email: <a href="mailto:info@wishgroup.ae" style="color: #A6033F;">info@wishgroup.ae</a></p>
+          </div>
+        </div>
+      `
+    };
+
+    // Send both emails
+    await transporter.sendMail(companyMailOptions);
+    await transporter.sendMail(autoReplyOptions);
 
     res.json({
       success: true,
@@ -477,4 +759,6 @@ app.listen(PORT, () => {
   console.log(`  GET /attendance/stats - Get attendance statistics`);
   console.log(`  POST /newsletter/subscribe - Email inquiry / Newsletter subscription`);
   console.log(`  POST /chatbot/inquiry - Chatbot customer inquiry`);
+  console.log(`  POST /careers/apply - Career application submission`);
+  console.log(`  POST /contact/inquiry - Contact form inquiry`);
 });

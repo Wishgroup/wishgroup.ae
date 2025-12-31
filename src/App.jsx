@@ -34,9 +34,8 @@ const WishWorld = lazy(() => import('./pages/WishWorld'))
 const WishBrands = lazy(() => import('./pages/WishBrands'))
 const PrimeBond = lazy(() => import('./pages/PrimeBond'))
 const WorldCapitalCentre = lazy(() => import('./pages/WorldCapitalCentre'))
-const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'))
-const CookiePolicy = lazy(() => import('./pages/CookiePolicy'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Loading component
@@ -162,6 +161,8 @@ function App() {
             <Route path="/project/wish-brands" element={<WishBrands />} />
             <Route path="/project/prime-bond" element={<PrimeBond />} />
             <Route path="/project/world-capital-centre" element={<WorldCapitalCentre />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

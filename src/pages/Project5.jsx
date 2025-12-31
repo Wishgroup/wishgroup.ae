@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { useScrollAnimations } from '../hooks/useScrollAnimations'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
+
 function Contacts() {
   useScrollAnimations()
 
@@ -36,34 +38,69 @@ function Contacts() {
     message: '',
   })
   const [status, setStatus] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    // Clear status when user starts typing
+    if (status || submitError) {
+      setStatus('')
+      setSubmitError('')
+    }
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    const body = [
-      `Full Name: ${formData.fullName}`,
-      `Email: ${formData.email}`,
-      `Phone: ${formData.phone}`,
-      `Company: ${formData.company || 'N/A'}`,
-      '',
-      'Message:',
-      formData.message
-    ].join('%0A')
+    
+    // Reset messages
+    setStatus('')
+    setSubmitError('')
 
-    window.location.href = `mailto:info@wishgroup.ae?subject=New Inquiry from Website&body=${body}`
+    // Validate required fields
+    if (!formData.fullName || !formData.email || !formData.message) {
+      setSubmitError('Please fill in all required fields.')
+      return
+    }
 
-    setStatus('Thanks for reaching out. We will respond within 24–48 hours.')
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      company: '',
-      message: '',
-    })
+    // Validate email
+    if (!formData.email.includes('@')) {
+      setSubmitError('Please enter a valid email address.')
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/contact/inquiry`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setStatus(data.message || 'Thank you for your inquiry! We have received it and will get back to you within 24-48 hours. You should receive a confirmation email shortly.')
+        setFormData({
+          fullName: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: '',
+        })
+      } else {
+        setSubmitError(data.message || 'Failed to send inquiry. Please try again.')
+      }
+    } catch (error) {
+      console.error('Contact form error:', error)
+      setSubmitError('Network error. Please check your connection and try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -99,8 +136,25 @@ function Contacts() {
                   We reply fast — fill in your details and we will connect you to the right team. We aim to respond within 24–48 hours.
                 </p>
                 {status && (
-                  <div className="mil-up mil-glass-note mil-mb-20">
+                  <div className="mil-up mil-glass-note mil-mb-20" style={{
+                    background: 'rgba(76, 175, 80, 0.1)',
+                    border: '1px solid rgba(76, 175, 80, 0.3)',
+                    color: '#4CAF50',
+                    padding: '16px 20px',
+                    borderRadius: '12px'
+                  }}>
                     {status}
+                  </div>
+                )}
+                {submitError && (
+                  <div className="mil-up mil-glass-note mil-mb-20" style={{
+                    background: 'rgba(244, 67, 54, 0.1)',
+                    border: '1px solid rgba(244, 67, 54, 0.3)',
+                    color: '#F44336',
+                    padding: '16px 20px',
+                    borderRadius: '12px'
+                  }}>
+                    {submitError}
                   </div>
                 )}
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -170,8 +224,16 @@ function Contacts() {
                       ></textarea>
                     </div>
                     <div className="col-12 d-flex justify-content-center" style={{ marginTop: 'auto' }}>
-                      <button type="submit" className="mil-button mil-mb-10">
-                        Submit inquiry
+                      <button 
+                        type="submit" 
+                        className="mil-button mil-mb-10"
+                        disabled={isSubmitting}
+                        style={{
+                          opacity: isSubmitting ? 0.7 : 1,
+                          cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        {isSubmitting ? 'Submitting...' : 'Submit inquiry'}
                       </button>
                     </div>
                   </div>
