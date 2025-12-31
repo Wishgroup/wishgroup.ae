@@ -278,30 +278,27 @@ function Project3() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project3/One Bond/Logo.png"
+                    src="/img/Project3/One Bond/prime_bond_investment.webp"
                     alt="WISH FINANCE CORPORATION LTD Prime Bond Investment "
                     loading="lazy"
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'contain',
-                      objectPosition: 'center',
-                      padding: '20px',
-                      backgroundColor: '#fff',
+                      objectFit: 'cover',
                       transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.05)'
+                      e.currentTarget.style.transform = 'scale(1.1)'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'scale(1)'
                     }}
                     onError={(e) => {
-                      if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
-                        e.currentTarget.src = '/img/Project3/investment1.webp'
-                        e.currentTarget.style.objectFit = 'cover'
-                        e.currentTarget.style.padding = '0'
-                        e.currentTarget.style.backgroundColor = 'transparent'
+                      if (e.currentTarget.src !== '/img/Project3/One Bond/Logo.png') {
+                        e.currentTarget.src = '/img/Project3/One Bond/Logo.png'
+                        e.currentTarget.style.objectFit = 'contain'
+                        e.currentTarget.style.padding = '20px'
+                        e.currentTarget.style.backgroundColor = '#fff'
                       }
                     }}
                   />
@@ -483,7 +480,7 @@ function Project3() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project3/investment1.webp"
+                    src="/img/Project3/HR/human-resources-concept-2025-02-19-16-55-36-utc.jpg"
                     alt="WISH HR & CONSULTANCY"
                     loading="lazy"
                     style={{
@@ -499,8 +496,8 @@ function Project3() {
                       e.currentTarget.style.transform = 'scale(1)'
                     }}
                     onError={(e) => {
-                      if (e.currentTarget.src !== '/img/Project3/tunaprime.webp') {
-                        e.currentTarget.src = '/img/Project3/tunaprime.webp'
+                      if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                        e.currentTarget.src = '/img/Project3/investment1.webp'
                       }
                     }}
                   />
@@ -611,7 +608,7 @@ function Project3() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project3/investment1.webp"
+                    src="/img/Project3/Legal/statue-of-lady-justice-with-scales-of-justice-on-w-2024-12-07-00-44-07-utc.jpg"
                     alt="WISH LEGAL & GOVERNANCE"
                     loading="lazy"
                     style={{
@@ -627,8 +624,8 @@ function Project3() {
                       e.currentTarget.style.transform = 'scale(1)'
                     }}
                     onError={(e) => {
-                      if (e.currentTarget.src !== '/img/Project3/tunaprime.webp') {
-                        e.currentTarget.src = '/img/Project3/tunaprime.webp'
+                      if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                        e.currentTarget.src = '/img/Project3/investment1.webp'
                       }
                     }}
                   />

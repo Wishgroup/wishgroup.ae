@@ -131,17 +131,6 @@ function Banner() {
               <span>What we do</span>
             </a>
 
-            <a 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault()
-                handleSignUp()
-              }}
-              className="mil-link mil-muted mil-arrow-place"
-            >
-              <span>Sign up</span>
-            </a>
-
             <div className="mil-circle-text">
               <svg
                 version="1.1"
