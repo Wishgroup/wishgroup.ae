@@ -96,6 +96,9 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/news" element={<News />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
             <Route path="/country/:countryCode" element={<Country />} />
             <Route 
               path="/project-1" 

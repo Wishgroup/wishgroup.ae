@@ -210,7 +210,7 @@ function Project4() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container" style={{ maxWidth: '1400px', paddingLeft: '40px', paddingRight: '40px' }}>
+        <div className="container" style={{ maxWidth: '1600px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="mil-center mil-mb-90">
             <p className="mil-text mil-up mil-mb-30" style={{ 
               fontSize: '14px',
@@ -224,9 +224,49 @@ function Project4() {
             </h2>
           </div>
 
-          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
+          <style>{`
+            .project-tiles-container {
+              display: flex;
+              flex-wrap: nowrap;
+              gap: 20px;
+              justify-content: center;
+              width: 100%;
+              margin: 0;
+            }
+            .project-tile-card {
+              flex: 1 1 0;
+              min-width: 280px;
+            }
+            @media (max-width: 992px) {
+              .project-tiles-container {
+                flex-wrap: wrap;
+              }
+              .project-tile-card {
+                flex: 1 1 calc(50% - 10px);
+                min-width: calc(50% - 10px);
+                max-width: calc(50% - 10px);
+              }
+            }
+            @media (max-width: 768px) {
+              .project-tiles-container {
+                flex-direction: column;
+                gap: 20px;
+              }
+              .project-tile-card {
+                flex: 1 1 100%;
+                min-width: 100%;
+                max-width: 100%;
+              }
+              #achievements .container {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+              }
+            }
+          `}</style>
+
+          <div className="row project-tiles-container">
             {/* World Capital Centre (WCC) Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <Link to="/project/world-capital-centre" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
@@ -351,7 +391,7 @@ function Project4() {
             </div>
 
             {/* Wish World Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <Link to="/project/wish-world" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
@@ -472,7 +512,7 @@ function Project4() {
             </div>
 
             {/* Global Resource Focus Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{
@@ -591,7 +631,7 @@ function Project4() {
             </div>
 
             {/* Sustainable Food Production Card */}
-            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px' }}>
+            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{

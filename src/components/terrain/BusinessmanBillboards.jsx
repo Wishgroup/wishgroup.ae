@@ -60,6 +60,28 @@ export const peopleData = [
     isOnline: true,
     isOccupied: true
   },
+  { 
+    id: 9,
+    name: "Aman Fathima",
+    role: "Team Member",
+    description: "Contributing to team success and project delivery.",
+    position: [-3, 0.5, 3], 
+    scale: 4,
+    image: "/Terrain/Aman Fathima.png",
+    isOnline: true,
+    isOccupied: false
+  },
+  { 
+    id: 10,
+    name: "Shihara Sudar",
+    role: "Team Member",
+    description: "Contributing to team success and project delivery.",
+    position: [4, 0.5, -5], 
+    scale: 4,
+    image: "/Terrain/Shihara Sudar.png",
+    isOnline: true,
+    isOccupied: false
+  },
 ];
 
 // Plumbob component - Sims-style diamond indicator

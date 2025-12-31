@@ -133,18 +133,7 @@ function Banner() {
               <span>What we do</span>
             </a>
 
-            <a 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault()
-                handleSignUp()
-              }}
-              className="mil-link mil-muted mil-arrow-place"
-            >
-              <span>Sign up</span>
-            </a>
-
-            <div className={`mil-circle-text ${isMenuActive ? 'menu-active' : ''}`} style={isMenuActive ? { opacity: 0, visibility: 'hidden', pointerEvents: 'none', transition: 'opacity 0.3s ease, visibility 0.3s ease' } : { opacity: 1, visibility: 'visible', transition: 'opacity 0.3s ease, visibility 0.3s ease' }}>
+            <div className="mil-circle-text">
               <svg
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
