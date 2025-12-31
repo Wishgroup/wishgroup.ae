@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import AuthButton from './AuthButton'
+import { useMenu } from '../contexts/MenuContext'
 
 // Move static data outside component to prevent recreation on every render
 const MENU_ITEMS = [
@@ -57,11 +58,17 @@ const NOWRAP_STYLE = { whiteSpace: 'nowrap' }
 const USEFUL_LINKS_HEADER_STYLE = { width: 'fit-content', whiteSpace: 'nowrap' }
 
 function Menu() {
+  const { isMenuActive, setIsMenuActive } = useMenu()
   const [isActive, setIsActive] = useState(false)
   const [isProjectsActive, setIsProjectsActive] = useState(false)
   const location = useLocation()
   const scrollTimeoutRef = useRef(null)
   const menuBtnRef = useRef(null)
+
+  // Sync local state with context
+  useEffect(() => {
+    setIsMenuActive(isActive)
+  }, [isActive, setIsMenuActive])
 
   // Memoize handlers to prevent unnecessary re-renders
   const handleMenuToggle = useCallback(() => {

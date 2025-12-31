@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 // AUTH0 DISABLED - Using mock hook
 // import { useAuth0 } from '@auth0/auth0-react'
 import { useAuth0 } from '../../utils/mockAuth0'
+import { useMenu } from '../../contexts/MenuContext'
 
 function Banner() {
   const { loginWithRedirect, isAuthenticated } = useAuth0()
+  const { isMenuActive } = useMenu()
   const [shouldUseVideo, setShouldUseVideo] = useState(false)
 
   useEffect(() => {

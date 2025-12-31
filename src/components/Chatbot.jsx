@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useMenu } from '../contexts/MenuContext'
 
 // API base URL
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
@@ -87,6 +88,7 @@ const CONVERSATION_STATES = {
 }
 
 function Chatbot() {
+  const { isMenuActive } = useMenu()
   const [isOpen, setIsOpen] = useState(false)
   const [conversationState, setConversationState] = useState(CONVERSATION_STATES.GREETING)
   const [userContext, setUserContext] = useState({
@@ -465,6 +467,15 @@ function Chatbot() {
           right: 90px;
           z-index: 9998;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+          opacity: 1;
+          visibility: visible;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .chatbot-container.menu-active {
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
         }
 
         .chatbot-button {
@@ -860,7 +871,7 @@ function Chatbot() {
         }
       `}</style>
 
-      <div className="chatbot-container">
+      <div className={`chatbot-container ${isMenuActive ? 'menu-active' : ''}`}>
         {isOpen && (
           <div className="chatbot-window">
             <div className="chatbot-header">
