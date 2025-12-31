@@ -44,8 +44,18 @@ function BeverleyAir() {
 
   return (
     <>
+      <style>{`
+        .beverleyair-banner-spacing {
+          padding-top: 100px !important;
+        }
+        @media (max-width: 768px) {
+          .beverleyair-banner-spacing {
+            padding-top: 140px !important;
+          }
+        }
+      `}</style>
       {/* Banner Section */}
-      <div className="mil-inner-banner mil-p-0-120">
+      <div className="mil-inner-banner mil-p-0-120 beverleyair-banner-spacing">
         <div className="mil-banner-content mil-up">
           <div className="mil-animation-frame">
             <div className="mil-animation mil-position-4 mil-dark mil-scale" data-value-1="6" data-value-2="1.4"></div>
@@ -61,7 +71,7 @@ function BeverleyAir() {
               <li>Beverley Air</li>
             </ul>
             <h1 className="mil-mb-20">
-              BEVERLEY AIR
+              BEVERLEY AIR 
             </h1>
           </div>
         </div>
@@ -382,6 +392,7 @@ function BeverleyAir() {
                 </p>
               </div>
             </div>
+
           </div>
         </div>
       </section>
@@ -391,7 +402,7 @@ function BeverleyAir() {
         <div className="container" style={{ maxWidth: '1600px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="row" style={{ gap: '24px', justifyContent: 'center', width: '100%', margin: 0 }}>
             
-            {/* Quality & Certifications Card */}
+            {/* Facilities & Specs Card */}
             <div className="col-12 col-md-4" style={{ position: 'relative', minHeight: '500px', padding: 0, flex: '1 1 0' }}>
               <div
                 className="mil-up"
@@ -456,6 +467,27 @@ function BeverleyAir() {
                     </div>
                   </div>
                   
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: '0 0 16px 0',
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Every amenity at Beverley Air is designed to create moments of pure luxury and relaxation, from championship golf to world-class wellness.
+                  </p>
+                  
+                  <p style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#3C4C59',
+                    margin: '0 0 12px 0',
+                    opacity: 0.9
+                  }}>
+                    Highlights:
+                  </p>
+                  
                   <ul style={{
                     listStyle: 'none',
                     padding: 0,
@@ -464,30 +496,18 @@ function BeverleyAir() {
                     color: '#3C4C59',
                     opacity: 0.9
                   }}>
-                    <li style={{ marginBottom: '12px' }}>✓ 18-Hole Championship Golf Course</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Ayurveda-International Spa (500–800 sqm)</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Signature Fine Dining (450 sqm)</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Private Movie Theatre (400 sqm)</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Art Gallery (300 sqm)</li>
-                    <li style={{ marginBottom: '12px' }}>✓ Natural Infinity Pool</li>
+                    <li style={{ marginBottom: '12px' }}>✔ 18-Hole Championship Golf Course</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Ayurveda-International Spa (500–800 sqm)</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Signature Fine Dining (450 sqm)</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Private Movie Theatre (400 sqm)</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Art Gallery (300 sqm)</li>
+                    <li style={{ marginBottom: '12px' }}>✔ Natural Infinity Pool</li>
                   </ul>
-                  
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.8',
-                    color: '#3C4C59',
-                    margin: 0,
-                    opacity: 0.8,
-                    textAlign: 'justify',
-                    fontStyle: 'italic'
-                  }}>
-                    Every amenity is designed to create moments of pure luxury and relaxation.
-                  </p>
                 </div>
               </div>
             </div>
 
-            {/* The Beverley Air Advantage Card */}
+            {/* Curated Experiences Card */}
             <div className="col-12 col-md-4" style={{ position: 'relative', minHeight: '500px', padding: 0, flex: '1 1 0' }}>
               <div
                 className="mil-up"
@@ -552,6 +572,16 @@ function BeverleyAir() {
                     </div>
                   </div>
                   
+                  <p style={{
+                    fontSize: '15px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: '0 0 16px 0',
+                    opacity: 0.8
+                  }}>
+                    Life at Beverley Air is elevated by exceptional experiences designed to nurture well-being, connection, and leisure:
+                  </p>
+                  
                   <div style={{ marginBottom: '20px' }}>
                     {[
                       { title: 'Wellness Journeys', desc: 'Bespoke Ayurveda programmes, ocean-front yoga, and bespoke detox retreats.' },
@@ -559,12 +589,40 @@ function BeverleyAir() {
                       { title: 'Sport & Leisure', desc: 'Championship golf tee times, personalized coaching, water-sports concierge.' },
                       { title: 'Cultural & Art', desc: 'Private gallery tours, artist-in-residence dinners, and custom exhibitions.' },
                     ].map((item, idx) => (
-                      <div key={idx} style={{ marginBottom: '16px' }}>
+                      <div key={idx} style={{ marginBottom: '12px' }}>
                         <p style={{ margin: '0 0 4px 0', fontWeight: 600, color: '#3C4C59', fontSize: '15px' }}>• {item.title}</p>
                         <p style={{ margin: 0, color: '#8596A6', fontSize: '13px', lineHeight: '1.5' }}>{item.desc}</p>
                       </div>
                     ))}
                   </div>
+                  
+                  <a
+                    href="mailto:info@wishgroup.ae?subject=Explore Experiences - Beverley Air"
+                    style={{
+                      display: 'inline-block',
+                      padding: '10px 20px',
+                      borderRadius: '70px',
+                      border: '1px solid #A6033F',
+                      color: '#A6033F',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      marginTop: '8px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#A6033F'
+                      e.currentTarget.style.color = '#fff'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#A6033F'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    Explore Experiences
+                  </a>
                 </div>
               </div>
             </div>
@@ -642,20 +700,59 @@ function BeverleyAir() {
                     opacity: 0.8,
                     textAlign: 'justify'
                   }}>
-                    Beverley Air balances opulence with responsibility: coastal conservation initiatives, renewable energy integration, water stewardship, and community-led employment programs.
+                    Strategically positioned as a private island sanctuary, Beverley Air offers the best of both worlds — the peaceful embrace of secluded living and the convenience of world-class amenities.
                   </p>
                   
                   <p style={{
                     fontSize: '15px',
                     lineHeight: '1.8',
                     color: '#3C4C59',
-                    margin: 0,
+                    margin: '0 0 16px 0',
                     opacity: 0.8,
                     textAlign: 'justify',
                     fontStyle: 'italic'
                   }}>
-                    Guests are invited to participate in marine restoration and cultural exchange projects.
+                    Beverley Air balances opulence with responsibility: coastal conservation initiatives, renewable energy integration, water stewardship, and community-led employment programs. Guests are invited to participate in marine restoration and cultural exchange projects.
                   </p>
+                  
+                  <p style={{
+                    fontSize: '14px',
+                    lineHeight: '1.8',
+                    color: '#3C4C59',
+                    margin: '0 0 16px 0',
+                    opacity: 0.8,
+                    textAlign: 'justify'
+                  }}>
+                    Key Living Benefits: Spectacular ocean vistas • Serene, low-density community • Thoughtfully designed public spaces • Tailored privacy and comfort
+                  </p>
+                  
+                  <a
+                    href="mailto:info@wishgroup.ae?subject=Learn About Sustainability - Beverley Air"
+                    style={{
+                      display: 'inline-block',
+                      padding: '10px 20px',
+                      borderRadius: '70px',
+                      border: '1px solid #A6033F',
+                      color: '#A6033F',
+                      textDecoration: 'none',
+                      fontWeight: 600,
+                      fontSize: '14px',
+                      transition: 'all 0.3s ease',
+                      marginTop: '8px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#A6033F'
+                      e.currentTarget.style.color = '#fff'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#A6033F'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    Learn More
+                  </a>
                 </div>
               </div>
             </div>
@@ -663,13 +760,13 @@ function BeverleyAir() {
 
           {/* Call to Action */}
           <div className="mil-center" style={{ paddingTop: '50px' }}>
-            <h2 className="mil-up mil-mb-10">Reserve Your <span className="mil-thin">Private Visit</span></h2>
+            <h2 className="mil-up mil-mb-10">Make Beverley Air <span className="mil-thin">Your Sanctuary</span></h2>
             <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '700px', margin: '0 auto', opacity: 0.9 }}>
-              Ready to experience Beverley Air? Secure your room, explore seasonal offers, or request personalized assistance.
+              Opportunities here are limited — each residence crafted for exclusivity and enduring value.
             </p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <a
-                href="mailto:info@wishgroup.ae?subject=Book Private Consultation - Beverley Air"
+                href="mailto:info@wishgroup.ae?subject=Download Brochure - Beverley Air"
                 style={{
                   padding: '14px 24px',
                   borderRadius: '70px',
@@ -679,11 +776,19 @@ function BeverleyAir() {
                   fontWeight: 600,
                   transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#8a0233'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#A6033F'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
               >
-                Book a Private Consultation
+                Download Brochure
               </a>
               <a
-                href="mailto:info@wishgroup.ae?subject=Download Brochure - Beverley Air"
+                href="mailto:info@wishgroup.ae?subject=Request Pricing - Beverley Air"
                 style={{
                   padding: '14px 24px',
                   borderRadius: '70px',
@@ -694,11 +799,21 @@ function BeverleyAir() {
                   background: '#fff',
                   transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#A6033F'
+                  e.currentTarget.style.color = '#A6033F'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#8596A6'
+                  e.currentTarget.style.color = '#3C4C59'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
               >
-                Download Brochure
+                Request Pricing
               </a>
               <a
-                href="mailto:info@wishgroup.ae?subject=Speak to Reservation Team - Beverley Air"
+                href="mailto:info@wishgroup.ae?subject=Book a Viewing - Beverley Air"
                 style={{
                   padding: '14px 24px',
                   borderRadius: '70px',
@@ -708,8 +823,16 @@ function BeverleyAir() {
                   fontWeight: 600,
                   transition: 'all 0.3s ease'
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#8a0233'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#A6033F'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
               >
-                Speak to Reservation Team
+                Book a Viewing
               </a>
             </div>
           </div>

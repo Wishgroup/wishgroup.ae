@@ -275,7 +275,7 @@ function Project2() {
           <div className="row project-tiles-container">
             {/* Beverley Air Card */}
             <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
-              <Link to="/project/beverl ey-air" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+              <Link to="/project/beverley-air" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
                 <div
                   className="mil-up"
                   style={{

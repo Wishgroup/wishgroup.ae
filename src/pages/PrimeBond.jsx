@@ -74,7 +74,7 @@ function PrimeBond() {
             <div className="col-12">
               <div className="mil-up" style={{ position: 'relative', width: '100%' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/tier5.jpg"
                   alt="Prime Bond Investment"
                   style={{
                     width: '100%',
@@ -85,8 +85,8 @@ function PrimeBond() {
                     aspectRatio: '16/9'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/One Bond/prime_bond_investment.webp') {
+                      e.currentTarget.src = '/img/Project3/One Bond/prime_bond_investment.webp'
                     }
                   }}
                 />
@@ -199,7 +199,7 @@ function PrimeBond() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/two-fresh-slices-of-raw-tuna-fillet-with-spices-an-2024-12-13-01-43-34-utc.jpg"
                   alt="Premium Tuna"
                   style={{
                     position: 'absolute',
@@ -210,8 +210,8 @@ function PrimeBond() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
                     }
                   }}
                 />
@@ -267,7 +267,7 @@ function PrimeBond() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/raw-seafood-fresh-shrimps-prawns-on-gray-plate-w-2024-12-01-11-12-31-utc.jpg"
                   alt="Vannamei Prawns"
                   style={{
                     position: 'absolute',
@@ -278,8 +278,8 @@ function PrimeBond() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
                     }
                   }}
                 />
@@ -335,7 +335,7 @@ function PrimeBond() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/green-locusts-devouring-a-large-barley-insect-pes-2025-04-02-05-26-37-utc.jpg"
                   alt="Agricultural Commodities"
                   style={{
                     position: 'absolute',
@@ -346,8 +346,8 @@ function PrimeBond() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
                     }
                   }}
                 />
@@ -379,6 +379,80 @@ function PrimeBond() {
                   opacity: 0.8
                 }}>
                   Tea, sugar, and fruits that remain core drivers of global markets with stable demand.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 4 - Investment Excellence */}
+            <div className="mil-up" style={{
+              background: '#fff',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              cursor: 'pointer',
+              position: 'relative'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)'
+            }}>
+              <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
+                <img 
+                  src="/img/Project3/One Bond/Logo.png"
+                  alt="Investment Excellence"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    objectPosition: 'center',
+                    backgroundColor: '#fff',
+                    padding: '20px'
+                  }}
+                  onError={(e) => {
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
+                      e.currentTarget.style.objectFit = 'cover'
+                      e.currentTarget.style.padding = '0'
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                    }
+                  }}
+                />
+              </div>
+              <div style={{ padding: '24px' }}>
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#3C4C59',
+                  margin: '0 0 8px 0',
+                  lineHeight: '1.3'
+                }}>
+                  Investment Excellence
+                </h3>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#8596A6',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
+                  fontStyle: 'italic'
+                }}>
+                  Secure, asset-backed growth opportunities.
+                </p>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#3C4C59',
+                  margin: 0,
+                  lineHeight: '1.6',
+                  opacity: 0.8
+                }}>
+                  Prime Bond Investment offers a transparent, secure pathway to growth backed by real-world commodities with proven market value.
                 </p>
               </div>
             </div>

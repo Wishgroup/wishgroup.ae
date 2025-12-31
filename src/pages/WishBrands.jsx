@@ -61,7 +61,7 @@ function WishBrands() {
               <li>WISH BRANDS</li>
             </ul>
             <h1 className="mil-mb-20">
-              WISH BRANDS — <span className="mil-thin">Wish Casa Manufacturing Division</span>
+              WISH BRANDS 
             </h1>
           </div>
         </div>
@@ -74,7 +74,7 @@ function WishBrands() {
             <div className="col-12">
               <div className="mil-up" style={{ position: 'relative', width: '100%' }}>
                 <img 
-                  src="/img/Project2/Wish World/Gemini_Generated_Image_d97r7rd97r7rd97r.png"
+                  src="/img/Project2/Wish Brands/wishcasa.webp"
                   alt="Wish Brands - Wish Casa Manufacturing"
                   style={{
                     width: '100%',
@@ -85,8 +85,8 @@ function WishBrands() {
                     aspectRatio: '16/9'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project2/Wish World/track.webp') {
-                      e.currentTarget.src = '/img/Project2/Wish World/track.webp'
+                    if (e.currentTarget.src !== '/img/Project2/Wish World/Gemini_Generated_Image_d97r7rd97r7rd97r.png') {
+                      e.currentTarget.src = '/img/Project2/Wish World/Gemini_Generated_Image_d97r7rd97r7rd97r.png'
                     }
                   }}
                 />
@@ -199,7 +199,7 @@ function WishBrands() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project2/Wish World/Gemini_Generated_Image_dsjoxydsjoxydsjo.png"
+                  src="/img/Project2/Wish Brands/Gemini_Generated_Image_9a4vio9a4vio9a4v.png"
                   alt="Biscuit Range"
                   style={{
                     position: 'absolute',
@@ -210,8 +210,8 @@ function WishBrands() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project2/Wish World/track.webp') {
-                      e.currentTarget.src = '/img/Project2/Wish World/track.webp'
+                    if (e.currentTarget.src !== '/img/Project2/Wish World/Gemini_Generated_Image_dsjoxydsjoxydsjo.png') {
+                      e.currentTarget.src = '/img/Project2/Wish World/Gemini_Generated_Image_dsjoxydsjoxydsjo.png'
                     }
                   }}
                 />
@@ -276,7 +276,7 @@ function WishBrands() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project2/Wish World/Gemini_Generated_Image_ncy0rwncy0rwncy0.png"
+                  src="/img/Project2/Wish Brands/Gemini_Generated_Image_bjlq0tbjlq0tbjlq.png"
                   alt="Juices & Beverages"
                   style={{
                     position: 'absolute',
@@ -287,8 +287,8 @@ function WishBrands() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project2/Wish World/track.webp') {
-                      e.currentTarget.src = '/img/Project2/Wish World/track.webp'
+                    if (e.currentTarget.src !== '/img/Project2/Wish World/Gemini_Generated_Image_ncy0rwncy0rwncy0.png') {
+                      e.currentTarget.src = '/img/Project2/Wish World/Gemini_Generated_Image_ncy0rwncy0rwncy0.png'
                     }
                   }}
                 />
@@ -353,7 +353,7 @@ function WishBrands() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project2/Wish World/Gemini_Generated_Image_z96y29z96y29z96y.png"
+                  src="/img/Project2/Wish Brands/Gemini_Generated_Image_i1vq2ii1vq2ii1vq.png"
                   alt="Manufacturing Excellence"
                   style={{
                     position: 'absolute',
@@ -364,8 +364,8 @@ function WishBrands() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project2/Wish World/track.webp') {
-                      e.currentTarget.src = '/img/Project2/Wish World/track.webp'
+                    if (e.currentTarget.src !== '/img/Project2/Wish World/Gemini_Generated_Image_z96y29z96y29z96y.png') {
+                      e.currentTarget.src = '/img/Project2/Wish World/Gemini_Generated_Image_z96y29z96y29z96y.png'
                     }
                   }}
                 />
@@ -397,6 +397,69 @@ function WishBrands() {
                   opacity: 0.8
                 }}>
                   High-speed biscuit ovens & enrobing lines • Automated cream-filling and wafer production cells • Beverage blending, carbonating and aseptic filling lines • In-line metal detection, X-ray inspection and batch traceability systems • Flexible packaging options: retail, bulk, and private label.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 4 - Additional Image */}
+            <div className="mil-up" style={{
+              background: '#fff',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              cursor: 'pointer',
+              position: 'relative'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)'
+            }}>
+              <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
+                <img 
+                  src="/img/Project2/Wish World/Gemini_Generated_Image_d97r7rd97r7rd97r.png"
+                  alt="Wish Brands Production"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
+              </div>
+              <div style={{ padding: '24px' }}>
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#3C4C59',
+                  margin: '0 0 8px 0',
+                  lineHeight: '1.3'
+                }}>
+                  Quality & Innovation
+                </h3>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#8596A6',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
+                  fontStyle: 'italic'
+                }}>
+                  World-class production standards.
+                </p>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#3C4C59',
+                  margin: 0,
+                  lineHeight: '1.6',
+                  opacity: 0.8
+                }}>
+                  Our state-of-the-art facility combines cutting-edge technology with sustainable practices to deliver premium food products that meet international quality standards.
                 </p>
               </div>
             </div>

@@ -56,7 +56,7 @@ function WishHarbourCiprea() {
                 <Link to="/">Homepage</Link>
               </li>
               <li>
-                <Link to="/project-1">Projects</Link>
+                <Link to="/project-2">Projects</Link>
               </li>
               <li>CIPREA</li>
             </ul>
@@ -328,6 +328,142 @@ function WishHarbourCiprea() {
                     <li>Custom Cuts on Request</li>
                   </ul>
                 </div>
+              </div>
+            </div>
+
+            {/* Card 3 - Processing Excellence */}
+            <div className="mil-up" style={{
+              background: '#fff',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              cursor: 'pointer',
+              position: 'relative'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)'
+            }}>
+              <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
+                <img 
+                  src="/img/Project1/Ciprea/image.webp"
+                  alt="Processing Excellence"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                  onError={(e) => {
+                    if (e.currentTarget.src !== '/img/Project1/Ciprea/about.webp') {
+                      e.currentTarget.src = '/img/Project1/Ciprea/about.webp'
+                    }
+                  }}
+                />
+              </div>
+              <div style={{ padding: '24px' }}>
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#3C4C59',
+                  margin: '0 0 8px 0',
+                  lineHeight: '1.3'
+                }}>
+                  Processing Excellence
+                </h3>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#8596A6',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
+                  fontStyle: 'italic'
+                }}>
+                  State-of-the-art facility in Himmafushi.
+                </p>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#3C4C59',
+                  margin: 0,
+                  lineHeight: '1.6',
+                  opacity: 0.8
+                }}>
+                  Our modern processing facility combines traditional Maldivian fishing expertise with world-class standards to deliver premium tuna products.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 4 - Global Reach */}
+            <div className="mil-up" style={{
+              background: '#fff',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              cursor: 'pointer',
+              position: 'relative'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)'
+              e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)'
+            }}>
+              <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
+                <img 
+                  src="/img/Project1/Ciprea/about.webp"
+                  alt="Global Reach"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                  onError={(e) => {
+                    if (e.currentTarget.src !== '/img/Project1/Ciprea/skipjacktuna.webp') {
+                      e.currentTarget.src = '/img/Project1/Ciprea/skipjacktuna.webp'
+                    }
+                  }}
+                />
+              </div>
+              <div style={{ padding: '24px' }}>
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: '#3C4C59',
+                  margin: '0 0 8px 0',
+                  lineHeight: '1.3'
+                }}>
+                  Global Reach
+                </h3>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#8596A6',
+                  margin: '0 0 12px 0',
+                  lineHeight: '1.5',
+                  fontStyle: 'italic'
+                }}>
+                  From Maldives to markets worldwide.
+                </p>
+                <p style={{
+                  fontSize: '14px',
+                  color: '#3C4C59',
+                  margin: 0,
+                  lineHeight: '1.6',
+                  opacity: 0.8
+                }}>
+                  Trusted by chefs, retailers, and distributors worldwide. Our export-ready products maintain consistent quality across continents.
+                </p>
               </div>
             </div>
           </div>
@@ -621,7 +757,7 @@ function WishHarbourCiprea() {
           </div>
 
           {/* Call to Action */}
-          <div className="mil-center">
+          <div className="mil-center" style={{ paddingTop: '50px' }}>
             <h2 className="mil-up mil-mb-10">Bring CIPREA to <span className="mil-thin">Your Market</span></h2>
             <p className="mil-text mil-up mil-mb-30" style={{ maxWidth: '700px', margin: '0 auto', opacity: 0.9 }}>
               Whether you are a distributor, retailer, foodservice provider, or gourmet brand, CIPREA is ready to elevate your product offering.
