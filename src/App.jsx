@@ -34,6 +34,9 @@ const WishWorld = lazy(() => import('./pages/WishWorld'))
 const WishBrands = lazy(() => import('./pages/WishBrands'))
 const PrimeBond = lazy(() => import('./pages/PrimeBond'))
 const WorldCapitalCentre = lazy(() => import('./pages/WorldCapitalCentre'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
+const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'))
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Loading component
@@ -94,6 +97,9 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/news" element={<News />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
             <Route path="/country/:countryCode" element={<Country />} />
             <Route 
               path="/project-1" 
