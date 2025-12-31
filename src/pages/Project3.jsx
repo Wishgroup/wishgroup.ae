@@ -278,24 +278,30 @@ function Project3() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project3/investment1.webp"
-                    alt="WISH FINANCE CORPORATION LTD - Prime Bond Investment"
+                    src="/img/Project3/One Bond/Logo.png"
+                    alt="WISH FINANCE CORPORATION LTD Prime Bond Investment "
                     loading="lazy"
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
+                      objectFit: 'contain',
+                      objectPosition: 'center',
+                      padding: '20px',
+                      backgroundColor: '#fff',
                       transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)'
+                      e.currentTarget.style.transform = 'scale(1.05)'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'scale(1)'
                     }}
                     onError={(e) => {
-                      if (e.currentTarget.src !== '/img/Project3/tunaprime.webp') {
-                        e.currentTarget.src = '/img/Project3/tunaprime.webp'
+                      if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                        e.currentTarget.src = '/img/Project3/investment1.webp'
+                        e.currentTarget.style.objectFit = 'cover'
+                        e.currentTarget.style.padding = '0'
+                        e.currentTarget.style.backgroundColor = 'transparent'
                       }
                     }}
                   />
@@ -336,7 +342,7 @@ function Project3() {
                         margin: 0,
                         lineHeight: '1.2'
                       }}>
-                        WISH FINANCE <span style={{ fontWeight: 300 }}>CORPORATION LTD</span>
+                        WISH FINANCE <span style={{ fontWeight: 300 }}>CORPORATION LTD-Prime Bond</span>
                       </h3>
                       <div style={{
                         fontSize: '11px',
@@ -344,7 +350,8 @@ function Project3() {
                         color: '#8596A6',
                         marginTop: '4px',
                         textTransform: 'uppercase'
-                      }}>FINANCIAL SERVICES • PRIME BOND INVESTMENT</div>
+                      }}>FINANCIAL SERVICES 
+                      </div>
                     </div>
                   </div>
                   

@@ -74,19 +74,25 @@ function PrimeBond() {
             <div className="col-12">
               <div className="mil-up" style={{ position: 'relative', width: '100%' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/Logo.png"
                   alt="Prime Bond Investment"
                   style={{
                     width: '100%',
                     height: 'auto',
                     borderRadius: '24px',
                     boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)',
-                    objectFit: 'cover',
+                    objectFit: 'contain',
+                    objectPosition: 'center',
+                    backgroundColor: '#fff',
+                    padding: '40px',
                     aspectRatio: '16/9'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
+                      e.currentTarget.style.objectFit = 'cover'
+                      e.currentTarget.style.padding = '0'
+                      e.currentTarget.style.backgroundColor = 'transparent'
                     }
                   }}
                 />
@@ -199,7 +205,7 @@ function PrimeBond() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/two-fresh-slices-of-raw-tuna-fillet-with-spices-an-2024-12-13-01-43-34-utc.jpg"
                   alt="Premium Tuna"
                   style={{
                     position: 'absolute',
@@ -210,8 +216,8 @@ function PrimeBond() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
                     }
                   }}
                 />
@@ -267,7 +273,7 @@ function PrimeBond() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/raw-seafood-fresh-shrimps-prawns-on-gray-plate-w-2024-12-01-11-12-31-utc.jpg"
                   alt="Vannamei Prawns"
                   style={{
                     position: 'absolute',
@@ -278,8 +284,8 @@ function PrimeBond() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
                     }
                   }}
                 />
@@ -335,7 +341,7 @@ function PrimeBond() {
             }}>
               <div style={{ position: 'relative', width: '100%', paddingTop: '75%', overflow: 'hidden' }}>
                 <img 
-                  src="/img/Project3/investment1.webp"
+                  src="/img/Project3/One Bond/green-locusts-devouring-a-large-barley-insect-pes-2025-04-02-05-26-37-utc.jpg"
                   alt="Agricultural Commodities"
                   style={{
                     position: 'absolute',
@@ -346,8 +352,8 @@ function PrimeBond() {
                     objectFit: 'cover'
                   }}
                   onError={(e) => {
-                    if (e.currentTarget.src !== '/img/Project3/investment2.webp') {
-                      e.currentTarget.src = '/img/Project3/investment2.webp'
+                    if (e.currentTarget.src !== '/img/Project3/investment1.webp') {
+                      e.currentTarget.src = '/img/Project3/investment1.webp'
                     }
                   }}
                 />
