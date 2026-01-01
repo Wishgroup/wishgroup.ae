@@ -56,7 +56,7 @@ function PrimeBond() {
                 <Link to="/">Homepage</Link>
               </li>
               <li>
-                <Link to="/project-3">Projects</Link>
+                <Link to="/project-3">Partnerships for Impact</Link>
               </li>
               <li>PRIME BOND INVESTMENT</li>
             </ul>

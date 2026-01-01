@@ -96,6 +96,12 @@ function Menu() {
 
   const handleProjectLinkClick = useCallback(() => {
     setIsProjectsActive(false)
+    setIsActive(false) // Close menu when project link is clicked
+  }, [])
+
+  const handleMenuLinkClick = useCallback(() => {
+    setIsActive(false) // Close menu when any menu link is clicked
+    setIsProjectsActive(false)
   }, [])
 
   // Optimized scroll position saving function
@@ -125,6 +131,28 @@ function Menu() {
     setIsActive(false)
     setIsProjectsActive(false)
   }, [location.pathname])
+
+  // Prevent body scroll when menu is open on mobile
+  useEffect(() => {
+    if (isActive) {
+      // Prevent scrolling
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.width = '100%'
+    } else {
+      // Restore scrolling
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+    }
+    
+    return () => {
+      // Cleanup on unmount
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+    }
+  }, [isActive])
 
   // Optimized scroll position tracking - combined and throttled
   useEffect(() => {
@@ -174,18 +202,134 @@ function Menu() {
   )
 
   return (
-    <div className={menuFrameClassName}>
-      <div className="mil-frame-top">
-        <Link to="/" className="mil-logo" onClick={handleHomepageClick}>
-          <img src="/logo.png" alt="Wish Group Logo" style={LOGO_STYLE} />
-        </Link>
-        <div style={HEADER_STYLE}>
-          <AuthButton />
-          <div className="mil-menu-btn" onClick={handleMenuToggle}>
-            <span></span>
+    <>
+      <style>{`
+        @media screen and (max-width: 768px) {
+          .mil-frame-top .mil-logo img {
+            height: 40px !important;
+            width: auto !important;
+          }
+          .mil-frame-top {
+            padding: 0 20px !important;
+          }
+        }
+        @media screen and (max-width: 480px) {
+          .mil-frame-top .mil-logo img {
+            height: 36px !important;
+          }
+          .mil-frame-top {
+            padding: 0 15px !important;
+          }
+        }
+        
+        /* Mobile menu panel styles */
+        @media screen and (max-width: 1200px) {
+          .mil-menu-frame {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            z-index: 9999 !important;
+          }
+          
+          .mil-menu-frame.mil-active {
+            z-index: 9999 !important;
+          }
+          
+          .mil-menu-frame .container {
+            padding-top: 100px !important;
+            padding-bottom: 40px !important;
+            min-height: 100vh;
+            pointer-events: all !important;
+          }
+          
+          .mil-menu-content {
+            width: 100%;
+            pointer-events: all !important;
+          }
+          
+          .mil-main-menu {
+            width: 100% !important;
+            padding: 20px 0 !important;
+            pointer-events: all !important;
+          }
+          
+          .mil-main-menu ul {
+            width: 100%;
+            pointer-events: all !important;
+          }
+          
+          .mil-main-menu ul li {
+            width: 100%;
+            text-align: center;
+            pointer-events: all !important;
+          }
+          
+          .mil-main-menu ul li a {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 20px;
+            pointer-events: all !important;
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+          }
+          
+          .mil-main-menu ul li.mil-has-children ul {
+            width: 100%;
+            padding-left: 0;
+            text-align: center;
+            pointer-events: all !important;
+          }
+          
+          .mil-main-menu ul li.mil-has-children ul li {
+            width: 100%;
+            pointer-events: all !important;
+          }
+          
+          .mil-main-menu ul li.mil-has-children ul li a {
+            width: 100%;
+            justify-content: center;
+            padding: 8px 20px;
+            pointer-events: all !important;
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+          }
+        }
+        
+        @media screen and (max-width: 768px) {
+          .mil-menu-frame .container {
+            padding-top: 90px !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+          
+          .mil-main-menu ul li {
+            margin-bottom: 20px !important;
+          }
+          
+          .mil-main-menu ul li a {
+            font-size: 18px !important;
+          }
+          
+          .mil-main-menu ul li.mil-has-children ul li {
+            margin-bottom: 10px !important;
+          }
+          
+          .mil-main-menu ul li.mil-has-children ul li a {
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
+      <div className={menuFrameClassName}>
+        <div className="mil-frame-top">
+          <Link to="/" className="mil-logo" onClick={handleHomepageClick}>
+            <img src="/logo.png" alt="Wish Group Logo" style={LOGO_STYLE} />
+          </Link>
+          <div style={HEADER_STYLE}>
+            <AuthButton />
+            <div className="mil-menu-btn" onClick={handleMenuToggle}>
+              <span></span>
+            </div>
           </div>
         </div>
-      </div>
       <div className="container">
         <div className="mil-menu-content">
           <div className="row">
@@ -200,11 +344,11 @@ function Menu() {
                     return (
                       <li key={item.title} className={itemClassName}>
                         {isHomepage ? (
-                          <Link to="/" onClick={handleHomepageClick}>{item.title}</Link>
+                          <Link to="/" onClick={(e) => { handleHomepageClick(e); handleMenuLinkClick(); }}>{item.title}</Link>
                         ) : isProjects ? (
                           <a href="#." onClick={handleProjectsClick}>{item.title}</a>
                         ) : item.path ? (
-                          <Link to={item.path}>{item.title}</Link>
+                          <Link to={item.path} onClick={handleMenuLinkClick}>{item.title}</Link>
                         ) : (
                           <a href="#.">{item.title}</a>
                         )}
@@ -212,9 +356,9 @@ function Menu() {
                           {item.children.map((child) => (
                             <li key={child.path || child.title}>
                               {child.path === '/' ? (
-                                <Link to={child.path} onClick={handleHomepageClick}>{child.title}</Link>
+                                <Link to={child.path} onClick={(e) => { handleHomepageClick(e); handleMenuLinkClick(); }}>{child.title}</Link>
                               ) : (
-                                <Link to={child.path}>{child.title}</Link>
+                                <Link to={child.path} onClick={handleMenuLinkClick}>{child.title}</Link>
                               )}
                             </li>
                           ))}
@@ -263,27 +407,27 @@ function Menu() {
                       <h6 className="mil-muted mil-mb-30" style={USEFUL_LINKS_HEADER_STYLE}>Useful links</h6>
                       <ul className="mil-menu-list">
                       <li>
-                          <Link to="/news" className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/news" className="mil-light-soft" style={NOWRAP_STYLE} onClick={handleMenuLinkClick}>
                             New & Gallery
                           </Link>
                         </li>
                         <li>
-                          <Link to="/careers" className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/careers" className="mil-light-soft" style={NOWRAP_STYLE} onClick={handleMenuLinkClick}>
                             Careers
                           </Link>
                         </li>
                         <li>
-                          <Link to="/privacy-policy" className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/privacy-policy" className="mil-light-soft" style={NOWRAP_STYLE} onClick={handleMenuLinkClick}>
                             Privacy Policy
                           </Link>
                         </li>
                         <li>
-                          <Link to="/terms-and-conditions" className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/terms-and-conditions" className="mil-light-soft" style={NOWRAP_STYLE} onClick={handleMenuLinkClick}>
                             Terms and conditions
                           </Link>
                         </li>
                         <li>
-                          <Link to="/cookie-policy" className="mil-light-soft" style={NOWRAP_STYLE}>
+                          <Link to="/cookie-policy" className="mil-light-soft" style={NOWRAP_STYLE} onClick={handleMenuLinkClick}>
                             Cookie Policy
                           </Link>
                         </li>
@@ -298,6 +442,7 @@ function Menu() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

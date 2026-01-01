@@ -30,12 +30,13 @@ const PrimeWish = lazy(() => import('./pages/PrimeWish'))
 const BeverleyAir = lazy(() => import('./pages/BeverleyAir'))
 const TheBay = lazy(() => import('./pages/TheBay'))
 const DowHotel = lazy(() => import('./pages/DowHotel'))
-const WishWorld = lazy(() => import('./pages/WishWorld'))
+// const WishWorld = lazy(() => import('./pages/WishWorld')) // Hidden for now
 const WishBrands = lazy(() => import('./pages/WishBrands'))
 const PrimeBond = lazy(() => import('./pages/PrimeBond'))
 const WorldCapitalCentre = lazy(() => import('./pages/WorldCapitalCentre'))
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'))
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // Loading component
@@ -157,7 +158,7 @@ function App() {
             <Route path="/project/beverley-air" element={<BeverleyAir />} />
             <Route path="/project/the-bay" element={<TheBay />} />
             <Route path="/project/dow-hotel" element={<DowHotel />} />
-            <Route path="/project/wish-world" element={<WishWorld />} />
+            {/* <Route path="/project/wish-world" element={<WishWorld />} /> - Hidden for now */}
             <Route path="/project/wish-brands" element={<WishBrands />} />
             <Route path="/project/prime-bond" element={<PrimeBond />} />
             <Route path="/project/world-capital-centre" element={<WorldCapitalCentre />} />

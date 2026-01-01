@@ -742,8 +742,87 @@ app.get("/health", async (req, res) => {
     database: dbStatus,
     deviceIP: DEVICE_IP,
     port: DEVICE_PORT,
+    emailConfigured: transporter !== null,
     timestamp: new Date().toISOString()
   });
+});
+
+// Email test endpoint - verify SMTP connection
+app.get("/email/test", async (req, res) => {
+  try {
+    if (!transporter) {
+      return res.status(400).json({
+        success: false,
+        message: "Email transporter is not configured. Please check your SMTP settings in .env file.",
+        config: {
+          hasHost: !!process.env.SMTP_HOST,
+          hasUser: !!process.env.SMTP_USER,
+          hasPass: !!process.env.SMTP_PASS,
+          host: process.env.SMTP_HOST || 'not set',
+          port: process.env.SMTP_PORT || 'not set',
+          user: process.env.SMTP_USER || 'not set'
+        }
+      });
+    }
+
+    // Test email configuration
+    const testEmail = process.env.EMAIL_TO || process.env.SMTP_USER || "info@wishgroup.ae";
+    
+    // Verify connection
+    await transporter.verify();
+    
+    // Send test email
+    const testMailOptions = {
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+      to: testEmail,
+      subject: "Email Configuration Test - Wish Group",
+      text: `This is a test email to verify SMTP configuration.\n\nSent at: ${new Date().toLocaleString()}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #126771;">Email Configuration Test</h2>
+          <p>This is a test email to verify SMTP configuration for Wish Group website.</p>
+          <p style="margin-top: 15px;">
+            <strong>Configuration Details:</strong><br>
+            SMTP Host: ${process.env.SMTP_HOST}<br>
+            SMTP Port: ${process.env.SMTP_PORT}<br>
+            SMTP User: ${process.env.SMTP_USER}<br>
+            From: ${process.env.EMAIL_FROM || process.env.SMTP_USER}<br>
+            To: ${testEmail}
+          </p>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            Test Date: ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    const info = await transporter.sendMail(testMailOptions);
+    
+    res.json({
+      success: true,
+      message: "Email test successful! Test email sent successfully.",
+      messageId: info.messageId,
+      config: {
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        user: process.env.SMTP_USER,
+        from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+        to: testEmail
+      }
+    });
+  } catch (error) {
+    console.error('Email test error:', error);
+    res.status(500).json({
+      success: false,
+      message: "Email test failed: " + error.message,
+      error: error.toString(),
+      config: {
+        host: process.env.SMTP_HOST || 'not set',
+        port: process.env.SMTP_PORT || 'not set',
+        user: process.env.SMTP_USER || 'not set'
+      }
+    });
+  }
 });
 
 const PORT = process.env.PORT || 5001;
@@ -761,4 +840,17 @@ app.listen(PORT, () => {
   console.log(`  POST /chatbot/inquiry - Chatbot customer inquiry`);
   console.log(`  POST /careers/apply - Career application submission`);
   console.log(`  POST /contact/inquiry - Contact form inquiry`);
+  console.log(`  GET /email/test - Test email SMTP connection`);
+  
+  // Log email configuration status
+  if (transporter) {
+    console.log(`\n✅ Email service configured:`);
+    console.log(`   Host: ${process.env.SMTP_HOST}`);
+    console.log(`   Port: ${process.env.SMTP_PORT}`);
+    console.log(`   User: ${process.env.SMTP_USER}`);
+    console.log(`   From: ${process.env.EMAIL_FROM || process.env.SMTP_USER}`);
+    console.log(`   To: ${process.env.EMAIL_TO || process.env.SMTP_USER}`);
+  } else {
+    console.log(`\n⚠️  Email service NOT configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS in .env file.`);
+  }
 });

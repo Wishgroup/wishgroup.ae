@@ -850,10 +850,31 @@ function Chatbot() {
           border-color: rgba(60, 76, 89, 0.2);
         }
 
+        @media (max-width: 768px) {
+          .chatbot-button {
+            width: 50px;
+            height: 50px;
+          }
+          .chatbot-button svg {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
         @media (max-width: 480px) {
           .chatbot-container {
             bottom: 10px;
             right: 10px;
+          }
+
+          .chatbot-button {
+            width: 48px;
+            height: 48px;
+          }
+
+          .chatbot-button svg {
+            width: 22px;
+            height: 22px;
           }
 
           .chatbot-window {

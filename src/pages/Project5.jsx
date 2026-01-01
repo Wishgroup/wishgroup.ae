@@ -5,6 +5,12 @@ import { useScrollAnimations } from '../hooks/useScrollAnimations'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5001";
 
+// Email validation function
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 function Contacts() {
   useScrollAnimations()
 
@@ -37,54 +43,86 @@ function Contacts() {
     company: '',
     message: '',
   })
-  const [status, setStatus] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupMessage, setPopupMessage] = useState('')
+  const [popupType, setPopupType] = useState('success') // 'success' or 'error'
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-    // Clear status when user starts typing
-    if (status || submitError) {
-      setStatus('')
-      setSubmitError('')
-    }
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     
-    // Reset messages
-    setStatus('')
-    setSubmitError('')
+    // Reset popup
+    setShowPopup(false)
+    setPopupMessage('')
 
     // Validate required fields
     if (!formData.fullName || !formData.email || !formData.message) {
-      setSubmitError('Please fill in all required fields.')
+      setPopupMessage('Please fill in all required fields (Name, Email, and Message).')
+      setPopupType('error')
+      setShowPopup(true)
+      setTimeout(() => {
+        setShowPopup(false)
+      }, 5000)
       return
     }
 
-    // Validate email
-    if (!formData.email.includes('@')) {
-      setSubmitError('Please enter a valid email address.')
+    // Validate email format
+    const trimmedEmail = formData.email.trim()
+    if (!trimmedEmail || !validateEmail(trimmedEmail)) {
+      setPopupMessage('Please enter a valid email address.')
+      setPopupType('error')
+      setShowPopup(true)
+      setTimeout(() => {
+        setShowPopup(false)
+      }, 5000)
       return
     }
 
     setIsSubmitting(true)
 
     try {
+      // Add timeout to fetch request
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+
       const response = await fetch(`${API_BASE_URL}/contact/inquiry`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          email: trimmedEmail
+        }),
+        signal: controller.signal,
       })
 
-      const data = await response.json()
+      clearTimeout(timeoutId)
 
-      if (response.ok && data.success) {
-        setStatus(data.message || 'Thank you for your inquiry! We have received it and will get back to you within 24-48 hours. You should receive a confirmation email shortly.')
+      // Check if response is ok
+      if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`)
+      }
+
+      // Try to parse JSON response
+      let data
+      const contentType = response.headers.get('content-type')
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json()
+      } else {
+        const text = await response.text()
+        throw new Error(`Unexpected response format: ${text.substring(0, 100)}`)
+      }
+
+      if (data.success) {
+        setPopupMessage(data.message || 'Thank you for your inquiry! Your details have been submitted successfully. We have received your message and will get back to you within 24-48 hours. A confirmation email has been sent to your email address.')
+        setPopupType('success')
+        setShowPopup(true)
         setFormData({
           fullName: '',
           email: '',
@@ -92,12 +130,40 @@ function Contacts() {
           company: '',
           message: '',
         })
+        setTimeout(() => {
+          setShowPopup(false)
+        }, 7000)
       } else {
-        setSubmitError(data.message || 'Failed to send inquiry. Please try again.')
+        setPopupMessage(data.message || 'Failed to send inquiry. Please try again.')
+        setPopupType('error')
+        setShowPopup(true)
+        setTimeout(() => {
+          setShowPopup(false)
+        }, 5000)
       }
     } catch (error) {
       console.error('Contact form error:', error)
-      setSubmitError('Network error. Please check your connection and try again.')
+      
+      let errorMessage = 'Unable to process your inquiry at this time. '
+      
+      if (error.name === 'AbortError') {
+        errorMessage = 'Request timed out. Please check your connection and try again.'
+      } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.message.includes('Network request failed')) {
+        errorMessage = 'Unable to connect to the server. Please check your internet connection and try again. If the problem persists, you can contact us directly at info@wishgroup.ae'
+      } else if (error.message.includes('CORS')) {
+        errorMessage = 'Connection error. Please contact us directly at info@wishgroup.ae'
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}. Please try again or contact us at info@wishgroup.ae`
+      } else {
+        errorMessage = 'An unexpected error occurred. Please try again later or contact us at info@wishgroup.ae'
+      }
+
+      setPopupMessage(errorMessage)
+      setPopupType('error')
+      setShowPopup(true)
+      setTimeout(() => {
+        setShowPopup(false)
+      }, 7000)
     } finally {
       setIsSubmitting(false)
     }
@@ -105,6 +171,105 @@ function Contacts() {
 
   return (
     <>
+      {/* Popup Modal */}
+      {showPopup && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10000,
+            animation: 'fadeIn 0.3s ease-in'
+          }}
+          onClick={() => setShowPopup(false)}
+        >
+          <div 
+            style={{
+              backgroundColor: '#ffffff',
+              padding: '30px 40px',
+              borderRadius: '12px',
+              maxWidth: '500px',
+              width: '90%',
+              textAlign: 'center',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+              animation: 'slideUp 0.3s ease-out',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowPopup(false)}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666',
+                width: '30px',
+                height: '30px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%',
+                transition: 'background 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              ×
+            </button>
+            <div style={{
+              fontSize: '48px',
+              marginBottom: '15px'
+            }}>
+              {popupType === 'success' ? '✓' : '✕'}
+            </div>
+            <h3 style={{
+              margin: '0 0 15px 0',
+              color: popupType === 'success' ? '#4caf50' : '#f44336',
+              fontSize: '20px',
+              fontWeight: '600'
+            }}>
+              {popupType === 'success' ? 'Success!' : 'Error'}
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#333',
+              fontSize: '16px',
+              lineHeight: '1.5'
+            }}>
+              {popupMessage}
+            </p>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { 
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          to { 
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+      `}</style>
+
       <div className="mil-inner-banner mil-p-0-120">
         <div className="mil-banner-content mil-up">
           <div className="mil-animation-frame">
@@ -135,28 +300,6 @@ function Contacts() {
                 <p className="mil-dark-soft mil-mb-30">
                   We reply fast — fill in your details and we will connect you to the right team. We aim to respond within 24–48 hours.
                 </p>
-                {status && (
-                  <div className="mil-up mil-glass-note mil-mb-20" style={{
-                    background: 'rgba(76, 175, 80, 0.1)',
-                    border: '1px solid rgba(76, 175, 80, 0.3)',
-                    color: '#4CAF50',
-                    padding: '16px 20px',
-                    borderRadius: '12px'
-                  }}>
-                    {status}
-                  </div>
-                )}
-                {submitError && (
-                  <div className="mil-up mil-glass-note mil-mb-20" style={{
-                    background: 'rgba(244, 67, 54, 0.1)',
-                    border: '1px solid rgba(244, 67, 54, 0.3)',
-                    color: '#F44336',
-                    padding: '16px 20px',
-                    borderRadius: '12px'
-                  }}>
-                    {submitError}
-                  </div>
-                )}
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                   <div className="row" style={{ flex: 1 }}>
                     <div className="col-md-6 mil-mb-20">
@@ -278,23 +421,18 @@ function Contacts() {
                 </p>
                 <ul className="mil-list mil-dark-soft mil-mb-30">
                   <li>
-                    <a href="https://www.linkedin.com" className="mil-dark-soft" target="_blank" rel="noreferrer">
+                    <a href="https://www.linkedin.com/company/wish-group/posts/?feedView=all" className="mil-dark-soft" target="_blank" rel="noreferrer">
                       <i className="fab fa-linkedin-in mil-mr-10"></i> LinkedIn
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/wishgroupuae" className="mil-dark-soft" target="_blank" rel="noreferrer">
+                    <a href="https://www.instagram.com/wishgroupuae/" className="mil-dark-soft" target="_blank" rel="noreferrer">
                       <i className="fab fa-instagram mil-mr-10"></i> Instagram
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.facebook.com/wish.groupuae?rdid=23hxL2TwiooZgWXD&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1B4SSya66E%2F#" className="mil-dark-soft" target="_blank" rel="noreferrer">
+                    <a href="https://www.facebook.com/wish.groupuae?rdid=FFmiND7PiLKa8uyo&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1B4SSya66E%2F#" className="mil-dark-soft" target="_blank" rel="noreferrer">
                       <i className="fab fa-facebook-f mil-mr-10"></i> Facebook
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.twitter.com" className="mil-dark-soft" target="_blank" rel="noreferrer">
-                      <i className="fab fa-x-twitter mil-mr-10"></i> X (Twitter)
                     </a>
                   </li>
                   <li>

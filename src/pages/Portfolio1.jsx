@@ -20,6 +20,42 @@ function Portfolio1() {
     <>
       {/* Banner Section */}
       <div className="mil-inner-banner mil-p-0-120">
+        <style>{`
+          @media screen and (max-width: 768px) {
+            .mil-inner-banner {
+              padding-top: 40px !important;
+              padding-bottom: 40px !important;
+            }
+            .mil-inner-banner h1 {
+              font-size: 28px !important;
+              line-height: 1.2 !important;
+              margin-bottom: 20px !important;
+            }
+            .mil-inner-banner .mil-text {
+              font-size: 14px !important;
+              line-height: 1.6 !important;
+              text-align: left !important;
+              padding: 0 10px;
+            }
+            .mil-breadcrumbs {
+              font-size: 12px !important;
+              margin-bottom: 20px !important;
+            }
+          }
+          @media screen and (max-width: 480px) {
+            .mil-inner-banner {
+              padding-top: 30px !important;
+              padding-bottom: 30px !important;
+            }
+            .mil-inner-banner h1 {
+              font-size: 24px !important;
+              margin-bottom: 15px !important;
+            }
+            .mil-inner-banner .mil-text {
+              font-size: 13px !important;
+            }
+          }
+        `}</style>
         <div className="mil-banner-content mil-up">
           <div className="mil-animation-frame">
             <div className="mil-animation mil-position-4 mil-dark mil-scale" data-value-1="6" data-value-2="1.4"></div>
@@ -47,7 +83,69 @@ function Portfolio1() {
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container" style={{ maxWidth: '1400px' }}>
+        <style>{`
+          @media screen and (max-width: 768px) {
+            .countries-grid-section {
+              padding-top: 40px !important;
+              padding-bottom: 40px !important;
+            }
+            .countries-grid-section h2 {
+              font-size: 24px !important;
+              margin-bottom: 30px !important;
+            }
+            .countries-grid {
+              grid-template-columns: 1fr !important;
+              gap: 20px !important;
+            }
+            .country-tile {
+              min-height: 260px !important;
+              padding: 24px 20px !important;
+            }
+            .country-flag-container {
+              width: 100px !important;
+              height: 66px !important;
+              margin-bottom: 16px !important;
+            }
+            .country-name {
+              font-size: 18px !important;
+              margin-bottom: 8px !important;
+            }
+            .country-description {
+              font-size: 12px !important;
+            }
+          }
+          @media screen and (max-width: 480px) {
+            .countries-grid-section {
+              padding-top: 30px !important;
+              padding-bottom: 30px !important;
+            }
+            .countries-grid-section h2 {
+              font-size: 20px !important;
+              margin-bottom: 20px !important;
+            }
+            .countries-grid {
+              gap: 16px !important;
+            }
+            .country-tile {
+              min-height: 240px !important;
+              padding: 20px 16px !important;
+              border-radius: 16px !important;
+            }
+            .country-flag-container {
+              width: 80px !important;
+              height: 53px !important;
+              margin-bottom: 12px !important;
+            }
+            .country-name {
+              font-size: 16px !important;
+              margin-bottom: 6px !important;
+            }
+            .country-description {
+              font-size: 11px !important;
+            }
+          }
+        `}</style>
+        <div className="container countries-grid-section" style={{ maxWidth: '1400px' }}>
           <div className="mil-center mil-mb-90">
            
             <h2 className="mil-up mil-mb-60">
@@ -56,6 +154,7 @@ function Portfolio1() {
           </div>
 
           <div 
+            className="countries-grid"
             style={{ 
               display: 'grid',
               gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
@@ -99,20 +198,24 @@ function Portfolio1() {
                     textAlign: 'center'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
-                    e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.5)'
-                    e.currentTarget.style.boxShadow = '0 24px 64px rgba(166, 3, 63, 0.25)'
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                    if (window.innerWidth > 768) {
+                      e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)'
+                      e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.5)'
+                      e.currentTarget.style.boxShadow = '0 24px 64px rgba(166, 3, 63, 0.25)'
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
-                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                    if (window.innerWidth > 768) {
+                      e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                      e.currentTarget.style.borderColor = 'rgba(133, 150, 166, 0.2)'
+                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)'
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                    }
                   }}
                 >
                   {/* Flag Image */}
-                  <div style={{
+                  <div className="country-flag-container" style={{
                     width: '120px',
                     height: '80px',
                     marginBottom: '24px',
@@ -137,13 +240,16 @@ function Portfolio1() {
                       onError={(e) => {
                         // Fallback to emoji if image fails to load
                         e.target.style.display = 'none'
-                        e.target.parentElement.innerHTML = `<div style="font-size: 60px;">${country.flag}</div>`
+                        const parent = e.target.parentElement
+                        if (parent) {
+                          parent.innerHTML = `<div style="font-size: 60px;">${country.flag}</div>`
+                        }
                       }}
                     />
                   </div>
 
                   {/* Country Name */}
-                  <h3 style={{
+                  <h3 className="country-name" style={{
                     fontSize: '22px',
                     fontWeight: 600,
                     color: '#3C4C59',
@@ -155,7 +261,7 @@ function Portfolio1() {
                   </h3>
 
                   {/* Description */}
-                  <p style={{
+                  <p className="country-description" style={{
                     fontSize: '13px',
                     lineHeight: '1.6',
                     color: '#8596A6',

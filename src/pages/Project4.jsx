@@ -20,6 +20,12 @@ function Project4() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [isButtonPressed, setIsButtonPressed] = useState(false)
 
+  // Touch swipe state for mobile
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const carouselTrackRef = React.useRef(null)
+
   // Auto-play carousel for gallery
   const autoPlayIntervalRef = React.useRef(null)
 
@@ -70,6 +76,64 @@ function Project4() {
     }, 2500)
   }
 
+  // Touch handlers for mobile swipe
+  const minSwipeDistance = 50
+  const touchStartYRef = React.useRef(null)
+
+  const onTouchStart = (e) => {
+    const touch = e.targetTouches[0]
+    setTouchEnd(null)
+    setTouchStart(touch.clientX)
+    touchStartYRef.current = touch.clientY
+    setIsDragging(true)
+    setIsAutoPlaying(false) // Pause auto-play during swipe
+  }
+
+  const onTouchMove = (e) => {
+    const touch = e.targetTouches[0]
+    setTouchEnd(touch.clientX)
+    
+    // Prevent vertical scrolling if horizontal swipe is detected
+    if (touchStart && touchStartYRef.current) {
+      const deltaX = Math.abs(touch.clientX - touchStart)
+      const deltaY = Math.abs(touch.clientY - touchStartYRef.current)
+      
+      // If horizontal movement is greater than vertical, prevent default
+      if (deltaX > deltaY && deltaX > 10) {
+        e.preventDefault()
+      }
+    }
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setIsDragging(false)
+      setTimeout(() => {
+        setIsAutoPlaying(true)
+      }, 2500)
+      return
+    }
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      goToNext()
+    } else if (isRightSwipe) {
+      goToPrevious()
+    }
+
+    setIsDragging(false)
+    setTouchStart(null)
+    setTouchEnd(null)
+    touchStartYRef.current = null
+    // Resume auto-play after a delay
+    setTimeout(() => {
+      setIsAutoPlaying(true)
+    }, 2500)
+  }
+
   const handleScrollToProject = (e) => {
     e.preventDefault()
     const projectSection = document.getElementById('project')
@@ -107,6 +171,39 @@ function Project4() {
     <>
       {/* Banner Section */}
       <div className="mil-inner-banner mil-p-0-120">
+        <style>{`
+          @media screen and (max-width: 768px) {
+            .mil-inner-banner {
+              padding-top: 60px !important;
+              padding-bottom: 60px !important;
+            }
+            .mil-breadcrumbs {
+              margin-bottom: 30px !important;
+              font-size: 12px;
+            }
+            .mil-inner-banner h1 {
+              margin-bottom: 30px !important;
+              font-size: 32px !important;
+              line-height: 1.2;
+            }
+            .mil-inner-banner p {
+              font-size: 14px !important;
+              margin-bottom: 20px !important;
+            }
+            .mil-inner-banner .mil-up {
+              font-size: 11px !important;
+              padding: 12px 20px !important;
+              gap: 10px !important;
+            }
+            .mil-inner-banner .mil-up div {
+              width: 24px !important;
+              height: 24px !important;
+            }
+            .mil-inner-banner .mil-up svg {
+              font-size: 14px !important;
+            }
+          }
+        `}</style>
         <div className="mil-banner-content mil-up">
           <div className="mil-animation-frame">
             <div className="mil-animation mil-position-4 mil-dark mil-scale" data-value-1="6" data-value-2="1.4"></div>
@@ -116,9 +213,7 @@ function Project4() {
               <li>
                 <Link to="/">Homepage</Link>
               </li> 
-              <li>
-                <Link to="/portfolio-1">Portfolio</Link>
-              </li>
+             
               <li>Dreams On The Horizon</li> 
             </ul>
             <h1 className="mil-mb-60">
@@ -246,8 +341,16 @@ function Project4() {
                 min-width: calc(50% - 10px);
                 max-width: calc(50% - 10px);
               }
+              #achievements .container {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+              }
             }
             @media (max-width: 768px) {
+              #achievements {
+                padding-top: 60px !important;
+                padding-bottom: 60px !important;
+              }
               .project-tiles-container {
                 flex-direction: column;
                 gap: 20px;
@@ -256,10 +359,44 @@ function Project4() {
                 flex: 1 1 100%;
                 min-width: 100%;
                 max-width: 100%;
+                min-height: auto !important;
+              }
+              .project-tile-card > div {
+                height: auto !important;
+              }
+              .project-tile-card img {
+                height: 200px !important;
+              }
+              .project-tile-card > div > div:last-child {
+                padding: 20px !important;
+              }
+              .project-tile-card h3 {
+                font-size: 20px !important;
+              }
+              .project-tile-card p {
+                font-size: 14px !important;
               }
               #achievements .container {
-                padding-left: 20px !important;
-                padding-right: 20px !important;
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+              }
+              #achievements h2 {
+                font-size: 28px !important;
+                margin-bottom: 30px !important;
+              }
+              #achievements .mil-text {
+                font-size: 13px !important;
+              }
+            }
+            @media (max-width: 480px) {
+              .project-tile-card img {
+                height: 180px !important;
+              }
+              .project-tile-card > div > div:last-child {
+                padding: 15px !important;
+              }
+              .project-tile-card h3 {
+                font-size: 18px !important;
               }
             }
           `}</style>
@@ -392,25 +529,24 @@ function Project4() {
 
             {/* Wish World Card */}
             <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
-              <Link to="/project/wish-world" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
-                <div
-                  className="mil-up"
-                  style={{
-                    position: 'relative',
-                    height: '100%',
-                    borderRadius: '24px',
-                    overflow: 'hidden',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(133, 150, 166, 0.2)',
-                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                    display: 'block',
-                    willChange: 'transform',
-                    transform: 'translateZ(0)'
-                  }}
+              <div
+                className="mil-up"
+                style={{
+                  position: 'relative',
+                  height: '100%',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  WebkitBackdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(133, 150, 166, 0.2)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'default',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  display: 'block',
+                  willChange: 'transform',
+                  transform: 'translateZ(0)'
+                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
                   e.currentTarget.style.borderColor = 'rgba(166, 3, 63, 0.4)'
@@ -434,7 +570,7 @@ function Project4() {
                   background: 'linear-gradient(135deg, rgba(166, 3, 63, 0.1) 0%, rgba(60, 76, 89, 0.1) 100%)'
                 }}>
                   <img
-                    src="/img/Project4/Asset 1.png"
+                    src="/img/Project4/amusement-park.jpg"
                     alt="Wish World – Entertainment & Theme Park"
                     loading="lazy"
                     style={{
@@ -507,12 +643,11 @@ function Project4() {
                     Developing a large-scale entertainment and theme park destination, planting a leisure asset that creates thousands of jobs and provides cultural exchange and high-quality family experiences.
                   </p>
                 </div>
-                </div>
-              </Link>
+              </div>
             </div>
 
-            {/* Global Resource Focus Card */}
-            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+            {/* Global Resource Focus Card - Hidden for now */}
+            {/* <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{
@@ -628,10 +763,10 @@ function Project4() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            {/* Sustainable Food Production Card */}
-            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+            {/* Sustainable Food Production Card - Hidden for now */}
+            {/* <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{
@@ -747,7 +882,7 @@ function Project4() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -767,6 +902,51 @@ function Project4() {
               padding: 0 !important;
             }
           }
+          @media screen and (max-width: 768px) {
+            .project-gallery-section {
+              padding-top: 40px !important;
+              padding-bottom: 40px !important;
+            }
+            .project-gallery-header h2 {
+              font-size: 24px !important;
+              margin-bottom: 20px !important;
+            }
+            .project-gallery-header .mil-suptitle {
+              font-size: 12px !important;
+              margin-bottom: 15px !important;
+            }
+            .project-carousel-container {
+              overflow: hidden;
+              touch-action: pan-x;
+            }
+            .project-carousel-container > div {
+              touch-action: pan-x;
+            }
+            .project-carousel-container img {
+              height: 300px !important;
+            }
+            .project-carousel-container button {
+              width: 40px !important;
+              height: 40px !important;
+              left: 10px !important;
+            }
+            .project-carousel-container button:last-child {
+              right: 10px !important;
+            }
+            .project-carousel-container button svg {
+              width: 18px !important;
+              height: 18px !important;
+            }
+          }
+          @media screen and (max-width: 480px) {
+            .project-carousel-container img {
+              height: 250px !important;
+            }
+            .project-carousel-container button {
+              width: 35px !important;
+              height: 35px !important;
+            }
+          }
         `}</style>
         <div className="container">
           <div className="mil-center mil-mb-90 project-gallery-header">
@@ -782,18 +962,28 @@ function Project4() {
               position: 'relative',
               width: '100%',
               overflow: 'hidden',
-              padding: '20px 0 0 0'
+              padding: '20px 0 0 0',
+              touchAction: 'pan-x'
             }}
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
           >
             {/* Carousel Track */}
-            <div style={{
-              display: 'flex',
-              transform: `translateX(-${currentIndex * 100}%)`,
-              transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-              willChange: 'transform'
-            }}>
+            <div 
+              ref={carouselTrackRef}
+              style={{
+                display: 'flex',
+                transform: `translateX(-${currentIndex * 100}%)`,
+                transition: isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                willChange: 'transform',
+                touchAction: 'pan-x',
+                userSelect: 'none',
+                WebkitUserSelect: 'none'
+              }}
+            >
               {galleryImages.map((image, index) => (
                 <div
                   key={index}
@@ -960,6 +1150,31 @@ function Project4() {
 
       {/* Call to Action Section */}
       <section id="get-in-touch" className="mil-p-120-120">
+        <style>{`
+          @media screen and (max-width: 768px) {
+            #get-in-touch {
+              padding-top: 60px !important;
+              padding-bottom: 60px !important;
+            }
+            #get-in-touch h2 {
+              font-size: 24px !important;
+              margin-bottom: 30px !important;
+            }
+            #get-in-touch .mil-suptitle {
+              font-size: 12px !important;
+              margin-bottom: 20px !important;
+            }
+            #get-in-touch p {
+              font-size: 14px !important;
+              margin-bottom: 30px !important;
+              padding: 0 15px;
+            }
+            #get-in-touch .mil-button {
+              font-size: 13px !important;
+              padding: 12px 24px !important;
+            }
+          }
+        `}</style>
         <div className="container">
           <div className="mil-center">
             <span className="mil-suptitle mil-suptitle-2 mil-mb-30 mil-up">Get in Touch</span>

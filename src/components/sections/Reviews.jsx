@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Navigation, Parallax } from 'swiper/modules'
 import 'swiper/css'
@@ -6,6 +6,43 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 
 function Reviews() {
+  const [shouldUseVideo, setShouldUseVideo] = useState(true)
+  const [videoError, setVideoError] = useState(false)
+
+  useEffect(() => {
+    const updateVideoPreference = () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      // Allow video on mobile, but respect reduced motion preference
+      setShouldUseVideo(!prefersReducedMotion)
+    }
+
+    // Initial check
+    updateVideoPreference()
+
+    // Listen for reduced motion preference changes
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handleMediaChange = () => {
+      updateVideoPreference()
+    }
+
+    // Modern browsers support addEventListener on MediaQueryList
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleMediaChange)
+    } else {
+      // Fallback for older browsers
+      mediaQuery.addListener(handleMediaChange)
+    }
+
+    // Cleanup
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleMediaChange)
+      } else {
+        mediaQuery.removeListener(handleMediaChange)
+      }
+    }
+  }, [])
+
   const reviews = [
     {
       name: 'Abdikarim',
@@ -48,25 +85,74 @@ function Reviews() {
 
   return (
     <section className="mil-soft-bg" style={{ position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .reviews-video-background {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 0.3 !important;
+          }
+        }
+      `}</style>
       {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          zIndex: 0,
-          opacity: 0.3
-        }}
-      >
-        <source src="/video_2.mp4" type="video/mp4" />
-      </video>
+      {shouldUseVideo && !videoError ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          webkitPlaysInline
+          preload="auto"
+          className="reviews-video-background"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            opacity: 0.3,
+            minHeight: '100%',
+            minWidth: '100%',
+            display: 'block',
+            visibility: 'visible'
+          }}
+          onError={(e) => {
+            console.warn('Video failed to load, falling back to static background')
+            setVideoError(true)
+          }}
+          onLoadedData={(e) => {
+            // Ensure video is visible once loaded
+            const video = e.target
+            if (video) {
+              video.style.display = 'block'
+              video.style.visibility = 'visible'
+              video.style.opacity = '0.3'
+            }
+          }}
+        >
+          <source src="/video_2.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundImage: 'linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(/grass.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            zIndex: 0,
+            opacity: 0.3,
+            minHeight: '100%'
+          }}
+        />
+      )}
       
       <div className="container mil-p-120-120" style={{ position: 'relative', zIndex: 1 }}>
         <div className="row">

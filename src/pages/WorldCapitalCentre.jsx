@@ -20,7 +20,7 @@ function WorldCapitalCentre() {
                 <Link to="/">Homepage</Link>
               </li>
               <li>
-                <Link to="/project-4">Projects</Link>
+                <Link to="/project-4">Dreams On The Horizon</Link>
               </li>
               <li>World Capital Centre</li>
             </ul>

@@ -66,7 +66,7 @@ function TheBay() {
                 <Link to="/">Homepage</Link>
               </li>
               <li>
-                <Link to="/project-2">Projects</Link>
+                <Link to="/project-2">Seeds Taking Root</Link>
               </li>
               <li>THE BAY</li>
             </ul>

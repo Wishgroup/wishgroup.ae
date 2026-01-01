@@ -123,9 +123,6 @@ function Project1() {
             <ul className="mil-breadcrumbs mil-mb-60">
               <li>
                 <Link to="/">Homepage</Link>
-              </li> 
-              <li>
-                <Link to="/portfolio-1">Portfolio</Link>
               </li>
               <li>Wishes FulFilled</li> 
             </ul>

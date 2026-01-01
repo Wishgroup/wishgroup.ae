@@ -56,7 +56,7 @@ function PrimeWish() {
                 <Link to="/">Homepage</Link>
               </li>
               <li>
-                <Link to="/project-1">Projects</Link>
+                <Link to="/project-1">Wishes FulFilled</Link>
               </li>
               <li>PRIME WISH</li>
             </ul>

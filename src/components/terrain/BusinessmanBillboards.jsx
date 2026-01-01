@@ -6,28 +6,6 @@ import { getAllUsersAttendanceStatus, initAttendanceService } from "../../utils/
 
 export const peopleData = [
   { 
-    id: 2,
-    name: "Mr. Havindu Wickramarathne",
-    role: "Project Manager",
-    description: "Overseeing project execution and delivery.",
-    position: [6, 0.5, 5], 
-    scale: 4,
-    image: "/Terrain/Projectmanager.png",
-    isOnline: false,
-    isOccupied: false
-  },
-  { 
-    id: 3,
-    name: "Manjima TV",
-    role: "Accountant",
-    description: "Managing financial operations and accounting.",
-    position: [2, 0.5, -7], 
-    scale: 4,
-    image: "/Terrain/Accountant.png",
-    isOnline: true,
-    isOccupied: true
-  },
-  { 
     id: 4,
     name: "Ahmed Moulana",
     role: "Chairman",
@@ -39,11 +17,33 @@ export const peopleData = [
     isOccupied: false
   },
   { 
+    id: 2,
+    name: "Mr. Havindu Wickramarathne",
+    role: "Project Manager",
+    description: "Overseeing project execution and delivery.",
+    position: [5, 0.5, 4], 
+    scale: 4,
+    image: "/Terrain/Projectmanager.png",
+    isOnline: false,
+    isOccupied: false
+  },
+  { 
+    id: 3,
+    name: "Manjima TV",
+    role: "Accountant",
+    description: "Managing financial operations and accounting.",
+    position: [5, 0.5, -4], 
+    scale: 4,
+    image: "/Terrain/Accountant.png",
+    isOnline: true,
+    isOccupied: true
+  },
+  { 
     id: 6,
     name: "Arundathi Mahakumbura",
     role: "HR Manager",
     description: "Overseeing human resources and talent management.",
-    position: [8, 0.5, -4], 
+    position: [0, 0.5, -5], 
     scale: 4,
     image: "/Terrain/hrmanager.png",
     isOnline: true,
@@ -54,7 +54,7 @@ export const peopleData = [
     name: "Asan Egodagamage",
     role: "Head of IT",
     description: "Leading IT infrastructure and technology initiatives.",
-    position: [-5, 0.5, -2.5], 
+    position: [-5, 0.5, -4], 
     scale: 4,
     image: "/Terrain/headofit.png",
     isOnline: true,
@@ -62,10 +62,10 @@ export const peopleData = [
   },
   { 
     id: 9,
-    name: "Aman Fathima",
-    role: "Team Member",
-    description: "Contributing to team success and project delivery.",
-    position: [-3, 0.5, 3], 
+    name: "Fathima Aman",
+    role: "Director of Prime Wish Trading LLC",
+    description: "Leading Prime Wish Trading LLC with strategic vision and operational excellence.",
+    position: [-5, 0.5, 4], 
     scale: 4,
     image: "/Terrain/Aman Fathima.png",
     isOnline: true,
@@ -73,10 +73,10 @@ export const peopleData = [
   },
   { 
     id: 10,
-    name: "Shihara Sudar",
-    role: "Team Member",
-    description: "Contributing to team success and project delivery.",
-    position: [4, 0.5, -5], 
+    name: "Shihara Sundar",
+    role: "Wishgroup Secretary",
+    description: "Managing administrative operations and organizational coordination.",
+    position: [0, 0.5, 0], 
     scale: 4,
     image: "/Terrain/Shihara Sudar.png",
     isOnline: true,
