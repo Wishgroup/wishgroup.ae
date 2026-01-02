@@ -28,3 +28,7 @@ yarn-error.log*
 *.swp
 *.swo
 
+# Large files
+*.zip
+dist*.zip
+
