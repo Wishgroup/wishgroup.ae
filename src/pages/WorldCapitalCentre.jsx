@@ -388,8 +388,8 @@ function WorldCapitalCentre() {
               >
                 Request Project Brochure
               </a>
-              <a
-                href="mailto:info@wishgroup.ae?subject=Contact Our Team - World Capital Centre"
+              <Link
+                to="/contact"
                 style={{
                   padding: '14px 24px',
                   borderRadius: '70px',
@@ -401,7 +401,7 @@ function WorldCapitalCentre() {
                 }}
               >
                 Contact Our Team
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -703,14 +703,13 @@ function Project1() {
             <p className="mil-text mil-up mil-mb-60" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
               Contact us to learn more about Trade Centre and explore investment opportunities across our strategic locations.
             </p>
-            <a 
-              href="#get-in-touch" 
-              onClick={handleScrollToContact}
+            <Link 
+              to="/contact"
               className="mil-button mil-arrow-place mil-up"
               style={{ textDecoration: 'none' }}
             >
               <span>Contact Us</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

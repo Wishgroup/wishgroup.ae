@@ -758,8 +758,8 @@ function WishBrands() {
               >
                 Request a Capability Pack
               </a>
-              <a
-                href="mailto:info@wishgroup.ae?subject=Contact Our Team - Wish Brands"
+              <Link
+                to="/contact"
                 style={{
                   padding: '14px 24px',
                   borderRadius: '70px',
@@ -772,7 +772,7 @@ function WishBrands() {
                 }}
               >
                 Contact Our Team
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -13,46 +13,53 @@ const WORLD_NEUTRAL = '#dfe5eb'
 // Contact details per target country
 const COUNTRY_CONTACTS = {
   'United Arab Emirates': {
+    company: 'Prime Wish Trading LLC (UAE)',
     office: 'Dubai',
-    address: 'Downtown Dubai, Business Bay, UAE',
-    phone: '+971 4 123 4567',
-    email: 'contact@wishgroup.ae'
+    address: '4004/4005, 40th Floor, Citadel Tower, Al Marasi Drive Business Bay, PO.BOX 417425, DUBAI, UAE',
+    phone: '+971 4259 7167',
+    email: 'info@primewish.ae'
   },
   'Sri Lanka': {
+    company: 'The One Apparels Corporation Limited (Sri Lanka)',
     office: 'Colombo',
-    address: 'Colombo 01, Western Province, Sri Lanka',
-    phone: '+94 11 234 5678',
-    email: 'contact@wishgroup.lk'
+    address: 'No. 17/2, Duplication Road, Bambalapitiya, Colombo 04',
+    phone: '+94 77 703 8239',
+    email: 'Info@wishbrands.lk'
   },
   'Maldives': {
+    company: 'World Capital Center LTD (Maldives)',
     office: 'Malé',
-    address: 'Boduthakurufaanu Magu, Malé, Maldives',
-    phone: '+960 330 1122',
-    email: 'contact@wishgroup.mv'
+    address: 'M. Gulfaamuge, 01st Floor, Fareedhee Magu, Male City, 2019, Maldives',
+    phone: '+960 999 1054',
+    email: 'info@wishislands.com'
   },
   'Malaysia': {
+    company: 'World Capital Center LTD (Malaysia)',
     office: 'Kuala Lumpur',
-    address: 'Kuala Lumpur City Centre, Malaysia',
-    phone: '+60 3 2788 0000',
-    email: 'contact@wishgroup.my'
+    address: 'Unit 16.03 & 16.04, 16th Floor Plaza 138, 138 Jalan Ampang 50450 Kuala Lumpur',
+    phone: '',
+    email: ''
   },
   'Ghana': {
+    company: 'Wish Capital (PVT) LTD (Ghana)',
     office: 'Accra',
-    address: 'Airport City, Accra, Ghana',
-    phone: '+233 30 222 3344',
-    email: 'contact@wishgroup.gh'
+    address: '17, Swaniker Street, Albelemkpe, Accra, Greater Accra, Ghana',
+    phone: '+233 576 461 118',
+    email: 'basheer@slt.ik'
   },
   'South Africa': {
+    company: 'Wish Capital (PVT) LTD (South Africa)',
     office: 'Cape Town',
-    address: 'Foreshore, Cape Town, South Africa',
-    phone: '+27 21 123 4567',
-    email: 'contact@wishgroup.za'
+    address: '76 Hazel Road, Rylands Estate, Athlone, Cape Town 7764',
+    phone: '',
+    email: ''
   },
   'United Kingdom': {
+    company: 'World Capital Center LTD (United Kingdom)',
     office: 'London',
-    address: 'Canary Wharf, London, United Kingdom',
-    phone: '+44 20 7946 0000',
-    email: 'contact@wishgroup.uk'
+    address: '# 9A Macdonald Road, E7 OHE, London, United Kingdom',
+    phone: '+44 478 190 0000',
+    email: 'info@wcc.lk'
   }
 }
 
@@ -127,9 +134,9 @@ function IntroSection() {
 
   useEffect(() => {
     const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
-    const isSmallScreen = window.innerWidth < 900
 
-    if (prefersReduced || isSmallScreen) {
+    // Enable globe on mobile but with reduced motion
+    if (prefersReduced) {
       setShouldRenderGlobe(false)
       return
     }
@@ -143,7 +150,7 @@ function IntroSection() {
           }
         })
       },
-      { threshold: 0.2, rootMargin: '180px' }
+      { threshold: 0.1, rootMargin: '100px' }
     )
 
     if (sectionRef.current) {
@@ -162,7 +169,10 @@ function IntroSection() {
     // Clear any existing SVG when remounting
     d3.select(container).selectAll('*').remove()
 
-    const width = Math.min(container.clientWidth || 520, 540)
+    // Responsive sizing for mobile
+    const isMobile = window.innerWidth < 768
+    const maxWidth = isMobile ? 320 : 540
+    const width = Math.min(container.clientWidth || maxWidth, maxWidth)
     const height = width
 
     const projection = d3.geoOrthographic()
@@ -262,9 +272,11 @@ function IntroSection() {
 
       const target = d3.geoCentroid(countries[index])
       const rotateInterpolator = d3.interpolate(projection.rotate(), [-target[0], -target[1]])
+      const isMobile = window.innerWidth < 768
+      const duration = isMobile ? 3000 : 2250 // Slower on mobile for better performance
 
       d3.transition()
-        .duration(2250)
+        .duration(duration)
         .ease(d3.easeCubicInOut)
         .tween('rotate', () => (t) => {
           projection.rotate(rotateInterpolator(t))
@@ -369,6 +381,54 @@ function IntroSection() {
 
   return (
     <section className="mil-intro-section mil-p-120-0" ref={sectionRef}>
+      <style>{`
+        @media screen and (max-width: 768px) {
+          .mil-intro-section {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important;
+          }
+          .mil-intro-section .container {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+          .mil-intro-section h2 {
+            font-size: 28px !important;
+            margin-bottom: 20px !important;
+          }
+          .mil-intro-section .mil-text-lg {
+            font-size: 16px !important;
+            margin-bottom: 20px !important;
+          }
+          .mil-intro-section .mil-text-sm {
+            font-size: 14px !important;
+          }
+          .world-globe-container {
+            margin-bottom: 30px !important;
+            min-height: 300px !important;
+          }
+          .country-contact-card {
+            padding: 20px !important;
+          }
+          .country-contact-name {
+            font-size: 20px !important;
+          }
+          .country-contact-details {
+            font-size: 13px !important;
+          }
+        }
+        @media screen and (max-width: 480px) {
+          .mil-intro-section {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+          }
+          .mil-intro-section h2 {
+            font-size: 24px !important;
+          }
+          .world-globe-container {
+            min-height: 250px !important;
+          }
+        }
+      `}</style>
       <div className="container">
         <div className="row justify-content-center" ref={textRef}>
           <div className="col-lg-8 col-xl-7 text-center mil-mb-60">
@@ -415,6 +475,9 @@ function IntroSection() {
                 <span className="country-contact-title">Country Contact</span>
               </div>
               <h4 className="country-contact-name">{selectedCountry?.name || 'Loading...'}</h4>
+              {selectedCountry?.company && (
+                <p className="country-contact-company" style={{ fontSize: '14px', color: '#888', marginBottom: '8px' }}>{selectedCountry.company}</p>
+              )}
               {selectedCountry?.office && (
                 <p className="country-contact-office">{selectedCountry.office}</p>
               )}

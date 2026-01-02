@@ -230,6 +230,24 @@ function Project2() {
           </div>
 
           <style>{`
+            /* Ensure tiles are always accessible on mobile */
+            @media screen and (max-width: 1200px) {
+              .project-tile-card,
+              .project-tiles-container,
+              .project-tiles-container a {
+                position: relative !important;
+                z-index: 10 !important;
+                pointer-events: auto !important;
+                touch-action: manipulation !important;
+              }
+              
+              /* Ensure menu doesn't block when closed */
+              .mil-menu-frame:not(.mil-active) {
+                z-index: -1 !important;
+                pointer-events: none !important;
+              }
+            }
+            
             .project-tiles-container {
               display: flex;
               flex-wrap: nowrap;
@@ -1052,15 +1070,14 @@ function Project2() {
             <p className="mil-text mil-up mil-mb-60" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
               Contact us to learn more about Trade Centre and explore investment opportunities across our strategic locations.
             </p>
-            <a 
-              href="#get-in-touch" 
-              onClick={handleScrollToContact}
+            <Link 
+              to="/contact"
               className="mil-button mil-arrow-place mil-up"
               style={{ textDecoration: 'none' }}
             >
               <span>Contact Us</span>
               <FaCircleArrowRight />
-            </a>
+            </Link>
           </div>
         </div>
       </section>

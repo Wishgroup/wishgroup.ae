@@ -465,17 +465,46 @@ function Chatbot() {
           position: fixed;
           bottom: 20px;
           right: 90px;
-          z-index: 9998;
+          z-index: 1003;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
           opacity: 1;
           visibility: visible;
           transition: opacity 0.3s ease, visibility 0.3s ease;
+          pointer-events: auto !important;
+          touch-action: manipulation;
         }
 
         .chatbot-container.menu-active {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
+        }
+
+        @media screen and (max-width: 1200px) {
+          .chatbot-container {
+            z-index: 1003 !important;
+            bottom: 100px !important;
+            right: 20px !important;
+            pointer-events: auto !important;
+          }
+        }
+
+        @media screen and (max-width: 768px) {
+          .chatbot-container {
+            z-index: 1003 !important;
+            bottom: 80px !important;
+            right: 15px !important;
+            pointer-events: auto !important;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          .chatbot-container {
+            z-index: 1003 !important;
+            bottom: 70px !important;
+            right: 10px !important;
+            pointer-events: auto !important;
+          }
         }
 
         .chatbot-button {
@@ -491,6 +520,10 @@ function Chatbot() {
           justify-content: center;
           transition: all 0.3s ease;
           position: relative;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(166, 3, 63, 0.3);
+          z-index: 1;
         }
 
         .chatbot-button:hover {
@@ -533,6 +566,9 @@ function Chatbot() {
           flex-direction: column;
           overflow: hidden;
           animation: slideUp 0.3s ease;
+          pointer-events: auto;
+          touch-action: manipulation;
+          z-index: 1;
         }
 
         @keyframes slideUp {
@@ -671,6 +707,11 @@ function Chatbot() {
           font-size: 13px;
           font-weight: 500;
           transition: all 0.2s ease;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(166, 3, 63, 0.1);
+          position: relative;
+          z-index: 1;
         }
 
         .quick-reply-button:hover {
@@ -702,6 +743,11 @@ function Chatbot() {
           font-family: inherit;
           background: #ffffff;
           color: #3C4C59;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(166, 3, 63, 0.1);
+          position: relative;
+          z-index: 1;
         }
 
         .chatbot-input:focus {
@@ -722,6 +768,11 @@ function Chatbot() {
           justify-content: center;
           flex-shrink: 0;
           transition: all 0.2s ease;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(166, 3, 63, 0.3);
+          position: relative;
+          z-index: 1;
         }
 
         .chatbot-send-button svg {
@@ -778,6 +829,11 @@ function Chatbot() {
           font-family: inherit;
           outline: none;
           transition: border-color 0.2s;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(166, 3, 63, 0.1);
+          position: relative;
+          z-index: 1;
         }
 
         .form-group input:focus,
@@ -801,6 +857,11 @@ function Chatbot() {
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s ease;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(166, 3, 63, 0.3);
+          position: relative;
+          z-index: 1;
         }
 
         .form-submit-button:hover:not(:disabled) {
@@ -843,6 +904,11 @@ function Chatbot() {
           margin-bottom: 16px;
           transition: all 0.2s;
           font-weight: 500;
+          pointer-events: auto;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: rgba(60, 76, 89, 0.1);
+          position: relative;
+          z-index: 1;
         }
 
         .back-to-chat:hover {

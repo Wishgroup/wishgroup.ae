@@ -115,3 +115,4 @@ When deploying to production:
 - Port 465 (SSL) is more secure than 587 (TLS)
 - Consider using environment variables in production instead of `.env` file
 
+

@@ -74,12 +74,12 @@ function NewSection() {
         height: isMobile ? 'auto' : '100vh', 
         overflow: isMobile ? 'visible' : 'hidden',
         backgroundColor: isMobile ? '#ffffff' : 'transparent',
-        paddingTop: isMobile ? '80px' : '0',
-        paddingBottom: isMobile ? '80px' : '0',
+        paddingTop: isMobile ? '60px' : '0',
+        paddingBottom: isMobile ? '60px' : '0',
         display: isMobile ? 'flex' : 'block',
         alignItems: isMobile ? 'center' : 'stretch',
         justifyContent: isMobile ? 'center' : 'flex-start',
-        minHeight: isMobile ? '70vh' : '100vh',
+        minHeight: isMobile ? '60vh' : '100vh',
       }}
     >
       <div

@@ -21,6 +21,24 @@ function Portfolio1() {
       {/* Banner Section */}
       <div className="mil-inner-banner mil-p-0-120">
         <style>{`
+          /* Ensure tiles are always accessible on mobile */
+          @media screen and (max-width: 1200px) {
+            .country-tile,
+            .countries-grid,
+            .countries-grid a {
+              position: relative !important;
+              z-index: 10 !important;
+              pointer-events: auto !important;
+              touch-action: manipulation !important;
+            }
+            
+            /* Ensure menu doesn't block when closed */
+            .mil-menu-frame:not(.mil-active) {
+              z-index: -1 !important;
+              pointer-events: none !important;
+            }
+          }
+          
           @media screen and (max-width: 768px) {
             .mil-inner-banner {
               padding-top: 40px !important;

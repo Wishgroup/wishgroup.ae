@@ -12,10 +12,9 @@ function Banner() {
   useEffect(() => {
     const updateVideoPreference = () => {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const isMobile = window.innerWidth < 768
 
-      // Skip autoplay video on mobile or when reduced motion is preferred
-      setShouldUseVideo(!prefersReducedMotion && !isMobile)
+      // Allow video on mobile, but respect reduced motion preference
+      setShouldUseVideo(!prefersReducedMotion)
     }
 
     // Initial check
@@ -64,21 +63,87 @@ function Banner() {
 
   return (
     <section className="mil-banner mil-dark-bg">
+      <style>{`
+        @media (max-width: 768px) {
+          .mil-banner {
+            min-height: 100vh !important;
+            padding-top: 90px !important;
+            padding-bottom: 40px !important;
+          }
+          .mil-banner .container {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+          .mil-banner h1 {
+            font-size: 32px !important;
+            line-height: 1.2 !important;
+            margin-bottom: 30px !important;
+          }
+          .mil-banner p {
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 30px !important;
+          }
+          .mil-banner .mil-button {
+            font-size: 13px !important;
+            padding: 12px 24px !important;
+          }
+          .mil-banner .mil-circle-text {
+            display: none !important;
+          }
+          .banner-video-background {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 0.3 !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .mil-banner {
+            padding-top: 80px !important;
+            min-height: 90vh !important;
+          }
+          .mil-banner h1 {
+            font-size: 28px !important;
+          }
+          .mil-banner p {
+            font-size: 13px !important;
+          }
+        }
+      `}</style>
       <div className="mi-invert-fix" style={{ position: 'relative', width: '100%', height: '100%' }}>
-        {/* Video Background (deferred on mobile/reduced-motion users) */}
+        {/* Video Background */}
         {shouldUseVideo ? (
           <video
             autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            webkitPlaysInline
+            preload="auto"
             poster="/cloud.jpg"
+            className="banner-video-background"
             aria-label="Background video of clouds"
             onError={(e) => {
               // Fallback to static image if video fails to load
               console.warn('Video failed to load, falling back to static image')
               setShouldUseVideo(false)
+            }}
+            onLoadedData={(e) => {
+              // Ensure video plays on mobile
+              const video = e.target
+              if (video) {
+                video.play().catch(err => {
+                  console.warn('Video autoplay prevented, attempting to play:', err)
+                  // Try to play after user interaction
+                  const tryPlay = () => {
+                    video.play().catch(() => {})
+                    document.removeEventListener('touchstart', tryPlay)
+                    document.removeEventListener('click', tryPlay)
+                  }
+                  document.addEventListener('touchstart', tryPlay, { once: true })
+                  document.addEventListener('click', tryPlay, { once: true })
+                })
+              }
             }}
             style={{
               position: 'absolute',
@@ -88,7 +153,11 @@ function Banner() {
               height: '100%',
               objectFit: 'cover',
               zIndex: 0,
-              opacity: 0.3
+              opacity: 0.3,
+              minHeight: '100%',
+              minWidth: '100%',
+              display: 'block',
+              visibility: 'visible'
             }}
           >
             <source src="/video.mp4" type="video/mp4" />

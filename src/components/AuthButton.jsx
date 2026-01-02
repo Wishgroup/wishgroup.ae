@@ -14,6 +14,11 @@ const BUTTON_STYLE = {
   color: '#fff',
   cursor: 'pointer',
   borderRadius: '4px',
+  pointerEvents: 'auto',
+  touchAction: 'manipulation',
+  WebkitTapHighlightColor: 'rgba(255, 255, 255, 0.1)',
+  position: 'relative',
+  zIndex: 1,
 }
 
 function AuthButton() {

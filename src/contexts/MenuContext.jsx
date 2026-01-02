@@ -13,8 +13,12 @@ export const useMenu = () => {
 export const MenuProvider = ({ children }) => {
   const [isMenuActive, setIsMenuActive] = useState(false)
 
+  const toggleMenu = () => {
+    setIsMenuActive((prev) => !prev)
+  }
+
   return (
-    <MenuContext.Provider value={{ isMenuActive, setIsMenuActive }}>
+    <MenuContext.Provider value={{ isMenuActive, setIsMenuActive, toggleMenu }}>
       {children}
     </MenuContext.Provider>
   )

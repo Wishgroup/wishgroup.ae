@@ -18,6 +18,39 @@ function Partners() {
 
   return (
     <div className="mil-soft-bg" style={{ position: 'relative', overflow: 'hidden', width: '100%', padding: '40px 0' }}>
+      <style>{`
+        @media screen and (max-width: 768px) {
+          .mil-soft-bg {
+            padding: 30px 0 !important;
+          }
+          .mil-infinite-show .swiper-slide {
+            width: 120px !important;
+          }
+          .mil-infinite-show .swiper-slide img {
+            width: 80px !important;
+            height: 80px !important;
+            max-width: 80px !important;
+            max-height: 80px !important;
+          }
+          .mil-infinite-show .swiper-slide > div {
+            height: 100px !important;
+          }
+        }
+        @media screen and (max-width: 480px) {
+          .mil-soft-bg {
+            padding: 20px 0 !important;
+          }
+          .mil-infinite-show .swiper-slide {
+            width: 100px !important;
+          }
+          .mil-infinite-show .swiper-slide img {
+            width: 70px !important;
+            height: 70px !important;
+            max-width: 70px !important;
+            max-height: 70px !important;
+          }
+        }
+      `}</style>
       <Swiper
         className="mil-infinite-show mil-up"
         modules={[Autoplay]}

@@ -87,10 +87,42 @@ function Reviews() {
     <section className="mil-soft-bg" style={{ position: 'relative', overflow: 'hidden' }}>
       <style>{`
         @media (max-width: 768px) {
+          .mil-soft-bg {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important;
+          }
+          .mil-soft-bg .container {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+          .mil-soft-bg h2 {
+            font-size: 28px !important;
+            line-height: 1.2 !important;
+            margin-bottom: 30px !important;
+          }
+          .mil-soft-bg .mil-suptitle {
+            font-size: 12px !important;
+            margin-bottom: 20px !important;
+          }
           .reviews-video-background {
             display: block !important;
             visibility: visible !important;
             opacity: 0.3 !important;
+          }
+          .swiper {
+            padding-bottom: 40px !important;
+          }
+          .swiper-slide {
+            padding: 0 10px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .mil-soft-bg {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+          }
+          .mil-soft-bg h2 {
+            font-size: 24px !important;
           }
         }
       `}</style>
@@ -123,12 +155,24 @@ function Reviews() {
             setVideoError(true)
           }}
           onLoadedData={(e) => {
-            // Ensure video is visible once loaded
+            // Ensure video is visible and plays on mobile
             const video = e.target
             if (video) {
               video.style.display = 'block'
               video.style.visibility = 'visible'
               video.style.opacity = '0.3'
+              // Try to play video (required for mobile autoplay)
+              video.play().catch(err => {
+                console.warn('Video autoplay prevented, attempting to play:', err)
+                // Try to play after user interaction
+                const tryPlay = () => {
+                  video.play().catch(() => {})
+                  document.removeEventListener('touchstart', tryPlay)
+                  document.removeEventListener('click', tryPlay)
+                }
+                document.addEventListener('touchstart', tryPlay, { once: true })
+                document.addEventListener('click', tryPlay, { once: true })
+              })
             }
           }}
         >

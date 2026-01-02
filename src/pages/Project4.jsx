@@ -1,122 +1,149 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowDown } from 'react-icons/fa6'
 import Footer from '../components/Footer'
 import { useScrollAnimations } from '../hooks/useScrollAnimations'
 
+// Move static data outside component
+const PROJECT_IMAGES = [
+  '/img/Project4/Asset 1.png',
+  '/img/Project4/economic.jpeg',
+  '/img/Project4/iconic structure.jpeg',
+  '/img/Project4/last.jpeg',
+  '/img/Project4/sustainability.jpeg'
+]
+
+// Constants
+const AUTO_PLAY_DELAY = 2500
+const RESUME_DELAY = 2500
+
 function Project4() {
   useScrollAnimations()
 
-  const projectImages = [
-    '/img/Project4/Asset 1.png',
-    '/img/Project4/economic.jpeg',
-    '/img/Project4/iconic structure.jpeg',
-    '/img/Project4/last.jpeg',
-    '/img/Project4/sustainability.jpeg'
-  ]
-  
-  const galleryImages = projectImages.slice(1)
+  const galleryImages = useMemo(() => PROJECT_IMAGES.slice(1), [])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const [isButtonPressed, setIsButtonPressed] = useState(false)
+  
+  // Refs for intervals and timeouts
+  const autoPlayIntervalRef = useRef(null)
+  const resumeTimeoutRef = useRef(null)
 
   // Touch swipe state for mobile
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
-  const carouselTrackRef = React.useRef(null)
+  const [dragOffset, setDragOffset] = useState(0)
+  const touchStartYRef = useRef(null)
+  const carouselContainerRef = useRef(null)
 
-  // Auto-play carousel for gallery
-  const autoPlayIntervalRef = React.useRef(null)
-
+  // Optimized auto-play effect
   useEffect(() => {
-    // Clear any existing interval
     if (autoPlayIntervalRef.current) {
       clearInterval(autoPlayIntervalRef.current)
+      autoPlayIntervalRef.current = null
     }
 
-    if (!isAutoPlaying) return
+    if (!isAutoPlaying || galleryImages.length === 0) return
     
-    // Set up auto-play interval
     autoPlayIntervalRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % galleryImages.length)
-    }, 2500) // Change slide every 2.5 seconds
+    }, AUTO_PLAY_DELAY)
 
     return () => {
       if (autoPlayIntervalRef.current) {
         clearInterval(autoPlayIntervalRef.current)
+        autoPlayIntervalRef.current = null
       }
     }
   }, [isAutoPlaying, galleryImages.length])
 
-  const goToSlide = (index) => {
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  // Memoized handlers
+  const pauseAndResume = useCallback(() => {
+    setIsAutoPlaying(false)
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+    }
+    resumeTimeoutRef.current = setTimeout(() => {
+      setIsAutoPlaying(true)
+    }, RESUME_DELAY)
+  }, [])
+
+  const goToSlide = useCallback((index) => {
     setCurrentIndex(index)
-    // Temporarily pause auto-play, then resume after 2.5 seconds
-    setIsAutoPlaying(false)
-    setTimeout(() => {
-      setIsAutoPlaying(true)
-    }, 2500)
-  }
+    pauseAndResume()
+  }, [pauseAndResume])
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)
-    // Temporarily pause auto-play, then resume after 2.5 seconds
-    setIsAutoPlaying(false)
-    setTimeout(() => {
-      setIsAutoPlaying(true)
-    }, 2500)
-  }
+    pauseAndResume()
+  }, [galleryImages.length, pauseAndResume])
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % galleryImages.length)
-    // Temporarily pause auto-play, then resume after 2.5 seconds
-    setIsAutoPlaying(false)
-    setTimeout(() => {
-      setIsAutoPlaying(true)
-    }, 2500)
-  }
+    pauseAndResume()
+  }, [galleryImages.length, pauseAndResume])
 
   // Touch handlers for mobile swipe
   const minSwipeDistance = 50
-  const touchStartYRef = React.useRef(null)
 
-  const onTouchStart = (e) => {
-    const touch = e.targetTouches[0]
+  const onTouchStart = useCallback((e) => {
+    const touch = e.touches[0]
+    if (!touch) return
     setTouchEnd(null)
     setTouchStart(touch.clientX)
     touchStartYRef.current = touch.clientY
     setIsDragging(true)
-    setIsAutoPlaying(false) // Pause auto-play during swipe
-  }
+    setDragOffset(0)
+    setIsAutoPlaying(false)
+  }, [])
 
-  const onTouchMove = (e) => {
-    const touch = e.targetTouches[0]
+  const onTouchMove = useCallback((e) => {
+    if (!isDragging || touchStart === null) return
+    
+    const touch = e.touches[0]
+    if (!touch) return
+    
     setTouchEnd(touch.clientX)
     
-    // Prevent vertical scrolling if horizontal swipe is detected
-    if (touchStart && touchStartYRef.current) {
-      const deltaX = Math.abs(touch.clientX - touchStart)
-      const deltaY = Math.abs(touch.clientY - touchStartYRef.current)
+    // Calculate drag offset for smooth visual feedback
+    const deltaX = touch.clientX - touchStart
+    const deltaY = Math.abs(touch.clientY - touchStartYRef.current)
+    
+    // If horizontal movement is greater than vertical, it's a horizontal swipe
+    if (Math.abs(deltaX) > deltaY && Math.abs(deltaX) > 5) {
+      e.preventDefault()
+      e.stopPropagation()
       
-      // If horizontal movement is greater than vertical, prevent default
-      if (deltaX > deltaY && deltaX > 10) {
-        e.preventDefault()
-      }
+      // Calculate drag offset (limit to prevent over-scrolling)
+      const maxOffset = window.innerWidth * 0.3 // Max 30% of screen width
+      const offset = Math.max(-maxOffset, Math.min(maxOffset, deltaX))
+      setDragOffset(offset)
     }
-  }
+  }, [touchStart, isDragging])
 
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) {
+  const onTouchEnd = useCallback(() => {
+    if (touchStart === null) {
       setIsDragging(false)
-      setTimeout(() => {
-        setIsAutoPlaying(true)
-      }, 2500)
+      setDragOffset(0)
+      pauseAndResume()
       return
     }
     
-    const distance = touchStart - touchEnd
+    const distance = touchStart - (touchEnd || touchStart)
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
+
+    // Reset drag offset
+    setDragOffset(0)
 
     if (isLeftSwipe) {
       goToNext()
@@ -128,82 +155,31 @@ function Project4() {
     setTouchStart(null)
     setTouchEnd(null)
     touchStartYRef.current = null
-    // Resume auto-play after a delay
-    setTimeout(() => {
-      setIsAutoPlaying(true)
-    }, 2500)
-  }
+    pauseAndResume()
+  }, [touchStart, touchEnd, goToNext, goToPrevious, pauseAndResume])
 
-  const handleScrollToProject = (e) => {
-    e.preventDefault()
-    const projectSection = document.getElementById('project')
-    if (projectSection) {
-      projectSection.scrollIntoView({ 
+  const handleScrollToSection = useCallback((sectionId) => {
+    const section = document.getElementById(sectionId)
+    if (section) {
+      section.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start'
       })
     }
-  }
+  }, [])
 
-  const handleScrollToAchievements = (e) => {
+  const handleScrollToAchievements = useCallback((e) => {
     e.preventDefault()
-    const achievementsSection = document.getElementById('achievements')
-    if (achievementsSection) {
-      achievementsSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+    handleScrollToSection('achievements')
+  }, [handleScrollToSection])
 
-  const handleScrollToContact = (e) => {
-    e.preventDefault()
-    const contactSection = document.getElementById('get-in-touch')
-    if (contactSection) {
-      contactSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
+  const handleMouseEnterCarousel = useCallback(() => setIsAutoPlaying(false), [])
+  const handleMouseLeaveCarousel = useCallback(() => setIsAutoPlaying(true), [])
 
   return (
     <>
       {/* Banner Section */}
       <div className="mil-inner-banner mil-p-0-120">
-        <style>{`
-          @media screen and (max-width: 768px) {
-            .mil-inner-banner {
-              padding-top: 60px !important;
-              padding-bottom: 60px !important;
-            }
-            .mil-breadcrumbs {
-              margin-bottom: 30px !important;
-              font-size: 12px;
-            }
-            .mil-inner-banner h1 {
-              margin-bottom: 30px !important;
-              font-size: 32px !important;
-              line-height: 1.2;
-            }
-            .mil-inner-banner p {
-              font-size: 14px !important;
-              margin-bottom: 20px !important;
-            }
-            .mil-inner-banner .mil-up {
-              font-size: 11px !important;
-              padding: 12px 20px !important;
-              gap: 10px !important;
-            }
-            .mil-inner-banner .mil-up div {
-              width: 24px !important;
-              height: 24px !important;
-            }
-            .mil-inner-banner .mil-up svg {
-              font-size: 14px !important;
-            }
-          }
-        `}</style>
         <div className="mil-banner-content mil-up">
           <div className="mil-animation-frame">
             <div className="mil-animation mil-position-4 mil-dark mil-scale" data-value-1="6" data-value-2="1.4"></div>
@@ -212,8 +188,7 @@ function Project4() {
             <ul className="mil-breadcrumbs mil-mb-60">
               <li>
                 <Link to="/">Homepage</Link>
-              </li> 
-             
+              </li>
               <li>Dreams On The Horizon</li> 
             </ul>
             <h1 className="mil-mb-60">
@@ -299,13 +274,13 @@ function Project4() {
         </div>
       </div>
 
-      {/* Completed Projects Section - Futuristic Design */}
+      {/* Dreams on the Horizon Section - Futuristic Design */}
       <section id="achievements" className="mil-p-120-120" style={{ 
         background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(60, 76, 89, 0.02) 50%, rgba(255, 255, 255, 0) 100%)',
         position: 'relative',
         overflow: 'hidden'
       }}>
-        <div className="container" style={{ maxWidth: '1600px', paddingLeft: '40px', paddingRight: '40px' }}>
+        <div className="container" style={{ maxWidth: '1400px', paddingLeft: '40px', paddingRight: '40px' }}>
           <div className="mil-center mil-mb-90">
             <p className="mil-text mil-up mil-mb-30" style={{ 
               fontSize: '14px',
@@ -319,92 +294,10 @@ function Project4() {
             </h2>
           </div>
 
-          <style>{`
-            .project-tiles-container {
-              display: flex;
-              flex-wrap: nowrap;
-              gap: 20px;
-              justify-content: center;
-              width: 100%;
-              margin: 0;
-            }
-            .project-tile-card {
-              flex: 1 1 0;
-              min-width: 280px;
-            }
-            @media (max-width: 992px) {
-              .project-tiles-container {
-                flex-wrap: wrap;
-              }
-              .project-tile-card {
-                flex: 1 1 calc(50% - 10px);
-                min-width: calc(50% - 10px);
-                max-width: calc(50% - 10px);
-              }
-              #achievements .container {
-                padding-left: 20px !important;
-                padding-right: 20px !important;
-              }
-            }
-            @media (max-width: 768px) {
-              #achievements {
-                padding-top: 60px !important;
-                padding-bottom: 60px !important;
-              }
-              .project-tiles-container {
-                flex-direction: column;
-                gap: 20px;
-              }
-              .project-tile-card {
-                flex: 1 1 100%;
-                min-width: 100%;
-                max-width: 100%;
-                min-height: auto !important;
-              }
-              .project-tile-card > div {
-                height: auto !important;
-              }
-              .project-tile-card img {
-                height: 200px !important;
-              }
-              .project-tile-card > div > div:last-child {
-                padding: 20px !important;
-              }
-              .project-tile-card h3 {
-                font-size: 20px !important;
-              }
-              .project-tile-card p {
-                font-size: 14px !important;
-              }
-              #achievements .container {
-                padding-left: 15px !important;
-                padding-right: 15px !important;
-              }
-              #achievements h2 {
-                font-size: 28px !important;
-                margin-bottom: 30px !important;
-              }
-              #achievements .mil-text {
-                font-size: 13px !important;
-              }
-            }
-            @media (max-width: 480px) {
-              .project-tile-card img {
-                height: 180px !important;
-              }
-              .project-tile-card > div > div:last-child {
-                padding: 15px !important;
-              }
-              .project-tile-card h3 {
-                font-size: 18px !important;
-              }
-            }
-          `}</style>
-
-          <div className="row project-tiles-container">
+          <div className="row" style={{ gap: '20px', justifyContent: 'center', width: '100%', margin: 0 }}>
             {/* World Capital Centre (WCC) Card */}
-            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
-              <Link to="/project/world-capital-centre" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%', cursor: 'pointer' }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+              <Link to="/project/world-capital-centre" style={{ textDecoration: 'none', color: 'inherit', display: 'block', height: '100%' }}>
                 <div
                   className="mil-up"
                   style={{
@@ -421,7 +314,9 @@ function Project4() {
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                     display: 'block',
                     willChange: 'transform',
-                    transform: 'translateZ(0)'
+                    transform: 'translateZ(0)',
+                    zIndex: 10,
+                    pointerEvents: 'auto'
                   }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
@@ -528,7 +423,7 @@ function Project4() {
             </div>
 
             {/* Wish World Card */}
-            <div className="project-tile-card" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
+            <div className="col-12 col-md-6 col-lg-3" style={{ position: 'relative', minHeight: '500px', padding: 0 }}>
               <div
                 className="mil-up"
                 style={{
@@ -541,11 +436,13 @@ function Project4() {
                   WebkitBackdropFilter: 'blur(10px)',
                   border: '1px solid rgba(133, 150, 166, 0.2)',
                   transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'default',
+                  cursor: 'pointer',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                   display: 'block',
                   willChange: 'transform',
-                  transform: 'translateZ(0)'
+                  transform: 'translateZ(0)',
+                  zIndex: 10,
+                  pointerEvents: 'auto'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)'
@@ -916,19 +813,27 @@ function Project4() {
               margin-bottom: 15px !important;
             }
             .project-carousel-container {
-              overflow: hidden;
-              touch-action: pan-x;
+              overflow: hidden !important;
+              touch-action: pan-x !important;
+              -webkit-overflow-scrolling: touch !important;
+              cursor: grab;
+            }
+            .project-carousel-container:active {
+              cursor: grabbing;
             }
             .project-carousel-container > div {
-              touch-action: pan-x;
+              touch-action: pan-x !important;
+              -webkit-overflow-scrolling: touch !important;
             }
             .project-carousel-container img {
               height: 300px !important;
+              pointer-events: none;
             }
             .project-carousel-container button {
               width: 40px !important;
               height: 40px !important;
               left: 10px !important;
+              touch-action: manipulation !important;
             }
             .project-carousel-container button:last-child {
               right: 10px !important;
@@ -947,6 +852,18 @@ function Project4() {
               height: 35px !important;
             }
           }
+          /* Ensure tiles are always accessible on mobile */
+          @media screen and (max-width: 1200px) {
+            .project-tile-card,
+            .project-tiles-container,
+            .project-tiles-container a,
+            #achievements .col-12 {
+              position: relative !important;
+              z-index: 10 !important;
+              pointer-events: auto !important;
+              touch-action: manipulation !important;
+            }
+          }
         `}</style>
         <div className="container">
           <div className="mil-center mil-mb-90 project-gallery-header">
@@ -958,30 +875,36 @@ function Project4() {
           {/* Carousel Container */}
           <div 
             className="project-carousel-container"
+            ref={carouselContainerRef}
             style={{
               position: 'relative',
               width: '100%',
               overflow: 'hidden',
               padding: '20px 0 0 0',
-              touchAction: 'pan-x'
+              touchAction: 'pan-x',
+              WebkitOverflowScrolling: 'touch',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              msUserSelect: 'none'
             }}
-            onMouseEnter={() => setIsAutoPlaying(false)}
-            onMouseLeave={() => setIsAutoPlaying(true)}
+            onMouseEnter={handleMouseEnterCarousel}
+            onMouseLeave={handleMouseLeaveCarousel}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
+            onTouchCancel={onTouchEnd}
           >
             {/* Carousel Track */}
             <div 
-              ref={carouselTrackRef}
               style={{
                 display: 'flex',
-                transform: `translateX(-${currentIndex * 100}%)`,
+                transform: `translateX(calc(-${currentIndex * 100}% + ${dragOffset}px))`,
                 transition: isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
                 willChange: 'transform',
                 touchAction: 'pan-x',
                 userSelect: 'none',
-                WebkitUserSelect: 'none'
+                WebkitUserSelect: 'none',
+                msUserSelect: 'none'
               }}
             >
               {galleryImages.map((image, index) => (
@@ -1128,7 +1051,10 @@ function Project4() {
                   background: index === currentIndex ? '#333' : '#ddd',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  padding: 0
+                  padding: 0,
+                  pointerEvents: 'auto',
+                  touchAction: 'manipulation',
+                  WebkitTapHighlightColor: 'rgba(0, 0, 0, 0.1)'
                 }}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -1184,14 +1110,13 @@ function Project4() {
             <p className="mil-text mil-up mil-mb-60" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
               Contact us to learn more about World Capital Centre (WCC) and explore investment opportunities in this groundbreaking $2.45 billion twin-tower development in Colombo.
             </p>
-            <a 
-              href="#get-in-touch" 
-              onClick={handleScrollToContact}
+            <Link 
+              to="/contact"
               className="mil-button mil-arrow-place mil-up"
               style={{ textDecoration: 'none' }}
             >
               <span>Contact Us</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

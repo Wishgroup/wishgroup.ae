@@ -101,7 +101,10 @@ function FlippingContainer() {
       position: 'relative',
       width: '100%',
       height: '50px',
-      perspective: '1000px'
+      perspective: '1000px',
+      pointerEvents: 'auto',
+      touchAction: 'manipulation',
+      zIndex: 1
     }}>
       <div style={{
         position: 'relative',
@@ -109,7 +112,8 @@ function FlippingContainer() {
         height: '100%',
         transformStyle: 'preserve-3d',
         transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
-        transform: showClock ? 'rotateX(0deg)' : 'rotateX(180deg)'
+        transform: showClock ? 'rotateX(0deg)' : 'rotateX(180deg)',
+        pointerEvents: 'auto'
       }}>
         {/* Clock side - front */}
         <div style={{
@@ -134,7 +138,9 @@ function FlippingContainer() {
           justifyContent: 'flex-end',
           alignItems: 'center',
           gap: '10px',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
+          pointerEvents: 'auto',
+          touchAction: 'manipulation'
         }}
         className="app-store-buttons-container"
         >
@@ -149,7 +155,12 @@ function FlippingContainer() {
               padding: '6px 12px',
               textDecoration: 'none',
               transition: 'opacity 0.3s',
-              height: '40px'
+              height: '40px',
+              pointerEvents: 'auto',
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'rgba(255, 255, 255, 0.1)',
+              position: 'relative',
+              zIndex: 10
             }}
             onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
             onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
@@ -187,7 +198,12 @@ function FlippingContainer() {
               padding: '6px 12px',
               textDecoration: 'none',
               transition: 'opacity 0.3s',
-              height: '40px'
+              height: '40px',
+              pointerEvents: 'auto',
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'rgba(255, 255, 255, 0.1)',
+              position: 'relative',
+              zIndex: 10
             }}
             onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
             onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
@@ -405,9 +421,17 @@ function Footer() {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 10000,
-            animation: 'fadeIn 0.3s ease-in'
+            animation: 'fadeIn 0.3s ease-in',
+            pointerEvents: 'auto',
+            WebkitTapHighlightColor: 'transparent'
           }}
           onClick={() => setShowPopup(false)}
+          onTouchStart={(e) => {
+            // Allow touch events to close the popup
+            if (e.target === e.currentTarget) {
+              setShowPopup(false);
+            }
+          }}
         >
           <div 
             style={{
@@ -419,9 +443,12 @@ function Footer() {
               textAlign: 'center',
               boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
               animation: 'slideUp 0.3s ease-out',
-              position: 'relative'
+              position: 'relative',
+              pointerEvents: 'auto',
+              touchAction: 'manipulation'
             }}
             onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setShowPopup(false)}
@@ -500,7 +527,9 @@ function Footer() {
         style={{ 
           backgroundColor: '#126771', 
           padding: '40px 0',
-          width: '100%'
+          width: '100%',
+          position: 'relative',
+          zIndex: 1
         }}
       >
         <div className="container">
@@ -559,13 +588,19 @@ function Footer() {
           footer.mil-dark-bg {
             padding-top: 60px !important;
             padding-bottom: 40px !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .container {
             padding-left: 20px !important;
             padding-right: 20px !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-newsletter-row {
             margin-bottom: 40px !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-logo {
             font-size: 24px !important;
@@ -573,10 +608,17 @@ function Footer() {
           }
           footer .mil-subscribe-form {
             max-width: 100% !important;
+            position: relative !important;
+            z-index: 1 !important;
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
           }
           footer .mil-subscribe-form input {
             font-size: 14px !important;
             padding: 10px 45px 10px 15px !important;
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
           }
           footer .mil-subscribe-form button {
             width: 36px !important;
@@ -587,10 +629,19 @@ function Footer() {
             border: none !important;
             padding: 0 !important;
             box-shadow: none !important;
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(166, 3, 63, 0.3) !important;
+            z-index: 10 !important;
+            position: absolute !important;
+            right: 8px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
           }
           footer .mil-subscribe-form button svg {
             width: 36px !important;
             height: 36px !important;
+            pointer-events: none !important;
           }
           footer .mil-subscribe-form button::before,
           footer .mil-subscribe-form button::after {
@@ -600,6 +651,8 @@ function Footer() {
           footer .col-md-3 {
             margin-bottom: 30px !important;
             text-align: center !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-mb-60 {
             margin-bottom: 30px !important;
@@ -624,6 +677,11 @@ function Footer() {
           footer .mil-menu-list a {
             font-size: 13px !important;
             white-space: normal !important;
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-social-icons {
             gap: 15px !important;
@@ -631,11 +689,25 @@ function Footer() {
           footer .mil-social-icons li {
             margin: 0 5px !important;
           }
+          footer .mil-social-icons a {
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
+            position: relative !important;
+            z-index: 1 !important;
+          }
           footer .mil-divider {
             margin-bottom: 20px !important;
           }
           footer .mil-text-center {
             font-size: 12px !important;
+          }
+          footer a {
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
         }
         @media screen and (max-width: 480px) {
@@ -655,11 +727,15 @@ function Footer() {
         @media screen and (max-width: 992px) {
           footer .mil-app-promotion-section {
             padding: 30px 0 !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-app-promotion-section .row {
             flex-direction: column !important;
             align-items: center !important;
             text-align: center !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-app-promotion-section .col-md-3,
           footer .mil-app-promotion-section .col-md-6,
@@ -672,9 +748,12 @@ function Footer() {
             justify-content: center !important;
             align-items: center !important;
             text-align: center !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-app-promotion-section img {
             margin: 0 auto !important;
+            pointer-events: auto !important;
           }
           footer .mil-app-promotion-section h3 {
             font-size: 18px !important;
@@ -691,12 +770,26 @@ function Footer() {
           footer .mil-app-promotion-section .col-md-3:last-child > div {
             justify-content: center !important;
             width: 100% !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .mil-app-promotion-section .col-md-3:last-child > div > div {
             justify-content: center !important;
+            position: relative !important;
+            z-index: 1 !important;
           }
           footer .app-store-buttons-container {
             justify-content: center !important;
+            position: relative !important;
+            z-index: 1 !important;
+            pointer-events: auto !important;
+          }
+          footer .app-store-buttons-container a {
+            pointer-events: auto !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1) !important;
+            position: relative !important;
+            z-index: 10 !important;
           }
         }
         @media screen and (max-width: 768px) {
@@ -768,6 +861,7 @@ function Footer() {
                 maxWidth: '500px',
                 margin: '0 auto',
                 alignItems: 'center',
+                zIndex: 1,
               }}>
                 <input 
                   type="email" 
@@ -823,7 +917,11 @@ function Footer() {
                     boxShadow: 'none',
                     outline: 'none',
                     minWidth: '36px',
-                    minHeight: '36px'
+                    minHeight: '36px',
+                    zIndex: 10,
+                    pointerEvents: 'auto',
+                    touchAction: 'manipulation',
+                    WebkitTapHighlightColor: 'rgba(166, 3, 63, 0.3)'
                   }}
                   onMouseEnter={(e) => {
                     if (!isSubmitting) {

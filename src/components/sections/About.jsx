@@ -6,6 +6,10 @@ function About() {
     <section id="about">
       <style>{`
         @media screen and (max-width: 992px) {
+          #about {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important;
+          }
           .about-section-container {
             padding-top: 40px !important;
             padding-bottom: 20px !important;
@@ -13,11 +17,48 @@ function About() {
           .about-text-section {
             margin-bottom: 20px !important;
           }
+          .about-text-section h2 {
+            font-size: 32px !important;
+            line-height: 1.2 !important;
+            margin-bottom: 30px !important;
+          }
+          .about-text-section p {
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+          }
           .about-carousel-wrapper {
             margin-bottom: 0 !important;
           }
           .about-carousel-inner {
             min-height: 300px !important;
+          }
+        }
+        @media screen and (max-width: 768px) {
+          #about {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+          }
+          .about-section-container {
+            padding-top: 30px !important;
+            padding-bottom: 20px !important;
+          }
+          .about-text-section h2 {
+            font-size: 28px !important;
+            margin-bottom: 20px !important;
+          }
+          .about-text-section p {
+            font-size: 13px !important;
+          }
+          .about-carousel-inner {
+            min-height: 250px !important;
+          }
+        }
+        @media screen and (max-width: 480px) {
+          .about-text-section h2 {
+            font-size: 24px !important;
+          }
+          .about-text-section p {
+            font-size: 12px !important;
           }
         }
       `}</style>
